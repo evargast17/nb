@@ -162,14 +162,15 @@ $seccion_texto = htmlspecialchars($estudiante['seccion']);
 <body>
     <!-- Navbar -->
     <nav class="navbar no-print">
-        <div class="navbar-brand">
-            <h1>Sistema de Notas Escolares</h1>
-            <p>Portal para Padres</p>
-        </div>
-        <div class="navbar-menu">
-            <span>Bienvenido, <?php echo htmlspecialchars($padre['nombre']); ?></span>
-            <a href="dashboard.php" class="btn btn-secondary">← Volver al Dashboard</a>
-            <a href="../logout.php" class="btn btn-secondary">Cerrar Sesión</a>
+        <div class="container">
+            <div class="navbar-brand">
+                <h2>Sistema de Notas Escolares</h2>
+            </div>
+            <div class="navbar-menu">
+                <span class="user-name">Bienvenido, <?php echo htmlspecialchars($padre['nombre']); ?></span>
+                <a href="dashboard.php" class="btn btn-secondary">← Volver</a>
+                <a href="../logout.php" class="btn btn-secondary">Cerrar Sesión</a>
+            </div>
         </div>
     </nav>
 
