@@ -208,110 +208,98 @@ function getNivelLogroClass($nivel) {
             </div>
         </div>
 
-        <!-- Boleta de competencias -->
+        <!-- Boleta de competencias - Formato MINEDU Informe de Progreso -->
         <div class="boleta-container-minedu">
             <?php foreach ($areas as $area): ?>
                 <div class="area-section">
-                    <div class="area-header">
-                        <h2><?php echo htmlspecialchars($area['nombre']); ?></h2>
+                    <div class="area-header-compact">
+                        <strong>ÁREA: <?php echo strtoupper(htmlspecialchars($area['nombre'])); ?></strong>
                     </div>
 
-                    <div class="competencias-table-container">
-                        <table class="competencias-table">
-                            <thead>
+                    <table class="competencias-table-minedu">
+                        <thead>
+                            <tr>
+                                <th class="col-codigo">Cód.</th>
+                                <th class="col-competencia">Competencias</th>
+                                <th class="col-bim">I</th>
+                                <th class="col-bim">II</th>
+                                <th class="col-bim">III</th>
+                                <th class="col-bim">IV</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($area['competencias'] as $competencia): ?>
                                 <tr>
-                                    <th class="col-competencia">Competencias</th>
-                                    <th class="col-bimestre">I Bimestre</th>
-                                    <th class="col-bimestre">II Bimestre</th>
-                                    <th class="col-bimestre">III Bimestre</th>
-                                    <th class="col-bimestre">IV Bimestre</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($area['competencias'] as $competencia): ?>
-                                    <tr>
-                                        <td class="competencia-descripcion">
-                                            <?php echo htmlspecialchars($competencia['descripcion']); ?>
+                                    <td class="competencia-codigo"><?php echo htmlspecialchars($competencia['codigo']); ?></td>
+                                    <td class="competencia-descripcion"><?php echo htmlspecialchars($competencia['descripcion']); ?></td>
+                                    <?php foreach (['I', 'II', 'III', 'IV'] as $bimestre): ?>
+                                        <?php
+                                        $key = $competencia['id'] . '_' . $bimestre;
+                                        $eval = $evaluaciones[$key] ?? null;
+                                        $nivelLogro = $eval['nivel_logro'] ?? null;
+                                        $conclusion = $eval['conclusion_descriptiva'] ?? '';
+                                        ?>
+                                        <td class="eval-cell-compact">
+                                            <?php if ($nivelLogro): ?>
+                                                <div class="nivel-badge-compact <?php echo getNivelLogroClass($nivelLogro); ?>" title="<?php echo htmlspecialchars($conclusion); ?>">
+                                                    <?php echo $nivelLogro; ?>
+                                                </div>
+                                            <?php else: ?>
+                                                <span class="no-eval">-</span>
+                                            <?php endif; ?>
                                         </td>
-                                        <?php foreach (['I', 'II', 'III', 'IV'] as $bimestre): ?>
-                                            <?php
-                                            $key = $competencia['id'] . '_' . $bimestre;
-                                            $eval = $evaluaciones[$key] ?? null;
-                                            $nivelLogro = $eval['nivel_logro'] ?? null;
-                                            $conclusion = $eval['conclusion_descriptiva'] ?? '';
-                                            ?>
-                                            <td class="eval-cell">
-                                                <?php if ($nivelLogro): ?>
-                                                    <div class="nivel-logro-badge <?php echo getNivelLogroClass($nivelLogro); ?>">
-                                                        <?php echo $nivelLogro; ?>
-                                                    </div>
-                                                    <?php if ($conclusion): ?>
-                                                        <div class="conclusion-descriptiva">
-                                                            <?php echo htmlspecialchars($conclusion); ?>
-                                                        </div>
-                                                    <?php endif; ?>
-                                                <?php else: ?>
-                                                    <span class="no-evaluado">-</span>
-                                                <?php endif; ?>
-                                            </td>
-                                        <?php endforeach; ?>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
+                                    <?php endforeach; ?>
+                                </tr>
+                                <?php
+                                // Mostrar conclusiones descriptivas en fila separada si existen
+                                $tieneConclusiones = false;
+                                foreach (['I', 'II', 'III', 'IV'] as $bimestre) {
+                                    $key = $competencia['id'] . '_' . $bimestre;
+                                    if (isset($evaluaciones[$key]) && !empty($evaluaciones[$key]['conclusion_descriptiva'])) {
+                                        $tieneConclusiones = true;
+                                        break;
+                                    }
+                                }
+                                if ($tieneConclusiones):
+                                ?>
+                                <tr class="conclusion-row">
+                                    <td colspan="2" class="conclusion-label">Conclusiones:</td>
+                                    <?php foreach (['I', 'II', 'III', 'IV'] as $bimestre): ?>
+                                        <?php
+                                        $key = $competencia['id'] . '_' . $bimestre;
+                                        $conclusion = $evaluaciones[$key]['conclusion_descriptiva'] ?? '';
+                                        ?>
+                                        <td class="conclusion-text"><?php echo $conclusion ? htmlspecialchars($conclusion) : '-'; ?></td>
+                                    <?php endforeach; ?>
+                                </tr>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
 
                     <!-- Nivel de logro final del área (solo si están completos los 4 bimestres) -->
                     <?php if (isset($logrosAnuales[$area['id']]) && tieneLosCuatroBimestres($area['id'], $area['competencias'], $evaluaciones)): ?>
-                        <div class="logro-anual-container">
-                            <div class="logro-anual-header">
-                                <strong>Nivel de logro alcanzado al finalizar el periodo lectivo:</strong>
-                                <span class="nivel-logro-badge <?php echo getNivelLogroClass($logrosAnuales[$area['id']]['nivel_logro_final']); ?>">
-                                    <?php echo $logrosAnuales[$area['id']]['nivel_logro_final']; ?>
-                                </span>
-                            </div>
+                        <div class="logro-final-area">
+                            <strong>Logro del Área:</strong>
+                            <span class="nivel-badge-compact <?php echo getNivelLogroClass($logrosAnuales[$area['id']]['nivel_logro_final']); ?>">
+                                <?php echo $logrosAnuales[$area['id']]['nivel_logro_final']; ?>
+                            </span>
                             <?php if ($logrosAnuales[$area['id']]['conclusion_final']): ?>
-                                <div class="conclusion-final">
-                                    <?php echo htmlspecialchars($logrosAnuales[$area['id']]['conclusion_final']); ?>
-                                </div>
+                                - <?php echo htmlspecialchars($logrosAnuales[$area['id']]['conclusion_final']); ?>
                             <?php endif; ?>
                         </div>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
 
-            <!-- Leyenda de niveles de logro -->
-            <div class="leyenda-minedu">
-                <h3>📊 Escala de Calificación - Educación Básica Regular (MINEDU)</h3>
-                <div class="leyenda-grid">
-                    <div class="leyenda-item-minedu">
-                        <span class="nivel-logro-badge logro-destacado">AD</span>
-                        <div class="leyenda-texto">
-                            <strong>Logro Destacado:</strong>
-                            <span>Cuando el estudiante evidencia un nivel superior a lo esperado respecto a la competencia.</span>
-                        </div>
-                    </div>
-                    <div class="leyenda-item-minedu">
-                        <span class="nivel-logro-badge logro-esperado">A</span>
-                        <div class="leyenda-texto">
-                            <strong>Logro Esperado:</strong>
-                            <span>Cuando el estudiante evidencia el nivel esperado respecto a la competencia.</span>
-                        </div>
-                    </div>
-                    <div class="leyenda-item-minedu">
-                        <span class="nivel-logro-badge logro-proceso">B</span>
-                        <div class="leyenda-texto">
-                            <strong>En Proceso:</strong>
-                            <span>Cuando el estudiante está próximo o cerca al nivel esperado respecto a la competencia.</span>
-                        </div>
-                    </div>
-                    <div class="leyenda-item-minedu">
-                        <span class="nivel-logro-badge logro-inicio">C</span>
-                        <div class="leyenda-texto">
-                            <strong>En Inicio:</strong>
-                            <span>Cuando el estudiante muestra un progreso mínimo en una competencia.</span>
-                        </div>
-                    </div>
+            <!-- Leyenda de niveles de logro - Compacta -->
+            <div class="leyenda-compact">
+                <div class="leyenda-titulo">Escala de Calificación MINEDU:</div>
+                <div class="leyenda-items">
+                    <span class="leyenda-item"><strong class="nivel-badge-compact logro-destacado">AD</strong> Logro Destacado</span>
+                    <span class="leyenda-item"><strong class="nivel-badge-compact logro-esperado">A</strong> Logro Esperado</span>
+                    <span class="leyenda-item"><strong class="nivel-badge-compact logro-proceso">B</strong> En Proceso</span>
+                    <span class="leyenda-item"><strong class="nivel-badge-compact logro-inicio">C</strong> En Inicio</span>
                 </div>
             </div>
 

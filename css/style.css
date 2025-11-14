@@ -952,6 +952,173 @@ body {
     display: block;
 }
 
+/* ========== NUEVOS ESTILOS FORMATO MINEDU INFORME DE PROGRESO ========== */
+
+/* Header de área compacto */
+.area-header-compact {
+    background: linear-gradient(135deg, var(--color-verde) 0%, #234010 100%);
+    padding: 0.2rem 0.4rem;
+    border-bottom: 2px solid var(--color-naranja);
+}
+
+.area-header-compact strong {
+    color: var(--color-blanco);
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+/* Tabla de competencias estilo MINEDU */
+.competencias-table-minedu {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.65rem;
+    margin-bottom: 0.3rem;
+    border: 1px solid var(--color-gris-medio);
+}
+
+.competencias-table-minedu thead {
+    background: var(--color-amarillo);
+}
+
+.competencias-table-minedu th {
+    padding: 0.2rem 0.25rem;
+    text-align: center;
+    font-weight: 700;
+    color: var(--color-negro);
+    border: 1px solid var(--color-gris-medio);
+    font-size: 0.65rem;
+    line-height: 1.1;
+}
+
+.competencias-table-minedu td {
+    padding: 0.2rem 0.25rem;
+    border: 1px solid var(--color-gris-medio);
+    vertical-align: middle;
+    line-height: 1.2;
+}
+
+/* Columnas específicas */
+.col-codigo {
+    width: 7%;
+    text-align: center;
+    font-weight: 700;
+}
+
+.col-competencia {
+    width: 51%;
+    text-align: left;
+}
+
+.col-bim {
+    width: 10.5%;
+    text-align: center;
+}
+
+/* Celdas de contenido */
+.competencia-codigo {
+    background: #fff8dc;
+    font-weight: 700;
+    color: var(--color-verde);
+    text-align: center;
+    font-size: 0.6rem;
+}
+
+.competencia-descripcion {
+    font-weight: 500;
+    color: var(--color-negro);
+    font-size: 0.65rem;
+    line-height: 1.15;
+}
+
+.eval-cell-compact {
+    background: var(--color-gris-claro);
+    text-align: center;
+    padding: 0.15rem !important;
+}
+
+/* Badge de nivel compacto */
+.nivel-badge-compact {
+    display: inline-block;
+    padding: 0.1rem 0.3rem;
+    border-radius: 2px;
+    font-weight: 700;
+    font-size: 0.7rem;
+    min-width: 24px;
+    text-align: center;
+}
+
+.no-eval {
+    color: #999;
+    font-size: 0.8rem;
+}
+
+/* Fila de conclusiones */
+.conclusion-row {
+    background: #f9f9f9;
+}
+
+.conclusion-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--color-verde);
+    font-style: italic;
+    text-align: right;
+    padding-right: 0.5rem !important;
+}
+
+.conclusion-text {
+    font-size: 0.6rem;
+    color: #555;
+    line-height: 1.2;
+    padding: 0.15rem 0.25rem !important;
+    text-align: left;
+}
+
+/* Logro final del área - inline */
+.logro-final-area {
+    background: #fffbeb;
+    padding: 0.25rem 0.4rem;
+    border-top: 2px solid var(--color-naranja);
+    font-size: 0.65rem;
+    margin-bottom: 0.4rem;
+}
+
+.logro-final-area strong {
+    color: var(--color-verde);
+    font-weight: 700;
+}
+
+/* Leyenda compacta - inline */
+.leyenda-compact {
+    background: var(--color-gris-claro);
+    padding: 0.4rem 0.5rem;
+    margin: 0.5rem 0;
+    border-left: 3px solid var(--color-verde);
+    font-size: 0.65rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.leyenda-titulo {
+    font-weight: 700;
+    color: var(--color-verde);
+}
+
+.leyenda-items {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.leyenda-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.6rem;
+}
+
 /* Responsive para boleta MINEDU */
 @media (max-width: 768px) {
     .info-grid {
@@ -962,13 +1129,26 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .competencias-table {
+    .competencias-table,
+    .competencias-table-minedu {
         font-size: 0.6rem;
     }
 
     .competencias-table th,
-    .competencias-table td {
+    .competencias-table td,
+    .competencias-table-minedu th,
+    .competencias-table-minedu td {
         padding: 0.2rem;
+    }
+
+    .leyenda-compact {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .leyenda-items {
+        flex-direction: column;
+        gap: 0.3rem;
     }
 }
 
@@ -1129,5 +1309,94 @@ body {
     .leyenda-texto span {
         font-size: 0.5rem;
         line-height: 1.1;
+    }
+
+    /* Print styles para nuevo formato compacto MINEDU */
+    .area-header-compact {
+        padding: 0.15rem 0.3rem;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .area-header-compact strong {
+        font-size: 0.65rem;
+    }
+
+    .competencias-table-minedu {
+        font-size: 0.5rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .competencias-table-minedu th {
+        padding: 0.1rem 0.15rem;
+        font-size: 0.55rem;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+        line-height: 1;
+    }
+
+    .competencias-table-minedu td {
+        padding: 0.1rem 0.15rem;
+        line-height: 1.1;
+    }
+
+    .competencia-codigo {
+        font-size: 0.5rem;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .competencia-descripcion {
+        font-size: 0.55rem;
+    }
+
+    .nivel-badge-compact {
+        padding: 0.05rem 0.2rem;
+        font-size: 0.55rem;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .conclusion-row {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .conclusion-label {
+        font-size: 0.5rem;
+    }
+
+    .conclusion-text {
+        font-size: 0.5rem;
+        line-height: 1.1;
+    }
+
+    .logro-final-area {
+        padding: 0.2rem 0.3rem;
+        font-size: 0.55rem;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+        margin-bottom: 0.2rem;
+    }
+
+    .leyenda-compact {
+        padding: 0.25rem 0.35rem;
+        margin: 0.25rem 0;
+        font-size: 0.55rem;
+        page-break-inside: avoid;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .leyenda-titulo {
+        font-size: 0.55rem;
+    }
+
+    .leyenda-items {
+        gap: 0.4rem;
+    }
+
+    .leyenda-item {
+        font-size: 0.5rem;
     }
 }
