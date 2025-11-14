@@ -45,7 +45,14 @@ if (!$anioLectivo) {
     die("No hay año lectivo activo configurado.");
 }
 
-// Obtener las áreas con sus competencias y evaluaciones
+// Obtener información del padre
+$stmt = $conn->prepare("SELECT nombre FROM padres WHERE id = ?");
+$stmt->bind_param("i", $_SESSION['padre_id']);
+$stmt->execute();
+$padre = $stmt->get_result()->fetch_assoc();
+$stmt->close();
+
+// Obtener las áreas con sus competencias
 $stmt = $conn->prepare("
     SELECT
         a.id as area_id,
@@ -64,26 +71,27 @@ $stmt->bind_param("s", $estudiante['nivel']);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Organizar datos por área y competencia
-$areas = [];
-while ($row = $result->fetch_assoc()) {
-    $area_id = $row['area_id'];
-    if (!isset($areas[$area_id])) {
-        $areas[$area_id] = [
-            'id' => $area_id,
-            'nombre' => $row['area_nombre'],
-            'codigo' => $row['area_codigo'],
-            'competencias' => []
-        ];
-    }
+// Organizar competencias en array plano con información del área
+$competencias = [];
+$areaRowspans = [];
+$areaImpresas = [];
 
+while ($row = $result->fetch_assoc()) {
     if ($row['competencia_id']) {
-        $areas[$area_id]['competencias'][] = [
-            'id' => $row['competencia_id'],
-            'descripcion' => $row['competencia_descripcion'],
-            'codigo' => $row['competencia_codigo'],
-            'orden' => $row['competencia_orden']
+        $competencias[] = [
+            'area_id' => $row['area_id'],
+            'area_nombre' => $row['area_nombre'],
+            'area_codigo' => $row['area_codigo'],
+            'competencia_id' => $row['competencia_id'],
+            'competencia_descripcion' => $row['competencia_descripcion'],
+            'competencia_codigo' => $row['competencia_codigo']
         ];
+
+        // Contar competencias por área para rowspan
+        if (!isset($areaRowspans[$row['area_id']])) {
+            $areaRowspans[$row['area_id']] = 0;
+        }
+        $areaRowspans[$row['area_id']]++;
     }
 }
 $stmt->close();
@@ -128,193 +136,250 @@ $stmt->close();
 
 $conn->close();
 
-// Función para verificar si un área tiene todas las evaluaciones de los 4 bimestres
-function tieneLosCuatroBimestres($area_id, $competencias, $evaluaciones) {
-    if (empty($competencias)) return false;
-
-    foreach ($competencias as $competencia) {
-        $competencia_id = $competencia['id'];
-        // Verificar que exista evaluación para cada bimestre
-        foreach (['I', 'II', 'III', 'IV'] as $bimestre) {
-            $key = $competencia_id . '_' . $bimestre;
-            if (!isset($evaluaciones[$key]) || empty($evaluaciones[$key]['nivel_logro'])) {
-                return false;
-            }
-        }
-    }
-    return true;
+// Función para obtener datos de evaluación
+function getEval($competencia_id, $bimestre, $evaluaciones) {
+    $key = $competencia_id . '_' . $bimestre;
+    return $evaluaciones[$key] ?? ['nivel_logro' => '', 'conclusion_descriptiva' => ''];
 }
 
-// Función para obtener la clase CSS según el nivel de logro
-function getNivelLogroClass($nivel) {
-    if ($nivel === null) return '';
-    switch ($nivel) {
-        case 'AD': return 'logro-destacado';
-        case 'A': return 'logro-esperado';
-        case 'B': return 'logro-proceso';
-        case 'C': return 'logro-inicio';
-        default: return '';
-    }
-}
+// Datos institucionales (estos deberían venir de configuración/BD en producción)
+$dre = "DRE PIURA";
+$ugel = "UGEL PIURA";
+$codigo_modular = "123456";
+$institucion = "I.E.P. ISAAC NEWTON";
+$nombre_completo = htmlspecialchars($estudiante['apellido'] . ', ' . $estudiante['nombre']);
+$grado_texto = htmlspecialchars($estudiante['grado'] . '° ' . $estudiante['nivel']);
+$seccion_texto = htmlspecialchars($estudiante['seccion']);
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boleta de Notas - <?php echo htmlspecialchars($estudiante['nombre']); ?></title>
+    <title>Informe de Progreso - <?php echo $nombre_completo; ?></title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div class="navbar">
-        <div class="container">
-            <div class="navbar-brand">
-                <h2>Sistema de Notas</h2>
-            </div>
-            <div class="navbar-menu">
-                <a href="dashboard.php" class="btn btn-secondary">⬅️ Volver al Dashboard</a>
-                <a href="../logout.php" class="btn btn-secondary">🚪 Cerrar Sesión</a>
-            </div>
+    <!-- Navbar -->
+    <nav class="navbar no-print">
+        <div class="navbar-brand">
+            <h1>Sistema de Notas Escolares</h1>
+            <p>Portal para Padres</p>
         </div>
-    </div>
+        <div class="navbar-menu">
+            <span>Bienvenido, <?php echo htmlspecialchars($padre['nombre']); ?></span>
+            <a href="dashboard.php" class="btn btn-secondary">← Volver al Dashboard</a>
+            <a href="../logout.php" class="btn btn-secondary">Cerrar Sesión</a>
+        </div>
+    </nav>
 
-    <div class="container main-content">
-        <!-- Cabecera de la boleta -->
-        <div class="boleta-header-minedu">
-            <div class="boleta-title">
-                <h1>📋 BOLETA DE INFORMACIÓN</h1>
-                <p class="periodo-lectivo">Periodo Lectivo <?php echo $anioLectivo['anio']; ?></p>
+    <div class="main-content">
+        <!-- Barra superior con botón de imprimir -->
+        <div class="barra-superior no-print">
+            <div class="breadcrumb">
+                Inicio › Boleta de notas › <?php echo $nombre_completo; ?>
             </div>
-
-            <div class="boleta-info-estudiante">
-                <div class="info-grid">
-                    <div class="info-item">
-                        <strong>Estudiante:</strong>
-                        <span><?php echo htmlspecialchars($estudiante['apellido'] . ', ' . $estudiante['nombre']); ?></span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Código:</strong>
-                        <span><?php echo htmlspecialchars($estudiante['codigo']); ?></span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Nivel:</strong>
-                        <span><?php echo htmlspecialchars($estudiante['nivel']); ?></span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Grado y Sección:</strong>
-                        <span><?php echo htmlspecialchars($estudiante['grado'] . ' - Sección ' . $estudiante['seccion']); ?></span>
-                    </div>
-                </div>
+            <div class="acciones">
+                <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir Informe</button>
             </div>
         </div>
 
-        <!-- Boleta de competencias - Formato MINEDU Informe de Progreso -->
-        <div class="boleta-container-minedu">
-            <?php foreach ($areas as $area): ?>
-                <div class="area-section">
-                    <div class="area-header-compact">
-                        <strong>ÁREA: <?php echo strtoupper(htmlspecialchars($area['nombre'])); ?></strong>
-                    </div>
+        <!-- Contenedor del informe oficial MINEDU -->
+        <div class="informe-minedu-container">
 
-                    <table class="competencias-table-minedu">
-                        <thead>
-                            <tr>
-                                <th class="col-codigo">Cód.</th>
-                                <th class="col-competencia">Competencias</th>
-                                <th class="col-bim">I</th>
-                                <th class="col-bim">II</th>
-                                <th class="col-bim">III</th>
-                                <th class="col-bim">IV</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($area['competencias'] as $competencia): ?>
-                                <tr>
-                                    <td class="competencia-codigo"><?php echo htmlspecialchars($competencia['codigo']); ?></td>
-                                    <td class="competencia-descripcion"><?php echo htmlspecialchars($competencia['descripcion']); ?></td>
-                                    <?php foreach (['I', 'II', 'III', 'IV'] as $bimestre): ?>
-                                        <?php
-                                        $key = $competencia['id'] . '_' . $bimestre;
-                                        $eval = $evaluaciones[$key] ?? null;
-                                        $nivelLogro = $eval['nivel_logro'] ?? null;
-                                        $conclusion = $eval['conclusion_descriptiva'] ?? '';
-                                        ?>
-                                        <td class="eval-cell-compact">
-                                            <?php if ($nivelLogro): ?>
-                                                <div class="nivel-badge-compact <?php echo getNivelLogroClass($nivelLogro); ?>" title="<?php echo htmlspecialchars($conclusion); ?>">
-                                                    <?php echo $nivelLogro; ?>
-                                                </div>
-                                            <?php else: ?>
-                                                <span class="no-eval">-</span>
-                                            <?php endif; ?>
-                                        </td>
-                                    <?php endforeach; ?>
-                                </tr>
-                                <?php
-                                // Mostrar conclusiones descriptivas en fila separada si existen
-                                $tieneConclusiones = false;
-                                foreach (['I', 'II', 'III', 'IV'] as $bimestre) {
-                                    $key = $competencia['id'] . '_' . $bimestre;
-                                    if (isset($evaluaciones[$key]) && !empty($evaluaciones[$key]['conclusion_descriptiva'])) {
-                                        $tieneConclusiones = true;
-                                        break;
-                                    }
-                                }
-                                if ($tieneConclusiones):
-                                ?>
-                                <tr class="conclusion-row">
-                                    <td colspan="2" class="conclusion-label">Conclusiones:</td>
-                                    <?php foreach (['I', 'II', 'III', 'IV'] as $bimestre): ?>
-                                        <?php
-                                        $key = $competencia['id'] . '_' . $bimestre;
-                                        $conclusion = $evaluaciones[$key]['conclusion_descriptiva'] ?? '';
-                                        ?>
-                                        <td class="conclusion-text"><?php echo $conclusion ? htmlspecialchars($conclusion) : '-'; ?></td>
-                                    <?php endforeach; ?>
-                                </tr>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-
-                    <!-- Nivel de logro final del área (solo si están completos los 4 bimestres) -->
-                    <?php if (isset($logrosAnuales[$area['id']]) && tieneLosCuatroBimestres($area['id'], $area['competencias'], $evaluaciones)): ?>
-                        <div class="logro-final-area">
-                            <strong>Logro del Área:</strong>
-                            <span class="nivel-badge-compact <?php echo getNivelLogroClass($logrosAnuales[$area['id']]['nivel_logro_final']); ?>">
-                                <?php echo $logrosAnuales[$area['id']]['nivel_logro_final']; ?>
-                            </span>
-                            <?php if ($logrosAnuales[$area['id']]['conclusion_final']): ?>
-                                - <?php echo htmlspecialchars($logrosAnuales[$area['id']]['conclusion_final']); ?>
-                            <?php endif; ?>
+            <!-- Header oficial con logos -->
+            <table class="header-table-minedu">
+                <tr>
+                    <td style="width: 18%; text-align: center;">
+                        <div class="logo-box-minedu">ESCUDO<br>MINEDU</div>
+                        <div class="small-text">REPÚBLICA DEL PERÚ</div>
+                        <div class="small-text">MINISTERIO DE EDUCACIÓN</div>
+                    </td>
+                    <td style="width: 64%;">
+                        <div class="header-title-minedu">
+                            INFORME DE PROGRESO DE LAS COMPETENCIAS DEL ESTUDIANTE - <?php echo $anioLectivo['anio']; ?>
                         </div>
-                    <?php endif; ?>
-                </div>
-            <?php endforeach; ?>
+                        <div class="header-sub-minedu">Educación Básica Regular - Nivel <?php echo $estudiante['nivel']; ?></div>
+                    </td>
+                    <td style="width: 18%; text-align: center;">
+                        <div class="logo-box-minedu">LOGO<br>I.E.</div>
+                        <div class="small-text"><?php echo htmlspecialchars($institucion); ?></div>
+                    </td>
+                </tr>
+            </table>
 
-            <!-- Leyenda de niveles de logro - Compacta -->
-            <div class="leyenda-compact">
-                <div class="leyenda-titulo">Escala de Calificación MINEDU:</div>
-                <div class="leyenda-items">
-                    <span class="leyenda-item"><strong class="nivel-badge-compact logro-destacado">AD</strong> Logro Destacado</span>
-                    <span class="leyenda-item"><strong class="nivel-badge-compact logro-esperado">A</strong> Logro Esperado</span>
-                    <span class="leyenda-item"><strong class="nivel-badge-compact logro-proceso">B</strong> En Proceso</span>
-                    <span class="leyenda-item"><strong class="nivel-badge-compact logro-inicio">C</strong> En Inicio</span>
-                </div>
+            <!-- Tabla de datos institucionales y del estudiante -->
+            <table class="datos-table-minedu">
+                <tr>
+                    <th class="datos-label">DRE</th>
+                    <td><?php echo htmlspecialchars($dre); ?></td>
+                    <th class="datos-label">UGEL</th>
+                    <td><?php echo htmlspecialchars($ugel); ?></td>
+                </tr>
+                <tr>
+                    <th class="datos-label">NIVEL</th>
+                    <td><?php echo htmlspecialchars($estudiante['nivel']); ?></td>
+                    <th class="datos-label">CÓDIGO MODULAR</th>
+                    <td><?php echo htmlspecialchars($codigo_modular); ?></td>
+                </tr>
+                <tr>
+                    <th class="datos-label">INSTITUCIÓN EDUCATIVA</th>
+                    <td colspan="3"><?php echo htmlspecialchars($institucion); ?></td>
+                </tr>
+                <tr>
+                    <th class="datos-label">GRADO</th>
+                    <td><?php echo $grado_texto; ?></td>
+                    <th class="datos-label">SECCIÓN</th>
+                    <td><?php echo $seccion_texto; ?></td>
+                </tr>
+                <tr>
+                    <th class="datos-label">APELLIDOS Y NOMBRES DEL ESTUDIANTE</th>
+                    <td colspan="3"><?php echo $nombre_completo; ?></td>
+                </tr>
+                <tr>
+                    <th class="datos-label">CÓDIGO DEL ESTUDIANTE</th>
+                    <td><?php echo htmlspecialchars($estudiante['codigo']); ?></td>
+                    <th class="datos-label">DNI</th>
+                    <td>-</td>
+                </tr>
+            </table>
+
+            <!-- Tabla principal de competencias - Formato horizontal MINEDU -->
+            <table class="main-table-minedu">
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="area-col-minedu">ÁREA CURRICULAR</th>
+                        <th rowspan="2" class="comp-col-minedu">COMPETENCIAS</th>
+                        <th colspan="2">PRIMER BIMESTRE</th>
+                        <th colspan="2">SEGUNDO BIMESTRE</th>
+                        <th colspan="2">TERCER BIMESTRE</th>
+                        <th colspan="2">CUARTO BIMESTRE</th>
+                        <th rowspan="2" class="final-nl-col-minedu">NL ALCANZADO AL FINALIZAR EL PERIODO LECTIVO</th>
+                    </tr>
+                    <tr>
+                        <th class="bim-nl-col">NL</th>
+                        <th class="bim-desc-col">CONCLUSIÓN DESCRIPTIVA</th>
+                        <th class="bim-nl-col">NL</th>
+                        <th class="bim-desc-col">CONCLUSIÓN DESCRIPTIVA</th>
+                        <th class="bim-nl-col">NL</th>
+                        <th class="bim-desc-col">CONCLUSIÓN DESCRIPTIVA</th>
+                        <th class="bim-nl-col">NL</th>
+                        <th class="bim-desc-col">CONCLUSIÓN DESCRIPTIVA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($competencias as $comp): ?>
+                        <tr>
+                            <?php
+                            // Mostrar área solo una vez usando rowspan
+                            $area_id = $comp['area_id'];
+                            if (!isset($areaImpresas[$area_id])) {
+                                $rowspan = $areaRowspans[$area_id];
+                                echo '<td class="area-col-minedu" rowspan="' . $rowspan . '">' .
+                                     htmlspecialchars($comp['area_nombre']) . '</td>';
+                                $areaImpresas[$area_id] = true;
+                            }
+                            ?>
+                            <td class="comp-desc-minedu"><?php echo htmlspecialchars($comp['competencia_descripcion']); ?></td>
+
+                            <?php
+                            // Bimestre I
+                            $eval1 = getEval($comp['competencia_id'], 'I', $evaluaciones);
+                            ?>
+                            <td class="bim-nl-cell">
+                                <?php if ($eval1['nivel_logro']): ?>
+                                    <span class="nl-chip nl-<?php echo $eval1['nivel_logro']; ?>">
+                                        <?php echo htmlspecialchars($eval1['nivel_logro']); ?>
+                                    </span>
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                            </td>
+                            <td class="bim-desc-cell"><?php echo htmlspecialchars($eval1['conclusion_descriptiva']); ?></td>
+
+                            <?php
+                            // Bimestre II
+                            $eval2 = getEval($comp['competencia_id'], 'II', $evaluaciones);
+                            ?>
+                            <td class="bim-nl-cell">
+                                <?php if ($eval2['nivel_logro']): ?>
+                                    <span class="nl-chip nl-<?php echo $eval2['nivel_logro']; ?>">
+                                        <?php echo htmlspecialchars($eval2['nivel_logro']); ?>
+                                    </span>
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                            </td>
+                            <td class="bim-desc-cell"><?php echo htmlspecialchars($eval2['conclusion_descriptiva']); ?></td>
+
+                            <?php
+                            // Bimestre III
+                            $eval3 = getEval($comp['competencia_id'], 'III', $evaluaciones);
+                            ?>
+                            <td class="bim-nl-cell">
+                                <?php if ($eval3['nivel_logro']): ?>
+                                    <span class="nl-chip nl-<?php echo $eval3['nivel_logro']; ?>">
+                                        <?php echo htmlspecialchars($eval3['nivel_logro']); ?>
+                                    </span>
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                            </td>
+                            <td class="bim-desc-cell"><?php echo htmlspecialchars($eval3['conclusion_descriptiva']); ?></td>
+
+                            <?php
+                            // Bimestre IV
+                            $eval4 = getEval($comp['competencia_id'], 'IV', $evaluaciones);
+                            ?>
+                            <td class="bim-nl-cell">
+                                <?php if ($eval4['nivel_logro']): ?>
+                                    <span class="nl-chip nl-<?php echo $eval4['nivel_logro']; ?>">
+                                        <?php echo htmlspecialchars($eval4['nivel_logro']); ?>
+                                    </span>
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                            </td>
+                            <td class="bim-desc-cell"><?php echo htmlspecialchars($eval4['conclusion_descriptiva']); ?></td>
+
+                            <?php
+                            // NL Final del área (se muestra solo si tiene los 4 bimestres completos)
+                            $logro_final = '';
+                            if (isset($logrosAnuales[$area_id]) &&
+                                $eval1['nivel_logro'] && $eval2['nivel_logro'] &&
+                                $eval3['nivel_logro'] && $eval4['nivel_logro']) {
+                                $logro_final = $logrosAnuales[$area_id]['nivel_logro_final'];
+                            }
+                            ?>
+                            <td class="final-nl-cell">
+                                <?php if ($logro_final): ?>
+                                    <span class="nl-chip nl-<?php echo $logro_final; ?>">
+                                        <?php echo htmlspecialchars($logro_final); ?>
+                                    </span>
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+
+            <!-- Leyenda de niveles de logro -->
+            <div class="leyenda-minedu-footer">
+                <strong>Escala de Calificación:</strong>
+                <span class="nl-chip nl-AD">AD</span> Logro Destacado
+                <span class="nl-chip nl-A">A</span> Logro Esperado
+                <span class="nl-chip nl-B">B</span> En Proceso
+                <span class="nl-chip nl-C">C</span> En Inicio
             </div>
 
-            <!-- Botón de imprimir -->
-            <div class="actions-container">
-                <button onclick="window.print()" class="btn btn-primary">
-                    🖨️ Imprimir Boleta
-                </button>
-            </div>
         </div>
     </div>
 
-    <footer class="footer">
+    <footer class="footer no-print">
         <div class="container">
-            <p>&copy; <?php echo date('Y'); ?> Sistema de Notas Escolares - Basado en CNEB MINEDU</p>
+            <p>&copy; <?php echo date('Y'); ?> Sistema de Notas Escolares - Formato MINEDU / SIAGIE</p>
         </div>
     </footer>
 </body>
