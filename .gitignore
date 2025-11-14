@@ -1,0 +1,21 @@
+# IDEs y Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Archivos de configuración sensibles (descomentar si hay datos reales)
+# config/database.php
+
+# Archivos temporales
+*.log
+*.tmp
+
+# Archivos de sistema
+Thumbs.db
+
+# Uploads y archivos generados
+uploads/
+*.pdf
