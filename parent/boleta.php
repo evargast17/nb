@@ -21,6 +21,7 @@ $stmt = $conn->prepare("
         e.codigo,
         e.nombre,
         e.apellido,
+        e.nivel,
         e.grado,
         e.seccion,
         e.padre_id
@@ -37,77 +38,106 @@ if (!$estudiante) {
     exit();
 }
 
-// Obtener períodos disponibles
-$periodos = $conn->query("
-    SELECT id, nombre, anio, activo
-    FROM periodos
-    ORDER BY anio DESC, id DESC
-")->fetch_all(MYSQLI_ASSOC);
+// Obtener el año lectivo activo
+$anioLectivo = $conn->query("SELECT id, anio FROM anios_lectivos WHERE activo = TRUE LIMIT 1")->fetch_assoc();
 
-// Período seleccionado (por defecto el activo o el más reciente)
-$periodo_id = $_GET['periodo_id'] ?? 0;
-if (empty($periodo_id)) {
-    foreach ($periodos as $p) {
-        if ($p['activo']) {
-            $periodo_id = $p['id'];
-            break;
-        }
-    }
-    if (empty($periodo_id) && !empty($periodos)) {
-        $periodo_id = $periodos[0]['id'];
-    }
+if (!$anioLectivo) {
+    die("No hay año lectivo activo configurado.");
 }
 
-$periodoSeleccionado = null;
-foreach ($periodos as $p) {
-    if ($p['id'] == $periodo_id) {
-        $periodoSeleccionado = $p;
-        break;
-    }
-}
-
-// Obtener las notas del estudiante para el período seleccionado
+// Obtener las áreas con sus competencias y evaluaciones
 $stmt = $conn->prepare("
     SELECT
-        m.id as materia_id,
-        m.nombre as materia,
-        n.nota_1,
-        n.nota_2,
-        n.nota_3,
-        n.nota_4,
-        n.promedio,
-        n.observaciones
-    FROM materias m
-    LEFT JOIN notas n ON m.id = n.materia_id
-        AND n.estudiante_id = ?
-        AND n.periodo_id = ?
-    ORDER BY m.nombre ASC
+        a.id as area_id,
+        a.nombre as area_nombre,
+        a.codigo as area_codigo,
+        c.id as competencia_id,
+        c.descripcion as competencia_descripcion,
+        c.codigo as competencia_codigo,
+        c.orden as competencia_orden
+    FROM areas a
+    LEFT JOIN competencias c ON a.id = c.area_id
+    WHERE a.nivel IN (?, 'Ambos')
+    ORDER BY a.orden, c.orden
 ");
-$stmt->bind_param("ii", $estudiante_id, $periodo_id);
+$stmt->bind_param("s", $estudiante['nivel']);
 $stmt->execute();
-$notas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
+$result = $stmt->get_result();
 
-// Calcular promedio general
-$suma_promedios = 0;
-$count_promedios = 0;
-foreach ($notas as $nota) {
-    if ($nota['promedio'] !== null) {
-        $suma_promedios += $nota['promedio'];
-        $count_promedios++;
+// Organizar datos por área y competencia
+$areas = [];
+while ($row = $result->fetch_assoc()) {
+    $area_id = $row['area_id'];
+    if (!isset($areas[$area_id])) {
+        $areas[$area_id] = [
+            'id' => $area_id,
+            'nombre' => $row['area_nombre'],
+            'codigo' => $row['area_codigo'],
+            'competencias' => []
+        ];
+    }
+
+    if ($row['competencia_id']) {
+        $areas[$area_id]['competencias'][] = [
+            'id' => $row['competencia_id'],
+            'descripcion' => $row['competencia_descripcion'],
+            'codigo' => $row['competencia_codigo'],
+            'orden' => $row['competencia_orden']
+        ];
     }
 }
-$promedio_general = $count_promedios > 0 ? $suma_promedios / $count_promedios : 0;
+$stmt->close();
+
+// Obtener evaluaciones por bimestre para cada competencia
+$evaluaciones = [];
+$stmt = $conn->prepare("
+    SELECT
+        competencia_id,
+        bimestre,
+        nivel_logro,
+        conclusion_descriptiva
+    FROM evaluaciones
+    WHERE estudiante_id = ? AND anio_lectivo_id = ?
+");
+$stmt->bind_param("ii", $estudiante_id, $anioLectivo['id']);
+$stmt->execute();
+$result = $stmt->get_result();
+while ($row = $result->fetch_assoc()) {
+    $key = $row['competencia_id'] . '_' . $row['bimestre'];
+    $evaluaciones[$key] = $row;
+}
+$stmt->close();
+
+// Obtener logros anuales por área
+$logrosAnuales = [];
+$stmt = $conn->prepare("
+    SELECT
+        area_id,
+        nivel_logro_final,
+        conclusion_final
+    FROM logros_anuales
+    WHERE estudiante_id = ? AND anio_lectivo_id = ?
+");
+$stmt->bind_param("ii", $estudiante_id, $anioLectivo['id']);
+$stmt->execute();
+$result = $stmt->get_result();
+while ($row = $result->fetch_assoc()) {
+    $logrosAnuales[$row['area_id']] = $row;
+}
+$stmt->close();
 
 $conn->close();
 
-// Función para obtener la clase CSS según la nota
-function getNotaClass($nota) {
-    if ($nota === null) return '';
-    if ($nota >= 17) return 'nota-excelente';
-    if ($nota >= 14) return 'nota-bueno';
-    if ($nota >= 11) return 'nota-regular';
-    return 'nota-deficiente';
+// Función para obtener la clase CSS según el nivel de logro
+function getNivelLogroClass($nivel) {
+    if ($nivel === null) return '';
+    switch ($nivel) {
+        case 'AD': return 'logro-destacado';
+        case 'A': return 'logro-esperado';
+        case 'B': return 'logro-proceso';
+        case 'C': return 'logro-inicio';
+        default: return '';
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -133,123 +163,137 @@ function getNotaClass($nota) {
 
     <div class="container main-content">
         <!-- Cabecera de la boleta -->
-        <div class="boleta-header">
-            <h1>Boleta de Notas</h1>
-            <div class="boleta-info">
-                <div class="info-row">
-                    <strong>Estudiante:</strong>
-                    <span><?php echo htmlspecialchars($estudiante['nombre'] . ' ' . $estudiante['apellido']); ?></span>
-                </div>
-                <div class="info-row">
-                    <strong>Código:</strong>
-                    <span><?php echo htmlspecialchars($estudiante['codigo']); ?></span>
-                </div>
-                <div class="info-row">
-                    <strong>Grado:</strong>
-                    <span><?php echo htmlspecialchars($estudiante['grado']); ?>
-                        <?php if (!empty($estudiante['seccion'])): ?>
-                            - Sección <?php echo htmlspecialchars($estudiante['seccion']); ?>
-                        <?php endif; ?>
-                    </span>
+        <div class="boleta-header-minedu">
+            <div class="boleta-title">
+                <h1>📋 BOLETA DE INFORMACIÓN</h1>
+                <p class="periodo-lectivo">Periodo Lectivo <?php echo $anioLectivo['anio']; ?></p>
+            </div>
+
+            <div class="boleta-info-estudiante">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>Estudiante:</strong>
+                        <span><?php echo htmlspecialchars($estudiante['apellido'] . ', ' . $estudiante['nombre']); ?></span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Código:</strong>
+                        <span><?php echo htmlspecialchars($estudiante['codigo']); ?></span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Nivel:</strong>
+                        <span><?php echo htmlspecialchars($estudiante['nivel']); ?></span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Grado y Sección:</strong>
+                        <span><?php echo htmlspecialchars($estudiante['grado'] . ' - Sección ' . $estudiante['seccion']); ?></span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Selector de período -->
-        <?php if (!empty($periodos)): ?>
-            <div class="periodo-selector">
-                <label for="periodo">Seleccionar Período:</label>
-                <select id="periodo" onchange="cambiarPeriodo(this.value)">
-                    <?php foreach ($periodos as $periodo): ?>
-                        <option value="<?php echo $periodo['id']; ?>"
-                                <?php echo $periodo['id'] == $periodo_id ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($periodo['nombre'] . ' - ' . $periodo['anio']); ?>
-                            <?php echo $periodo['activo'] ? '(Actual)' : ''; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-        <?php endif; ?>
-
-        <!-- Tabla de notas -->
-        <div class="boleta-container">
-            <h2>
-                <?php echo $periodoSeleccionado ? htmlspecialchars($periodoSeleccionado['nombre'] . ' - ' . $periodoSeleccionado['anio']) : 'Período'; ?>
-            </h2>
-
-            <div class="notas-table-container">
-                <table class="notas-table">
-                    <thead>
-                        <tr>
-                            <th>Materia</th>
-                            <th>Eval. 1</th>
-                            <th>Eval. 2</th>
-                            <th>Eval. 3</th>
-                            <th>Eval. 4</th>
-                            <th>Promedio</th>
-                            <th>Observaciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($notas as $nota): ?>
-                            <tr>
-                                <td class="materia-nombre">
-                                    <?php echo htmlspecialchars($nota['materia']); ?>
-                                </td>
-                                <td class="nota-cell <?php echo getNotaClass($nota['nota_1']); ?>">
-                                    <?php echo $nota['nota_1'] !== null ? number_format($nota['nota_1'], 2) : '-'; ?>
-                                </td>
-                                <td class="nota-cell <?php echo getNotaClass($nota['nota_2']); ?>">
-                                    <?php echo $nota['nota_2'] !== null ? number_format($nota['nota_2'], 2) : '-'; ?>
-                                </td>
-                                <td class="nota-cell <?php echo getNotaClass($nota['nota_3']); ?>">
-                                    <?php echo $nota['nota_3'] !== null ? number_format($nota['nota_3'], 2) : '-'; ?>
-                                </td>
-                                <td class="nota-cell <?php echo getNotaClass($nota['nota_4']); ?>">
-                                    <?php echo $nota['nota_4'] !== null ? number_format($nota['nota_4'], 2) : '-'; ?>
-                                </td>
-                                <td class="promedio-cell <?php echo getNotaClass($nota['promedio']); ?>">
-                                    <strong>
-                                        <?php echo $nota['promedio'] !== null ? number_format($nota['promedio'], 2) : '-'; ?>
-                                    </strong>
-                                </td>
-                                <td class="observaciones-cell">
-                                    <?php echo !empty($nota['observaciones']) ? htmlspecialchars($nota['observaciones']) : '-'; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                    <tfoot>
-                        <tr class="total-row">
-                            <td colspan="5"><strong>Promedio General:</strong></td>
-                            <td class="promedio-general <?php echo getNotaClass($promedio_general); ?>">
-                                <strong><?php echo $promedio_general > 0 ? number_format($promedio_general, 2) : '-'; ?></strong>
-                            </td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-
-            <!-- Leyenda -->
-            <div class="leyenda">
-                <h3>Leyenda de Calificaciones:</h3>
-                <div class="leyenda-items">
-                    <div class="leyenda-item">
-                        <span class="color-box nota-excelente"></span>
-                        <span>17 - 20: Excelente</span>
+        <!-- Boleta de competencias -->
+        <div class="boleta-container-minedu">
+            <?php foreach ($areas as $area): ?>
+                <div class="area-section">
+                    <div class="area-header">
+                        <h2><?php echo htmlspecialchars($area['nombre']); ?></h2>
                     </div>
-                    <div class="leyenda-item">
-                        <span class="color-box nota-bueno"></span>
-                        <span>14 - 16: Bueno</span>
+
+                    <div class="competencias-table-container">
+                        <table class="competencias-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-competencia">Competencias</th>
+                                    <th class="col-bimestre">I Bimestre</th>
+                                    <th class="col-bimestre">II Bimestre</th>
+                                    <th class="col-bimestre">III Bimestre</th>
+                                    <th class="col-bimestre">IV Bimestre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($area['competencias'] as $competencia): ?>
+                                    <tr>
+                                        <td class="competencia-descripcion">
+                                            <?php echo htmlspecialchars($competencia['descripcion']); ?>
+                                        </td>
+                                        <?php foreach (['I', 'II', 'III', 'IV'] as $bimestre): ?>
+                                            <?php
+                                            $key = $competencia['id'] . '_' . $bimestre;
+                                            $eval = $evaluaciones[$key] ?? null;
+                                            $nivelLogro = $eval['nivel_logro'] ?? null;
+                                            $conclusion = $eval['conclusion_descriptiva'] ?? '';
+                                            ?>
+                                            <td class="eval-cell">
+                                                <?php if ($nivelLogro): ?>
+                                                    <div class="nivel-logro-badge <?php echo getNivelLogroClass($nivelLogro); ?>">
+                                                        <?php echo $nivelLogro; ?>
+                                                    </div>
+                                                    <?php if ($conclusion): ?>
+                                                        <div class="conclusion-descriptiva">
+                                                            <?php echo htmlspecialchars($conclusion); ?>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                <?php else: ?>
+                                                    <span class="no-evaluado">-</span>
+                                                <?php endif; ?>
+                                            </td>
+                                        <?php endforeach; ?>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="leyenda-item">
-                        <span class="color-box nota-regular"></span>
-                        <span>11 - 13: Regular</span>
+
+                    <!-- Nivel de logro final del área -->
+                    <?php if (isset($logrosAnuales[$area['id']])): ?>
+                        <div class="logro-anual-container">
+                            <div class="logro-anual-header">
+                                <strong>Nivel de logro alcanzado al finalizar el periodo lectivo:</strong>
+                                <span class="nivel-logro-badge <?php echo getNivelLogroClass($logrosAnuales[$area['id']]['nivel_logro_final']); ?>">
+                                    <?php echo $logrosAnuales[$area['id']]['nivel_logro_final']; ?>
+                                </span>
+                            </div>
+                            <?php if ($logrosAnuales[$area['id']]['conclusion_final']): ?>
+                                <div class="conclusion-final">
+                                    <?php echo htmlspecialchars($logrosAnuales[$area['id']]['conclusion_final']); ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+
+            <!-- Leyenda de niveles de logro -->
+            <div class="leyenda-minedu">
+                <h3>📊 Escala de Calificación - Educación Básica Regular (MINEDU)</h3>
+                <div class="leyenda-grid">
+                    <div class="leyenda-item-minedu">
+                        <span class="nivel-logro-badge logro-destacado">AD</span>
+                        <div class="leyenda-texto">
+                            <strong>Logro Destacado:</strong>
+                            <span>Cuando el estudiante evidencia un nivel superior a lo esperado respecto a la competencia.</span>
+                        </div>
                     </div>
-                    <div class="leyenda-item">
-                        <span class="color-box nota-deficiente"></span>
-                        <span>0 - 10: Deficiente</span>
+                    <div class="leyenda-item-minedu">
+                        <span class="nivel-logro-badge logro-esperado">A</span>
+                        <div class="leyenda-texto">
+                            <strong>Logro Esperado:</strong>
+                            <span>Cuando el estudiante evidencia el nivel esperado respecto a la competencia.</span>
+                        </div>
+                    </div>
+                    <div class="leyenda-item-minedu">
+                        <span class="nivel-logro-badge logro-proceso">B</span>
+                        <div class="leyenda-texto">
+                            <strong>En Proceso:</strong>
+                            <span>Cuando el estudiante está próximo o cerca al nivel esperado respecto a la competencia.</span>
+                        </div>
+                    </div>
+                    <div class="leyenda-item-minedu">
+                        <span class="nivel-logro-badge logro-inicio">C</span>
+                        <div class="leyenda-texto">
+                            <strong>En Inicio:</strong>
+                            <span>Cuando el estudiante muestra un progreso mínimo en una competencia.</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -265,16 +309,8 @@ function getNotaClass($nota) {
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; <?php echo date('Y'); ?> Sistema de Notas Escolares. Todos los derechos reservados.</p>
+            <p>&copy; <?php echo date('Y'); ?> Sistema de Notas Escolares - Basado en CNEB MINEDU</p>
         </div>
     </footer>
-
-    <script>
-        function cambiarPeriodo(periodoId) {
-            if (periodoId) {
-                window.location.href = 'boleta.php?estudiante_id=<?php echo $estudiante_id; ?>&periodo_id=' + periodoId;
-            }
-        }
-    </script>
 </body>
 </html>
