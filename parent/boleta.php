@@ -125,8 +125,8 @@ function getNotaClass($nota) {
                 <h2>Sistema de Notas</h2>
             </div>
             <div class="navbar-menu">
-                <a href="dashboard.php" class="btn btn-secondary">Volver al Dashboard</a>
-                <a href="../logout.php" class="btn btn-secondary">Cerrar Sesión</a>
+                <a href="dashboard.php" class="btn btn-secondary">⬅️ Volver al Dashboard</a>
+                <a href="../logout.php" class="btn btn-secondary">🚪 Cerrar Sesión</a>
             </div>
         </div>
     </div>
@@ -257,7 +257,7 @@ function getNotaClass($nota) {
             <!-- Botón de imprimir -->
             <div class="actions-container">
                 <button onclick="window.print()" class="btn btn-primary">
-                    Imprimir Boleta
+                    🖨️ Imprimir Boleta
                 </button>
             </div>
         </div>

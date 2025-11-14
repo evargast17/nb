@@ -62,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="login-container">
         <div class="login-box">
             <div class="login-header">
+                <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🎓</div>
                 <h1>Sistema de Notas Escolares</h1>
                 <p>Portal para Padres de Familia</p>
             </div>

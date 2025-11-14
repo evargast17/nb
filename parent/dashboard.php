@@ -48,7 +48,7 @@ $conn->close();
             </div>
             <div class="navbar-menu">
                 <span class="user-name">Bienvenido, <?php echo htmlspecialchars($_SESSION['padre_nombre']); ?></span>
-                <a href="../logout.php" class="btn btn-secondary">Cerrar Sesión</a>
+                <a href="../logout.php" class="btn btn-secondary">🚪 Cerrar Sesión</a>
             </div>
         </div>
     </div>
@@ -95,7 +95,7 @@ $conn->close();
                         </div>
                         <div class="student-actions">
                             <a href="boleta.php?estudiante_id=<?php echo $estudiante['id']; ?>" class="btn btn-primary btn-block">
-                                Ver Boleta de Notas
+                                📊 Ver Boleta de Notas
                             </a>
                         </div>
                     </div>
