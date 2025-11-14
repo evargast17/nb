@@ -86,6 +86,36 @@ El sistema viene con datos de ejemplo para probar:
 - Contraseña: `87654321`
 - Hijos: Ana González Torres
 
+## Solución de Problemas
+
+### No puedo acceder con las credenciales
+
+Si ya tiene la base de datos instalada y las credenciales no funcionan:
+
+1. **Opción 1: Reinstalar la base de datos**
+   ```bash
+   mysql -u root -p
+   DROP DATABASE sistema_notas;
+   exit
+   mysql -u root -p < database/schema.sql
+   ```
+
+2. **Opción 2: Actualizar solo las contraseñas**
+   ```bash
+   mysql -u root -p sistema_notas < database/update_passwords.sql
+   ```
+
+3. **Verificar la conexión a la base de datos**
+   - Asegúrese de que las credenciales en `config/database.php` sean correctas
+   - Verifique que el servidor MySQL esté corriendo
+   - Confirme que la base de datos `sistema_notas` exista
+
+### Error de conexión a la base de datos
+
+- Verifique que MySQL esté corriendo
+- Confirme las credenciales en `config/database.php`
+- Asegúrese de que el usuario tenga permisos para la base de datos
+
 ## Estructura del Proyecto
 
 ```
@@ -96,13 +126,15 @@ nb/
 ├── css/
 │   └── style.css         # Estilos de la aplicación
 ├── database/
-│   └── schema.sql        # Script de creación de BD y datos de ejemplo
+│   ├── schema.sql        # Script de creación de BD y datos de ejemplo
+│   └── update_passwords.sql  # Script para actualizar contraseñas
 ├── parent/
 │   ├── dashboard.php     # Dashboard principal de padres
 │   └── boleta.php        # Visualización de boleta de notas
 ├── admin/                # (Para futuras funcionalidades administrativas)
 ├── index.php             # Página de login
 ├── logout.php            # Cierre de sesión
+├── generate_hashes.php   # Script para generar hashes de contraseñas
 └── README.md             # Este archivo
 ```
 

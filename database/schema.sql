@@ -84,12 +84,12 @@ CREATE TABLE IF NOT EXISTS notas (
 
 -- Administrador por defecto (usuario: admin, password: admin123)
 INSERT INTO administradores (usuario, password, nombre, email) VALUES
-('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrador Principal', 'admin@colegio.com');
+('admin', '$2y$12$8c8heh16VHp53mGrrJgareH1AkimyzQT5T3PF6kmdW2K2m.5KgJxy', 'Administrador Principal', 'admin@colegio.com');
 
 -- Padres de ejemplo (DNI como usuario, password: el mismo DNI)
 INSERT INTO padres (dni, password, nombre, apellido, email, telefono, direccion) VALUES
-('12345678', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Juan', 'Pérez', 'juan.perez@email.com', '987654321', 'Av. Principal 123'),
-('87654321', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'María', 'González', 'maria.gonzalez@email.com', '987654322', 'Jr. Los Olivos 456');
+('12345678', '$2y$12$esaYJtzh4omKrdluX4rim.qb2quG96QoFk.JQxd.Lre.T1sCu4Eza', 'Juan', 'Pérez', 'juan.perez@email.com', '987654321', 'Av. Principal 123'),
+('87654321', '$2y$12$bBFgcc9q4SO1FtNU4hvaYehHwFePvp9eVPo9FiR0nxqO2NINKe2P6', 'María', 'González', 'maria.gonzalez@email.com', '987654322', 'Jr. Los Olivos 456');
 
 -- Estudiantes de ejemplo
 INSERT INTO estudiantes (codigo, nombre, apellido, fecha_nacimiento, grado, seccion, padre_id) VALUES
