@@ -662,97 +662,94 @@ body {
 
 /* ============================================
    ESTILOS PARA BOLETA MINEDU - EVALUACIÓN POR COMPETENCIAS
+   DISEÑO ULTRA COMPACTO TIPO INFORME DE PROGRESO
    ============================================ */
 
-/* Cabecera boleta MINEDU */
+/* Cabecera boleta MINEDU - Ultra compacta */
 .boleta-header-minedu {
     background: var(--color-blanco);
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
     box-shadow: var(--sombra);
-    border-left: 4px solid var(--color-naranja);
+    border-top: 3px solid var(--color-verde);
 }
 
 .boleta-title {
     text-align: center;
-    margin-bottom: 0.5rem;
-    border-bottom: 2px solid var(--color-verde);
-    padding-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--color-gris-medio);
 }
 
 .boleta-title h1 {
     color: var(--color-verde);
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 700;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.1rem;
 }
 
 .periodo-lectivo {
     color: var(--color-naranja);
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     font-weight: 600;
 }
 
 .boleta-info-estudiante {
-    margin-top: 0.5rem;
+    margin-top: 0.3rem;
 }
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.4rem 1rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.25rem 0.5rem;
 }
 
 .info-item {
     display: flex;
-    gap: 0.4rem;
-    font-size: 0.8rem;
+    gap: 0.25rem;
+    font-size: 0.7rem;
     align-items: center;
 }
 
 .info-item strong {
     color: var(--color-verde);
     font-weight: 600;
+    min-width: fit-content;
 }
 
-/* Container principal MINEDU */
+/* Container principal MINEDU - Sin espacios extras */
 .boleta-container-minedu {
     background: var(--color-blanco);
-    padding: 0.75rem;
-    border-radius: 8px;
+    padding: 0.5rem;
+    border-radius: 4px;
     box-shadow: var(--sombra);
 }
 
-/* Secciones por área */
+/* Secciones por área - Muy compactas */
 .area-section {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.4rem;
     border: 1px solid var(--color-gris-medio);
-    border-radius: 6px;
     overflow: hidden;
 }
 
 .area-header {
     background: linear-gradient(135deg, var(--color-verde) 0%, var(--color-negro) 100%);
-    padding: 0.4rem 0.75rem;
+    padding: 0.25rem 0.5rem;
 }
 
 .area-header h2 {
     color: var(--color-blanco);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 700;
     margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
 }
 
 .area-header h2::before {
-    content: "📖";
-    font-size: 1rem;
+    content: none;
 }
 
-/* Tabla de competencias */
+/* Tabla de competencias - Ultra densa */
 .competencias-table-container {
     overflow-x: auto;
 }
@@ -760,7 +757,7 @@ body {
 .competencias-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
 }
 
 .competencias-table thead {
@@ -768,54 +765,56 @@ body {
 }
 
 .competencias-table th {
-    padding: 0.4rem 0.5rem;
+    padding: 0.25rem 0.3rem;
     text-align: center;
     font-weight: 600;
     color: var(--color-negro);
     border: 1px solid var(--color-gris-medio);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
+    line-height: 1.2;
 }
 
 .col-competencia {
-    width: 40%;
+    width: 45%;
     text-align: left !important;
 }
 
 .col-bimestre {
-    width: 15%;
+    width: 13.75%;
 }
 
 .competencias-table td {
-    padding: 0.4rem 0.5rem;
+    padding: 0.25rem 0.3rem;
     border: 1px solid var(--color-gris-medio);
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 .competencia-descripcion {
     font-weight: 500;
     color: var(--color-verde);
-    line-height: 1.3;
-    font-size: 0.75rem;
+    line-height: 1.2;
+    font-size: 0.7rem;
 }
 
 .eval-cell {
     background: var(--color-gris-claro);
     text-align: center;
+    padding: 0.2rem !important;
 }
 
 .competencias-table tbody tr:hover {
-    background: #f9f9f9;
+    background: #fafafa;
 }
 
-/* Badges de nivel de logro */
+/* Badges de nivel de logro - Mínimos */
 .nivel-logro-badge {
     display: inline-block;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
     font-weight: 700;
-    font-size: 0.75rem;
-    margin-bottom: 0.25rem;
-    min-width: 35px;
+    font-size: 0.7rem;
+    margin: 0;
+    min-width: 28px;
 }
 
 .logro-destacado {
@@ -842,84 +841,97 @@ body {
     border: 1px solid #dc3545;
 }
 
-/* Conclusión descriptiva */
+/* Conclusión descriptiva - Oculta por defecto, mostrar en tooltip */
 .conclusion-descriptiva {
-    font-size: 0.65rem;
-    color: #555;
-    text-align: left;
-    line-height: 1.2;
-    font-style: italic;
-    padding: 0.25rem;
+    display: none;
+}
+
+/* Mostrar conclusión al hacer hover en la celda */
+.eval-cell:hover .conclusion-descriptiva {
+    display: block;
+    position: absolute;
     background: var(--color-blanco);
-    border-radius: 3px;
-    margin-top: 0.25rem;
+    border: 1px solid var(--color-verde);
+    padding: 0.4rem;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    color: #333;
+    line-height: 1.3;
+    font-style: italic;
+    z-index: 1000;
+    min-width: 200px;
+    max-width: 300px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    margin-top: 0.5rem;
+}
+
+.eval-cell {
+    position: relative;
 }
 
 .no-evaluado {
     color: #999;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
-/* Logro anual */
+/* Logro anual - Muy compacto */
 .logro-anual-container {
-    background: #fff9e6;
-    padding: 0.5rem 0.75rem;
-    margin: 0.5rem;
-    border-radius: 4px;
-    border-left: 3px solid var(--color-naranja);
+    background: #fffbf0;
+    padding: 0.3rem 0.5rem;
+    margin: 0.3rem 0.5rem;
+    border-radius: 3px;
+    border-left: 2px solid var(--color-naranja);
 }
 
 .logro-anual-header {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.4rem;
+    gap: 0.4rem;
     flex-wrap: wrap;
 }
 
 .logro-anual-header strong {
     color: var(--color-verde);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
 }
 
 .conclusion-final {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: #555;
-    line-height: 1.3;
+    line-height: 1.2;
     font-style: italic;
-    margin-top: 0.3rem;
+    margin-top: 0.2rem;
 }
 
-/* Leyenda MINEDU */
+/* Leyenda MINEDU - Compacta */
 .leyenda-minedu {
-    margin: 1rem 0 0.75rem 0;
-    padding: 0.75rem;
+    margin: 0.5rem 0 0.5rem 0;
+    padding: 0.5rem;
     background: var(--color-gris-claro);
-    border-radius: 6px;
-    border-left: 3px solid var(--color-verde);
+    border-radius: 4px;
+    border-top: 2px solid var(--color-verde);
 }
 
 .leyenda-minedu h3 {
     color: var(--color-verde);
-    margin-bottom: 0.75rem;
-    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.75rem;
     text-align: center;
 }
 
 .leyenda-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.3rem;
 }
 
 .leyenda-item-minedu {
     display: flex;
-    align-items: flex-start;
-    gap: 0.4rem;
-    padding: 0.4rem;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem;
     background: var(--color-blanco);
-    border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
 }
 
 .leyenda-texto {
@@ -929,60 +941,48 @@ body {
 .leyenda-texto strong {
     display: block;
     color: var(--color-verde);
-    margin-bottom: 0.2rem;
-    font-size: 0.7rem;
+    margin-bottom: 0.1rem;
+    font-size: 0.65rem;
 }
 
 .leyenda-texto span {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     color: #666;
-    line-height: 1.3;
+    line-height: 1.2;
+    display: block;
 }
 
 /* Responsive para boleta MINEDU */
 @media (max-width: 768px) {
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .leyenda-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .competencias-table {
-        font-size: 0.75rem;
+        font-size: 0.6rem;
     }
 
     .competencias-table th,
     .competencias-table td {
-        padding: 0.5rem;
-    }
-
-    .nivel-logro-badge {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.8rem;
-        min-width: 35px;
-    }
-
-    .conclusion-descriptiva {
-        font-size: 0.75rem;
-    }
-
-    .col-competencia {
-        width: 100%;
-    }
-
-    .leyenda-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .logro-anual-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .info-grid {
-        grid-template-columns: 1fr;
+        padding: 0.2rem;
     }
 }
 
-/* Print styles para boleta MINEDU */
+/* Print styles para boleta MINEDU - Ultra compacto para 1 página */
 @media print {
+    @page {
+        margin: 0.5cm;
+        size: A4 portrait;
+    }
+
     body {
         margin: 0;
         padding: 0;
+        font-size: 8pt;
     }
 
     .navbar,
@@ -993,121 +993,141 @@ body {
 
     .main-content {
         padding: 0 !important;
+        margin: 0 !important;
     }
 
     .boleta-header-minedu {
-        padding: 0.5rem;
-        margin-bottom: 0.5rem;
+        padding: 0.3rem;
+        margin-bottom: 0.3rem;
         box-shadow: none;
-        border: 1px solid #ccc;
+        border: 1px solid #999;
+    }
+
+    .boleta-title {
+        padding-bottom: 0.2rem;
+        margin-bottom: 0.2rem;
     }
 
     .boleta-title h1 {
-        font-size: 0.95rem;
+        font-size: 0.85rem;
+        margin-bottom: 0.1rem;
     }
 
     .periodo-lectivo {
-        font-size: 0.75rem;
+        font-size: 0.65rem;
+    }
+
+    .info-grid {
+        gap: 0.15rem 0.3rem;
     }
 
     .info-item {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
     }
 
     .boleta-container-minedu {
         box-shadow: none;
-        padding: 0.5rem;
+        padding: 0.3rem;
     }
 
     .area-section {
         page-break-inside: avoid;
-        margin-bottom: 0.5rem;
-        border: 1px solid #999;
+        margin-bottom: 0.25rem;
+        border: 1px solid #666;
     }
 
     .area-header {
-        padding: 0.3rem 0.5rem;
+        padding: 0.2rem 0.3rem;
         print-color-adjust: exact;
         -webkit-print-color-adjust: exact;
     }
 
     .area-header h2 {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
     }
 
     .competencias-table {
-        font-size: 0.6rem;
+        font-size: 0.55rem;
     }
 
     .competencias-table th {
-        padding: 0.25rem;
-        font-size: 0.65rem;
+        padding: 0.15rem 0.2rem;
+        font-size: 0.6rem;
         print-color-adjust: exact;
         -webkit-print-color-adjust: exact;
+        line-height: 1.1;
     }
 
     .competencias-table td {
-        padding: 0.25rem;
+        padding: 0.15rem 0.2rem;
+        line-height: 1.1;
     }
 
     .competencia-descripcion {
-        font-size: 0.65rem;
-        line-height: 1.2;
+        font-size: 0.6rem;
+        line-height: 1.15;
     }
 
     .nivel-logro-badge {
-        padding: 0.15rem 0.35rem;
-        font-size: 0.65rem;
+        padding: 0.1rem 0.3rem;
+        font-size: 0.6rem;
         print-color-adjust: exact;
         -webkit-print-color-adjust: exact;
     }
 
     .conclusion-descriptiva {
-        font-size: 0.55rem;
-        line-height: 1.1;
-        padding: 0.15rem;
+        display: none !important;
     }
 
     .logro-anual-container {
-        padding: 0.4rem;
-        margin: 0.3rem;
+        padding: 0.25rem 0.3rem;
+        margin: 0.2rem 0.3rem;
         print-color-adjust: exact;
         -webkit-print-color-adjust: exact;
     }
 
+    .logro-anual-header {
+        gap: 0.3rem;
+    }
+
     .logro-anual-header strong {
-        font-size: 0.65rem;
+        font-size: 0.6rem;
     }
 
     .conclusion-final {
-        font-size: 0.6rem;
+        font-size: 0.55rem;
+        line-height: 1.15;
+        margin-top: 0.15rem;
     }
 
     .leyenda-minedu {
         page-break-before: avoid;
-        margin: 0.5rem 0;
-        padding: 0.5rem;
+        margin: 0.3rem 0 0 0;
+        padding: 0.3rem;
         page-break-inside: avoid;
     }
 
     .leyenda-minedu h3 {
-        font-size: 0.75rem;
-        margin-bottom: 0.4rem;
+        font-size: 0.65rem;
+        margin-bottom: 0.25rem;
     }
 
     .leyenda-grid {
-        gap: 0.3rem;
+        gap: 0.2rem;
+        grid-template-columns: repeat(4, 1fr);
     }
 
     .leyenda-item-minedu {
-        padding: 0.3rem;
+        padding: 0.2rem;
     }
 
     .leyenda-texto strong {
-        font-size: 0.6rem;
+        font-size: 0.55rem;
+        margin-bottom: 0.05rem;
     }
 
     .leyenda-texto span {
-        font-size: 0.55rem;
+        font-size: 0.5rem;
+        line-height: 1.1;
     }
 }
