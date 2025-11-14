@@ -128,6 +128,23 @@ $stmt->close();
 
 $conn->close();
 
+// Función para verificar si un área tiene todas las evaluaciones de los 4 bimestres
+function tieneLosCuatroBimestres($area_id, $competencias, $evaluaciones) {
+    if (empty($competencias)) return false;
+
+    foreach ($competencias as $competencia) {
+        $competencia_id = $competencia['id'];
+        // Verificar que exista evaluación para cada bimestre
+        foreach (['I', 'II', 'III', 'IV'] as $bimestre) {
+            $key = $competencia_id . '_' . $bimestre;
+            if (!isset($evaluaciones[$key]) || empty($evaluaciones[$key]['nivel_logro'])) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 // Función para obtener la clase CSS según el nivel de logro
 function getNivelLogroClass($nivel) {
     if ($nivel === null) return '';
@@ -244,8 +261,8 @@ function getNivelLogroClass($nivel) {
                         </table>
                     </div>
 
-                    <!-- Nivel de logro final del área -->
-                    <?php if (isset($logrosAnuales[$area['id']])): ?>
+                    <!-- Nivel de logro final del área (solo si están completos los 4 bimestres) -->
+                    <?php if (isset($logrosAnuales[$area['id']]) && tieneLosCuatroBimestres($area['id'], $area['competencias'], $evaluaciones)): ?>
                         <div class="logro-anual-container">
                             <div class="logro-anual-header">
                                 <strong>Nivel de logro alcanzado al finalizar el periodo lectivo:</strong>
