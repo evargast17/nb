@@ -1,16 +1,30 @@
-# Sistema de Notas Escolares
+# Sistema de Notas Escolares - MINEDU 2025
 
-Sistema web desarrollado en PHP para que los padres de familia puedan visualizar las boletas de notas de sus hijos de forma segura y conveniente.
+Sistema web desarrollado en PHP basado en el **Currículo Nacional de Educación Básica (CNEB)** del MINEDU para que los padres de familia puedan visualizar las boletas de notas de sus hijos de forma segura y conveniente.
 
 ## Características
 
+### 🎓 Sistema de Evaluación por Competencias
+- **Evaluación cualitativa** según MINEDU:
+  - **AD** - Logro Destacado
+  - **A** - Logro Esperado
+  - **B** - En Proceso
+  - **C** - En Inicio
+- **8 Áreas curriculares** para educación primaria
+- **25 Competencias** según el CNEB
+- **Evaluación por bimestres**: I, II, III, IV
+- **Conclusiones descriptivas** por cada competencia
+- **Nivel de logro final** al terminar el periodo lectivo
+
+### 💻 Funcionalidades
 - **Autenticación segura**: Login para padres usando DNI y contraseña
 - **Dashboard intuitivo**: Visualización de todos los hijos registrados
-- **Boletas de notas**: Consulta de calificaciones por período académico
-- **Multi-período**: Soporte para múltiples períodos académicos (bimestres, trimestres, etc.)
-- **Diseño responsive**: Compatible con dispositivos móviles, tablets y computadoras
+- **Boleta de información**: Formato oficial SIAGIE del MINEDU
+- **Periodo lectivo 2025**: Sistema actualizado para el año en curso
+- **Diseño responsive**: Compatible con móviles, tablets y computadoras
 - **Impresión**: Opción para imprimir boletas de notas
 - **Código limpio**: Uso de prepared statements para prevenir SQL injection
+- **Colores institucionales**: Naranja, amarillo, verde oscuro y negro
 
 ## Requisitos del Sistema
 
@@ -32,14 +46,16 @@ cd nb
 
 ### 2. Configurar la base de datos
 
+**IMPORTANTE**: Use el archivo `schema_minedu.sql` que implementa el sistema de evaluación por competencias del MINEDU.
+
 **Opción A: Usando phpMyAdmin**
 1. Abrir phpMyAdmin en su navegador
-2. Crear una nueva base de datos llamada `sistema_notas`
-3. Importar el archivo `database/schema.sql`
+2. Importar el archivo `database/schema_minedu.sql`
+   - Esto creará automáticamente la base de datos `sistema_notas`
 
 **Opción B: Usando línea de comandos**
 ```bash
-mysql -u root -p < database/schema.sql
+mysql -u root -p < database/schema_minedu.sql
 ```
 
 ### 3. Configurar la conexión a la base de datos
@@ -97,7 +113,7 @@ Si ya tiene la base de datos instalada y las credenciales no funcionan:
    mysql -u root -p
    DROP DATABASE sistema_notas;
    exit
-   mysql -u root -p < database/schema.sql
+   mysql -u root -p < database/schema_minedu.sql
    ```
 
 2. **Opción 2: Actualizar solo las contraseñas**
@@ -116,6 +132,11 @@ Si ya tiene la base de datos instalada y las credenciales no funcionan:
 - Confirme las credenciales en `config/database.php`
 - Asegúrese de que el usuario tenga permisos para la base de datos
 
+### No se muestran las notas / Página en blanco
+
+- Verifique que importó el archivo `database/schema_minedu.sql` (NO el antiguo schema.sql)
+- Revise los logs de error de PHP para más detalles
+
 ## Estructura del Proyecto
 
 ```
@@ -126,7 +147,7 @@ nb/
 ├── css/
 │   └── style.css         # Estilos de la aplicación
 ├── database/
-│   ├── schema.sql        # Script de creación de BD y datos de ejemplo
+│   ├── schema_minedu.sql # Script PRINCIPAL - Sistema MINEDU 2025
 │   └── update_passwords.sql  # Script para actualizar contraseñas
 ├── parent/
 │   ├── dashboard.php     # Dashboard principal de padres
@@ -135,6 +156,7 @@ nb/
 ├── index.php             # Página de login
 ├── logout.php            # Cierre de sesión
 ├── generate_hashes.php   # Script para generar hashes de contraseñas
+├── MIGRACION_MINEDU.md  # Guía de migración al sistema MINEDU
 └── README.md             # Este archivo
 ```
 
@@ -143,11 +165,13 @@ nb/
 ### Tablas principales:
 
 1. **padres**: Información de padres/tutores
-2. **estudiantes**: Información de estudiantes
-3. **materias**: Catálogo de materias/asignaturas
-4. **periodos**: Períodos académicos (bimestres, trimestres, etc.)
-5. **notas**: Calificaciones de los estudiantes
-6. **administradores**: Usuarios administrativos (para futuras funcionalidades)
+2. **estudiantes**: Información de estudiantes (incluye nivel: Inicial/Primaria)
+3. **anios_lectivos**: Periodos lectivos (2025 activo por defecto)
+4. **areas**: Áreas curriculares del MINEDU
+5. **competencias**: Competencias por área según CNEB
+6. **evaluaciones**: Calificaciones por competencia, estudiante y bimestre
+7. **logros_anuales**: Nivel de logro final del año por área
+8. **administradores**: Usuarios administrativos
 
 ## Uso del Sistema
 
@@ -159,52 +183,63 @@ nb/
 
 2. **Ver Dashboard**
    - Se muestran todos los hijos registrados
-   - Cada tarjeta muestra: nombre, código, grado y sección
+   - Cada tarjeta muestra: nombre, código, nivel, grado y sección
+   - Se muestra el periodo lectivo actual (2025)
 
 3. **Ver Boleta de Notas**
-   - Hacer clic en "Ver Boleta de Notas" en la tarjeta del hijo
-   - Seleccionar el período académico deseado
-   - Ver todas las calificaciones organizadas por materia
+   - Hacer clic en "📊 Ver Boleta de Notas" en la tarjeta del hijo
+   - Se muestra la boleta con todas las áreas curriculares
+   - Cada área muestra sus competencias
+   - Por cada competencia se ve:
+     - Nivel de logro en cada bimestre (I, II, III, IV)
+     - Conclusión descriptiva
+   - Al final de cada área: Nivel de logro alcanzado al finalizar el periodo lectivo
    - Opción de imprimir la boleta
 
 4. **Cerrar Sesión**
-   - Hacer clic en "Cerrar Sesión" en la barra de navegación
+   - Hacer clic en "🚪 Cerrar Sesión" en la barra de navegación
 
-## Escala de Calificaciones
+## Escala de Calificación MINEDU
 
-El sistema utiliza el siguiente código de colores:
+El sistema utiliza la evaluación cualitativa oficial:
 
-- **Verde (Excelente)**: 17 - 20
-- **Azul (Bueno)**: 14 - 16
-- **Amarillo (Regular)**: 11 - 13
-- **Rojo (Deficiente)**: 0 - 10
+- **AD - Logro Destacado**: El estudiante evidencia un nivel superior a lo esperado
+- **A - Logro Esperado**: El estudiante evidencia el nivel esperado
+- **B - En Proceso**: El estudiante está próximo al nivel esperado
+- **C - En Inicio**: El estudiante muestra un progreso mínimo
+
+## Áreas Curriculares - Primaria
+
+1. **Comunicación** - 3 competencias
+2. **Matemática** - 4 competencias
+3. **Personal Social** - 5 competencias
+4. **Ciencia y Tecnología** - 3 competencias
+5. **Arte y Cultura** - 2 competencias
+6. **Educación Física** - 3 competencias
+7. **Educación Religiosa** - 2 competencias
+8. **Inglés** - 3 competencias (desde 3ro de primaria)
 
 ## Agregar Nuevos Datos
 
-### Agregar un nuevo padre:
+### Agregar evaluación de un bimestre:
 
 ```sql
-INSERT INTO padres (dni, password, nombre, apellido, email, telefono)
-VALUES ('DNI', PASSWORD_HASH, 'Nombre', 'Apellido', 'email@example.com', 'telefono');
+INSERT INTO evaluaciones (estudiante_id, competencia_id, anio_lectivo_id, bimestre, nivel_logro, conclusion_descriptiva)
+VALUES (1, 1, 1, 'II', 'A', 'El estudiante mantiene un buen nivel de comunicación oral.');
 ```
 
-**Nota**: Para generar el password hash en PHP:
-```php
-echo password_hash('tu_contraseña', PASSWORD_DEFAULT);
+### Agregar logro anual final:
+
+```sql
+INSERT INTO logros_anuales (estudiante_id, area_id, anio_lectivo_id, nivel_logro_final, conclusion_final)
+VALUES (1, 1, 1, 'A', 'El estudiante ha alcanzado las competencias esperadas en Comunicación.');
 ```
 
 ### Agregar un nuevo estudiante:
 
 ```sql
-INSERT INTO estudiantes (codigo, nombre, apellido, fecha_nacimiento, grado, seccion, padre_id)
-VALUES ('EST003', 'Nombre', 'Apellido', '2010-01-01', '5to Primaria', 'A', ID_DEL_PADRE);
-```
-
-### Agregar notas:
-
-```sql
-INSERT INTO notas (estudiante_id, materia_id, periodo_id, nota_1, nota_2, nota_3, nota_4, promedio)
-VALUES (ID_ESTUDIANTE, ID_MATERIA, ID_PERIODO, 15.5, 16.0, 17.0, 16.5, 16.25);
+INSERT INTO estudiantes (codigo, nombre, apellido, fecha_nacimiento, nivel, grado, seccion, padre_id)
+VALUES ('EST004', 'María', 'Torres Sánchez', '2015-06-15', 'Primaria', '4to Primaria', 'B', 1);
 ```
 
 ## Seguridad
@@ -221,33 +256,30 @@ El sistema implementa las siguientes medidas de seguridad:
 
 ### Cambiar colores del tema:
 
-Editar el archivo `css/style.css` y modificar los gradientes:
+Editar el archivo `css/style.css` y modificar las variables CSS:
 
 ```css
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-```
-
-### Cambiar escala de calificaciones:
-
-Editar la función `getNotaClass()` en `parent/boleta.php`:
-
-```php
-function getNotaClass($nota) {
-    if ($nota === null) return '';
-    if ($nota >= 17) return 'nota-excelente';
-    if ($nota >= 14) return 'nota-bueno';
-    if ($nota >= 11) return 'nota-regular';
-    return 'nota-deficiente';
+:root {
+    --color-naranja: #FF6B35;
+    --color-amarillo: #F7B801;
+    --color-verde: #2D5016;
+    --color-negro: #1a1a1a;
 }
 ```
 
+## Documentación Adicional
+
+- **MIGRACION_MINEDU.md**: Guía detallada sobre el sistema MINEDU y diferencias con sistemas anteriores
+- **Currículo Nacional**: Consultar documentación oficial del MINEDU
+- **SIAGIE**: Sistema de Información de Apoyo a la Gestión de la Institución Educativa
+
 ## Futuras Mejoras
 
-- [ ] Panel de administración para gestionar estudiantes y notas
-- [ ] Notificaciones por email cuando se publican nuevas notas
-- [ ] Gráficos de rendimiento académico
+- [ ] Panel de administración para gestionar estudiantes y evaluaciones
+- [ ] Notificaciones por email cuando se publican nuevas evaluaciones
+- [ ] Gráficos de progreso del estudiante
 - [ ] Exportación de boletas a PDF
-- [ ] Historial de notas por año
+- [ ] Sistema para nivel inicial
 - [ ] Comparativas de rendimiento
 
 ## Soporte
@@ -260,4 +292,5 @@ Este proyecto es de código abierto y está disponible para uso educativo.
 
 ---
 
-Desarrollado con PHP y MySQL
+**Sistema basado en el Currículo Nacional de Educación Básica (CNEB) - MINEDU**
+Desarrollado con PHP y MySQL para el Periodo Lectivo 2025

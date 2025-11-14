@@ -27,8 +27,8 @@ $stmt->execute();
 $estudiantes = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-// Obtener el período activo
-$periodoActivo = $conn->query("SELECT id, nombre, anio FROM periodos WHERE activo = TRUE LIMIT 1")->fetch_assoc();
+// Obtener el año lectivo activo
+$anioLectivo = $conn->query("SELECT id, anio FROM anios_lectivos WHERE activo = TRUE LIMIT 1")->fetch_assoc();
 
 $conn->close();
 ?>
@@ -56,8 +56,8 @@ $conn->close();
     <div class="container main-content">
         <div class="page-header">
             <h1>Mis Hijos</h1>
-            <?php if ($periodoActivo): ?>
-                <p class="periodo-activo">Período Actual: <?php echo htmlspecialchars($periodoActivo['nombre'] . ' ' . $periodoActivo['anio']); ?></p>
+            <?php if ($anioLectivo): ?>
+                <p class="periodo-activo">Periodo Lectivo: <?php echo htmlspecialchars($anioLectivo['anio']); ?></p>
             <?php endif; ?>
         </div>
 
