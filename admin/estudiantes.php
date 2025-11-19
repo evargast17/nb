@@ -1,4 +1,4 @@
-&lt;?php
+<?php
 session_start();
 
 // Verificar autenticación de administrador
@@ -110,184 +110,184 @@ $grados_query = "SELECT DISTINCT grado FROM estudiantes ORDER BY grado";
 $grados_disponibles = $conn->query($grados_query)->fetch_all(MYSQLI_ASSOC);
 ?>
 
-&lt;!DOCTYPE html>
-&lt;html lang="es">
-&lt;head>
-    &lt;meta charset="UTF-8">
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0">
-    &lt;title>Gestión de Estudiantes - Administración&lt;/title>
-    &lt;link rel="stylesheet" href="../css/style.css">
-    &lt;link rel="stylesheet" href="../css/admin.css">
-    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-&lt;/head>
-&lt;body>
-    &lt;?php include 'navbar_admin.php'; ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Estudiantes - Administración</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <?php include 'navbar_admin.php'; ?>
 
-    &lt;div class="admin-layout">
-        &lt;?php include 'sidebar_admin.php'; ?>
+    <div class="admin-layout">
+        <?php include 'sidebar_admin.php'; ?>
 
-        &lt;main class="admin-content">
-            &lt;div class="admin-header">
-                &lt;h1>&lt;i class="fas fa-user-graduate">&lt;/i> Gestión de Estudiantes&lt;/h1>
-                &lt;p>Administra los estudiantes del sistema&lt;/p>
-            &lt;/div>
+        <main class="admin-content">
+            <div class="admin-header">
+                <h1><i class="fas fa-user-graduate"></i> Gestión de Estudiantes</h1>
+                <p>Administra los estudiantes del sistema</p>
+            </div>
 
-            &lt;?php if ($mensaje): ?>
-                &lt;div class="alert alert-success">
-                    &lt;i class="fas fa-check-circle">&lt;/i>
-                    &lt;?php echo htmlspecialchars($mensaje); ?>
-                &lt;/div>
-            &lt;?php endif; ?>
+            <?php if ($mensaje): ?>
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <?php echo htmlspecialchars($mensaje); ?>
+                </div>
+            <?php endif; ?>
 
-            &lt;?php if ($error): ?>
-                &lt;div class="alert alert-error">
-                    &lt;i class="fas fa-exclamation-circle">&lt;/i>
-                    &lt;?php echo htmlspecialchars($error); ?>
-                &lt;/div>
-            &lt;?php endif; ?>
+            <?php if ($error): ?>
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <?php echo htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
 
-            &lt;!-- Barra de acciones -->
-            &lt;div class="card-header" style="margin-bottom: 1.5rem; border-radius: 8px;">
-                &lt;div style="display: flex; justify-content: space-between; align-items: center;">
-                    &lt;h3>&lt;i class="fas fa-list">&lt;/i> Lista de Estudiantes (&lt;?php echo $total_registros; ?>)&lt;/h3>
-                    &lt;a href="estudiante_form.php" class="btn btn-primary">
-                        &lt;i class="fas fa-plus">&lt;/i> Nuevo Estudiante
-                    &lt;/a>
-                &lt;/div>
-            &lt;/div>
+            <!-- Barra de acciones -->
+            <div class="card-header" style="margin-bottom: 1.5rem; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3><i class="fas fa-list"></i> Lista de Estudiantes (<?php echo $total_registros; ?>)</h3>
+                    <a href="estudiante_form.php" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Nuevo Estudiante
+                    </a>
+                </div>
+            </div>
 
-            &lt;!-- Búsqueda y filtros -->
-            &lt;div class="search-bar">
-                &lt;form method="GET" style="display: flex; gap: 1rem; flex-wrap: wrap; width: 100%;">
-                    &lt;input type="text"
+            <!-- Búsqueda y filtros -->
+            <div class="search-bar">
+                <form method="GET" style="display: flex; gap: 1rem; flex-wrap: wrap; width: 100%;">
+                    <input type="text"
                            name="buscar"
                            class="search-input"
                            style="flex: 1; min-width: 200px;"
                            placeholder="Buscar por código, nombre, apellido o DNI del padre..."
-                           value="&lt;?php echo htmlspecialchars($busqueda); ?>">
+                           value="<?php echo htmlspecialchars($busqueda); ?>">
 
-                    &lt;select name="nivel" class="filter-select">
-                        &lt;option value="">Todos los niveles&lt;/option>
-                        &lt;option value="Inicial" &lt;?php echo $filtro_nivel === 'Inicial' ? 'selected' : ''; ?>>Inicial&lt;/option>
-                        &lt;option value="Primaria" &lt;?php echo $filtro_nivel === 'Primaria' ? 'selected' : ''; ?>>Primaria&lt;/option>
-                    &lt;/select>
+                    <select name="nivel" class="filter-select">
+                        <option value="">Todos los niveles</option>
+                        <option value="Inicial" <?php echo $filtro_nivel === 'Inicial' ? 'selected' : ''; ?>>Inicial</option>
+                        <option value="Primaria" <?php echo $filtro_nivel === 'Primaria' ? 'selected' : ''; ?>>Primaria</option>
+                    </select>
 
-                    &lt;select name="grado" class="filter-select">
-                        &lt;option value="">Todos los grados&lt;/option>
-                        &lt;?php foreach ($grados_disponibles as $g): ?>
-                            &lt;option value="&lt;?php echo htmlspecialchars($g['grado']); ?>"
-                                    &lt;?php echo $filtro_grado === $g['grado'] ? 'selected' : ''; ?>>
-                                &lt;?php echo htmlspecialchars($g['grado']); ?>
-                            &lt;/option>
-                        &lt;?php endforeach; ?>
-                    &lt;/select>
+                    <select name="grado" class="filter-select">
+                        <option value="">Todos los grados</option>
+                        <?php foreach ($grados_disponibles as $g): ?>
+                            <option value="<?php echo htmlspecialchars($g['grado']); ?>"
+                                    <?php echo $filtro_grado === $g['grado'] ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($g['grado']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
 
-                    &lt;select name="orden" class="filter-select">
-                        &lt;option value="apellido" &lt;?php echo $orden === 'apellido' ? 'selected' : ''; ?>>Ordenar por Apellido&lt;/option>
-                        &lt;option value="nombre" &lt;?php echo $orden === 'nombre' ? 'selected' : ''; ?>>Ordenar por Nombre&lt;/option>
-                        &lt;option value="codigo" &lt;?php echo $orden === 'codigo' ? 'selected' : ''; ?>>Ordenar por Código&lt;/option>
-                        &lt;option value="nivel" &lt;?php echo $orden === 'nivel' ? 'selected' : ''; ?>>Ordenar por Nivel&lt;/option>
-                        &lt;option value="grado" &lt;?php echo $orden === 'grado' ? 'selected' : ''; ?>>Ordenar por Grado&lt;/option>
-                        &lt;option value="created_at" &lt;?php echo $orden === 'created_at' ? 'selected' : ''; ?>>Fecha de Registro&lt;/option>
-                    &lt;/select>
+                    <select name="orden" class="filter-select">
+                        <option value="apellido" <?php echo $orden === 'apellido' ? 'selected' : ''; ?>>Ordenar por Apellido</option>
+                        <option value="nombre" <?php echo $orden === 'nombre' ? 'selected' : ''; ?>>Ordenar por Nombre</option>
+                        <option value="codigo" <?php echo $orden === 'codigo' ? 'selected' : ''; ?>>Ordenar por Código</option>
+                        <option value="nivel" <?php echo $orden === 'nivel' ? 'selected' : ''; ?>>Ordenar por Nivel</option>
+                        <option value="grado" <?php echo $orden === 'grado' ? 'selected' : ''; ?>>Ordenar por Grado</option>
+                        <option value="created_at" <?php echo $orden === 'created_at' ? 'selected' : ''; ?>>Fecha de Registro</option>
+                    </select>
 
-                    &lt;select name="dir" class="filter-select">
-                        &lt;option value="asc" &lt;?php echo $dir === 'ASC' ? 'selected' : ''; ?>>Ascendente&lt;/option>
-                        &lt;option value="desc" &lt;?php echo $dir === 'DESC' ? 'selected' : ''; ?>>Descendente&lt;/option>
-                    &lt;/select>
+                    <select name="dir" class="filter-select">
+                        <option value="asc" <?php echo $dir === 'ASC' ? 'selected' : ''; ?>>Ascendente</option>
+                        <option value="desc" <?php echo $dir === 'DESC' ? 'selected' : ''; ?>>Descendente</option>
+                    </select>
 
-                    &lt;button type="submit" class="btn btn-secondary">
-                        &lt;i class="fas fa-search">&lt;/i> Buscar
-                    &lt;/button>
+                    <button type="submit" class="btn btn-secondary">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
 
-                    &lt;?php if (!empty($busqueda) || !empty($filtro_nivel) || !empty($filtro_grado)): ?>
-                        &lt;a href="estudiantes.php" class="btn btn-outline">
-                            &lt;i class="fas fa-times">&lt;/i> Limpiar
-                        &lt;/a>
-                    &lt;?php endif; ?>
-                &lt;/form>
-            &lt;/div>
+                    <?php if (!empty($busqueda) || !empty($filtro_nivel) || !empty($filtro_grado)): ?>
+                        <a href="estudiantes.php" class="btn btn-outline">
+                            <i class="fas fa-times"></i> Limpiar
+                        </a>
+                    <?php endif; ?>
+                </form>
+            </div>
 
-            &lt;!-- Tabla de estudiantes -->
-            &lt;div class="dashboard-card">
-                &lt;div class="card-body">
-                    &lt;?php if (empty($estudiantes)): ?>
-                        &lt;div style="text-align: center; padding: 3rem; color: #6b7280;">
-                            &lt;i class="fas fa-user-graduate" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;">&lt;/i>
-                            &lt;p>No se encontraron estudiantes&lt;/p>
-                            &lt;?php if (!empty($busqueda) || !empty($filtro_nivel) || !empty($filtro_grado)): ?>
-                                &lt;p>Intenta con otros filtros&lt;/p>
-                            &lt;?php endif; ?>
-                        &lt;/div>
-                    &lt;?php else: ?>
-                        &lt;table class="data-table">
-                            &lt;thead>
-                                &lt;tr>
-                                    &lt;th>Código&lt;/th>
-                                    &lt;th>Apellidos y Nombres&lt;/th>
-                                    &lt;th>Nivel&lt;/th>
-                                    &lt;th>Grado&lt;/th>
-                                    &lt;th>Sección&lt;/th>
-                                    &lt;th>Padre/Tutor&lt;/th>
-                                    &lt;th>Evaluaciones&lt;/th>
-                                    &lt;th style="text-align: center;">Acciones&lt;/th>
-                                &lt;/tr>
-                            &lt;/thead>
-                            &lt;tbody>
-                                &lt;?php foreach ($estudiantes as $est): ?>
-                                    &lt;tr>
-                                        &lt;td>&lt;strong>&lt;?php echo htmlspecialchars($est['codigo']); ?>&lt;/strong>&lt;/td>
-                                        &lt;td>&lt;?php echo htmlspecialchars($est['apellido'] . ', ' . $est['nombre']); ?>&lt;/td>
-                                        &lt;td>
-                                            &lt;span class="badge badge-&lt;?php echo $est['nivel'] === 'Inicial' ? 'info' : 'primary'; ?>">
-                                                &lt;?php echo htmlspecialchars($est['nivel']); ?>
-                                            &lt;/span>
-                                        &lt;/td>
-                                        &lt;td>&lt;strong>&lt;?php echo htmlspecialchars($est['grado']); ?>&lt;/strong>&lt;/td>
-                                        &lt;td>&lt;?php echo htmlspecialchars($est['seccion'] ?: '-'); ?>&lt;/td>
-                                        &lt;td>
-                                            &lt;a href="padre_ver.php?id=&lt;?php echo $est['padre_id']; ?>"
-                                               title="DNI: &lt;?php echo htmlspecialchars($est['padre_dni']); ?>">
-                                                &lt;?php echo htmlspecialchars($est['padre_nombre']); ?>
-                                            &lt;/a>
-                                        &lt;/td>
-                                        &lt;td>
-                                            &lt;?php if ($est['total_evaluaciones'] > 0): ?>
-                                                &lt;span class="badge badge-success">
-                                                    &lt;?php echo $est['total_evaluaciones']; ?> eval.
-                                                &lt;/span>
-                                            &lt;?php else: ?>
-                                                &lt;span class="badge badge-warning">Sin eval.&lt;/span>
-                                            &lt;?php endif; ?>
-                                        &lt;/td>
-                                        &lt;td>
-                                            &lt;div class="table-actions" style="justify-content: center;">
-                                                &lt;a href="estudiante_ver.php?id=&lt;?php echo $est['id']; ?>"
+            <!-- Tabla de estudiantes -->
+            <div class="dashboard-card">
+                <div class="card-body">
+                    <?php if (empty($estudiantes)): ?>
+                        <div style="text-align: center; padding: 3rem; color: #6b7280;">
+                            <i class="fas fa-user-graduate" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                            <p>No se encontraron estudiantes</p>
+                            <?php if (!empty($busqueda) || !empty($filtro_nivel) || !empty($filtro_grado)): ?>
+                                <p>Intenta con otros filtros</p>
+                            <?php endif; ?>
+                        </div>
+                    <?php else: ?>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Apellidos y Nombres</th>
+                                    <th>Nivel</th>
+                                    <th>Grado</th>
+                                    <th>Sección</th>
+                                    <th>Padre/Tutor</th>
+                                    <th>Evaluaciones</th>
+                                    <th style="text-align: center;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($estudiantes as $est): ?>
+                                    <tr>
+                                        <td><strong><?php echo htmlspecialchars($est['codigo']); ?></strong></td>
+                                        <td><?php echo htmlspecialchars($est['apellido'] . ', ' . $est['nombre']); ?></td>
+                                        <td>
+                                            <span class="badge badge-<?php echo $est['nivel'] === 'Inicial' ? 'info' : 'primary'; ?>">
+                                                <?php echo htmlspecialchars($est['nivel']); ?>
+                                            </span>
+                                        </td>
+                                        <td><strong><?php echo htmlspecialchars($est['grado']); ?></strong></td>
+                                        <td><?php echo htmlspecialchars($est['seccion'] ?: '-'); ?></td>
+                                        <td>
+                                            <a href="padre_ver.php?id=<?php echo $est['padre_id']; ?>"
+                                               title="DNI: <?php echo htmlspecialchars($est['padre_dni']); ?>">
+                                                <?php echo htmlspecialchars($est['padre_nombre']); ?>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <?php if ($est['total_evaluaciones'] > 0): ?>
+                                                <span class="badge badge-success">
+                                                    <?php echo $est['total_evaluaciones']; ?> eval.
+                                                </span>
+                                            <?php else: ?>
+                                                <span class="badge badge-warning">Sin eval.</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <div class="table-actions" style="justify-content: center;">
+                                                <a href="estudiante_ver.php?id=<?php echo $est['id']; ?>"
                                                    class="btn-icon btn-view"
                                                    title="Ver detalles">
-                                                    &lt;i class="fas fa-eye">&lt;/i>
-                                                &lt;/a>
-                                                &lt;a href="estudiante_form.php?id=&lt;?php echo $est['id']; ?>"
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="estudiante_form.php?id=<?php echo $est['id']; ?>"
                                                    class="btn-icon btn-edit"
                                                    title="Editar">
-                                                    &lt;i class="fas fa-edit">&lt;/i>
-                                                &lt;/a>
-                                                &lt;a href="?eliminar=&lt;?php echo $est['id']; ?>"
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="?eliminar=<?php echo $est['id']; ?>"
                                                    class="btn-icon btn-delete"
                                                    title="Eliminar"
                                                    onclick="return confirm('¿Estás seguro de eliminar este estudiante?\n\nEsto eliminará también todas sus evaluaciones.');">
-                                                    &lt;i class="fas fa-trash">&lt;/i>
-                                                &lt;/a>
-                                            &lt;/div>
-                                        &lt;/td>
-                                    &lt;/tr>
-                                &lt;?php endforeach; ?>
-                            &lt;/tbody>
-                        &lt;/table>
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
 
-                        &lt;!-- Paginación -->
-                        &lt;?php if ($total_paginas > 1): ?>
-                            &lt;?php
+                        <!-- Paginación -->
+                        <?php if ($total_paginas > 1): ?>
+                            <?php
                             $params_url = [
                                 'buscar' => $busqueda,
                                 'nivel' => $filtro_nivel,
@@ -297,46 +297,46 @@ $grados_disponibles = $conn->query($grados_query)->fetch_all(MYSQLI_ASSOC);
                             ];
                             $query_string = http_build_query(array_filter($params_url));
                             ?>
-                            &lt;div class="pagination">
-                                &lt;?php if ($pagina > 1): ?>
-                                    &lt;a href="?pagina=1&&lt;?php echo $query_string; ?>">
-                                        &lt;i class="fas fa-angle-double-left">&lt;/i>
-                                    &lt;/a>
-                                    &lt;a href="?pagina=&lt;?php echo $pagina - 1; ?>&amp;&lt;?php echo $query_string; ?>">
-                                        &lt;i class="fas fa-angle-left">&lt;/i>
-                                    &lt;/a>
-                                &lt;?php endif; ?>
+                            <div class="pagination">
+                                <?php if ($pagina > 1): ?>
+                                    <a href="?pagina=1&<?php echo $query_string; ?>">
+                                        <i class="fas fa-angle-double-left"></i>
+                                    </a>
+                                    <a href="?pagina=<?php echo $pagina - 1; ?>&<?php echo $query_string; ?>">
+                                        <i class="fas fa-angle-left"></i>
+                                    </a>
+                                <?php endif; ?>
 
-                                &lt;?php
+                                <?php
                                 $rango = 2;
                                 $inicio = max(1, $pagina - $rango);
                                 $fin = min($total_paginas, $pagina + $rango);
 
                                 for ($i = $inicio; $i <= $fin; $i++):
                                 ?>
-                                    &lt;?php if ($i === $pagina): ?>
-                                        &lt;span class="active">&lt;?php echo $i; ?>&lt;/span>
-                                    &lt;?php else: ?>
-                                        &lt;a href="?pagina=&lt;?php echo $i; ?>&amp;&lt;?php echo $query_string; ?>">
-                                            &lt;?php echo $i; ?>
-                                        &lt;/a>
-                                    &lt;?php endif; ?>
-                                &lt;?php endfor; ?>
+                                    <?php if ($i === $pagina): ?>
+                                        <span class="active"><?php echo $i; ?></span>
+                                    <?php else: ?>
+                                        <a href="?pagina=<?php echo $i; ?>&<?php echo $query_string; ?>">
+                                            <?php echo $i; ?>
+                                        </a>
+                                    <?php endif; ?>
+                                <?php endfor; ?>
 
-                                &lt;?php if ($pagina < $total_paginas): ?>
-                                    &lt;a href="?pagina=&lt;?php echo $pagina + 1; ?>&amp;&lt;?php echo $query_string; ?>">
-                                        &lt;i class="fas fa-angle-right">&lt;/i>
-                                    &lt;/a>
-                                    &lt;a href="?pagina=&lt;?php echo $total_paginas; ?>&amp;&lt;?php echo $query_string; ?>">
-                                        &lt;i class="fas fa-angle-double-right">&lt;/i>
-                                    &lt;/a>
-                                &lt;?php endif; ?>
-                            &lt;/div>
-                        &lt;?php endif; ?>
-                    &lt;?php endif; ?>
-                &lt;/div>
-            &lt;/div>
-        &lt;/main>
-    &lt;/div>
-&lt;/body>
-&lt;/html>
+                                <?php if ($pagina < $total_paginas): ?>
+                                    <a href="?pagina=<?php echo $pagina + 1; ?>&<?php echo $query_string; ?>">
+                                        <i class="fas fa-angle-right"></i>
+                                    </a>
+                                    <a href="?pagina=<?php echo $total_paginas; ?>&<?php echo $query_string; ?>">
+                                        <i class="fas fa-angle-double-right"></i>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

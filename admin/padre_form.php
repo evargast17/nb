@@ -1,4 +1,4 @@
-&lt;?php
+<?php
 session_start();
 
 // Verificar autenticación de administrador
@@ -106,208 +106,208 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-&lt;!DOCTYPE html>
-&lt;html lang="es">
-&lt;head>
-    &lt;meta charset="UTF-8">
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0">
-    &lt;title>&lt;?php echo $es_edicion ? 'Editar' : 'Nuevo'; ?> Padre - Administración&lt;/title>
-    &lt;link rel="stylesheet" href="../css/style.css">
-    &lt;link rel="stylesheet" href="../css/admin.css">
-    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-&lt;/head>
-&lt;body>
-    &lt;?php include 'navbar_admin.php'; ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $es_edicion ? 'Editar' : 'Nuevo'; ?> Padre - Administración</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <?php include 'navbar_admin.php'; ?>
 
-    &lt;div class="admin-layout">
-        &lt;?php include 'sidebar_admin.php'; ?>
+    <div class="admin-layout">
+        <?php include 'sidebar_admin.php'; ?>
 
-        &lt;main class="admin-content">
-            &lt;div class="admin-header">
-                &lt;h1>
-                    &lt;i class="fas fa-user-<?php echo $es_edicion ? 'edit' : 'plus'; ?>">&lt;/i>
-                    &lt;?php echo $es_edicion ? 'Editar' : 'Nuevo'; ?> Padre
-                &lt;/h1>
-                &lt;p>&lt;?php echo $es_edicion ? 'Modifica los datos del padre' : 'Registra un nuevo padre/tutor en el sistema'; ?>&lt;/p>
-            &lt;/div>
+        <main class="admin-content">
+            <div class="admin-header">
+                <h1>
+                    <i class="fas fa-user-<?php echo $es_edicion ? 'edit' : 'plus'; ?>"></i>
+                    <?php echo $es_edicion ? 'Editar' : 'Nuevo'; ?> Padre
+                </h1>
+                <p><?php echo $es_edicion ? 'Modifica los datos del padre' : 'Registra un nuevo padre/tutor en el sistema'; ?></p>
+            </div>
 
-            &lt;?php if ($error): ?>
-                &lt;div class="alert alert-error">
-                    &lt;i class="fas fa-exclamation-circle">&lt;/i>
-                    &lt;?php echo htmlspecialchars($error); ?>
-                &lt;/div>
-            &lt;?php endif; ?>
+            <?php if ($error): ?>
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <?php echo htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
 
-            &lt;div class="form-card">
-                &lt;form method="POST">
-                    &lt;div class="form-grid">
-                        &lt;!-- DNI -->
-                        &lt;div class="form-group">
-                            &lt;label for="dni">
-                                DNI &lt;span style="color: #dc2626;">*&lt;/span>
-                            &lt;/label>
-                            &lt;input type="text"
+            <div class="form-card">
+                <form method="POST">
+                    <div class="form-grid">
+                        <!-- DNI -->
+                        <div class="form-group">
+                            <label for="dni">
+                                DNI <span style="color: #dc2626;">*</span>
+                            </label>
+                            <input type="text"
                                    id="dni"
                                    name="dni"
                                    class="form-control"
-                                   value="&lt;?php echo htmlspecialchars($padre['dni']); ?>"
+                                   value="<?php echo htmlspecialchars($padre['dni']); ?>"
                                    required
                                    maxlength="8"
                                    pattern="\d{8}"
                                    placeholder="12345678">
-                            &lt;small style="color: #6b7280;">8 dígitos numéricos&lt;/small>
-                        &lt;/div>
+                            <small style="color: #6b7280;">8 dígitos numéricos</small>
+                        </div>
 
-                        &lt;!-- Nombre -->
-                        &lt;div class="form-group">
-                            &lt;label for="nombre">
-                                Nombre(s) &lt;span style="color: #dc2626;">*&lt;/span>
-                            &lt;/label>
-                            &lt;input type="text"
+                        <!-- Nombre -->
+                        <div class="form-group">
+                            <label for="nombre">
+                                Nombre(s) <span style="color: #dc2626;">*</span>
+                            </label>
+                            <input type="text"
                                    id="nombre"
                                    name="nombre"
                                    class="form-control"
-                                   value="&lt;?php echo htmlspecialchars($padre['nombre']); ?>"
+                                   value="<?php echo htmlspecialchars($padre['nombre']); ?>"
                                    required
                                    maxlength="100"
                                    placeholder="Juan Carlos">
-                        &lt;/div>
+                        </div>
 
-                        &lt;!-- Apellido -->
-                        &lt;div class="form-group">
-                            &lt;label for="apellido">
-                                Apellidos &lt;span style="color: #dc2626;">*&lt;/span>
-                            &lt;/label>
-                            &lt;input type="text"
+                        <!-- Apellido -->
+                        <div class="form-group">
+                            <label for="apellido">
+                                Apellidos <span style="color: #dc2626;">*</span>
+                            </label>
+                            <input type="text"
                                    id="apellido"
                                    name="apellido"
                                    class="form-control"
-                                   value="&lt;?php echo htmlspecialchars($padre['apellido']); ?>"
+                                   value="<?php echo htmlspecialchars($padre['apellido']); ?>"
                                    required
                                    maxlength="100"
                                    placeholder="Pérez García">
-                        &lt;/div>
+                        </div>
 
-                        &lt;!-- Email -->
-                        &lt;div class="form-group">
-                            &lt;label for="email">Email&lt;/label>
-                            &lt;input type="email"
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email"
                                    id="email"
                                    name="email"
                                    class="form-control"
-                                   value="&lt;?php echo htmlspecialchars($padre['email']); ?>"
+                                   value="<?php echo htmlspecialchars($padre['email']); ?>"
                                    maxlength="100"
                                    placeholder="ejemplo@correo.com">
-                        &lt;/div>
+                        </div>
 
-                        &lt;!-- Teléfono -->
-                        &lt;div class="form-group">
-                            &lt;label for="telefono">Teléfono&lt;/label>
-                            &lt;input type="text"
+                        <!-- Teléfono -->
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="text"
                                    id="telefono"
                                    name="telefono"
                                    class="form-control"
-                                   value="&lt;?php echo htmlspecialchars($padre['telefono']); ?>"
+                                   value="<?php echo htmlspecialchars($padre['telefono']); ?>"
                                    maxlength="20"
                                    placeholder="987654321">
-                        &lt;/div>
+                        </div>
 
-                        &lt;!-- Contraseña -->
-                        &lt;div class="form-group">
-                            &lt;label for="password">
+                        <!-- Contraseña -->
+                        <div class="form-group">
+                            <label for="password">
                                 Contraseña
-                                &lt;?php if (!$es_edicion): ?>
-                                    &lt;span style="color: #dc2626;">*&lt;/span>
-                                &lt;?php endif; ?>
-                            &lt;/label>
-                            &lt;input type="password"
+                                <?php if (!$es_edicion): ?>
+                                    <span style="color: #dc2626;">*</span>
+                                <?php endif; ?>
+                            </label>
+                            <input type="password"
                                    id="password"
                                    name="password"
                                    class="form-control"
                                    <?php echo !$es_edicion ? 'required' : ''; ?>
                                    minlength="6"
                                    placeholder="<?php echo $es_edicion ? 'Dejar en blanco para no cambiar' : 'Mínimo 6 caracteres'; ?>">
-                            &lt;?php if ($es_edicion): ?>
-                                &lt;small style="color: #6b7280;">Dejar en blanco para mantener la contraseña actual&lt;/small>
-                            &lt;?php endif; ?>
-                        &lt;/div>
-                    &lt;/div>
+                            <?php if ($es_edicion): ?>
+                                <small style="color: #6b7280;">Dejar en blanco para mantener la contraseña actual</small>
+                            <?php endif; ?>
+                        </div>
+                    </div>
 
-                    &lt;!-- Dirección (ancho completo) -->
-                    &lt;div class="form-group" style="margin-top: 1rem;">
-                        &lt;label for="direccion">Dirección&lt;/label>
-                        &lt;textarea id="direccion"
+                    <!-- Dirección (ancho completo) -->
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="direccion">Dirección</label>
+                        <textarea id="direccion"
                                   name="direccion"
                                   class="form-control"
                                   rows="3"
                                   maxlength="500"
-                                  placeholder="Dirección completa del domicilio">&lt;?php echo htmlspecialchars($padre['direccion']); ?>&lt;/textarea>
-                    &lt;/div>
+                                  placeholder="Dirección completa del domicilio"><?php echo htmlspecialchars($padre['direccion']); ?></textarea>
+                    </div>
 
-                    &lt;div class="form-actions">
-                        &lt;button type="submit" class="btn btn-primary">
-                            &lt;i class="fas fa-save">&lt;/i>
-                            &lt;?php echo $es_edicion ? 'Guardar Cambios' : 'Crear Padre'; ?>
-                        &lt;/button>
-                        &lt;a href="padres.php" class="btn btn-outline">
-                            &lt;i class="fas fa-times">&lt;/i> Cancelar
-                        &lt;/a>
-                    &lt;/div>
-                &lt;/form>
-            &lt;/div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            <?php echo $es_edicion ? 'Guardar Cambios' : 'Crear Padre'; ?>
+                        </button>
+                        <a href="padres.php" class="btn btn-outline">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
 
-            &lt;?php if ($es_edicion): ?>
-                &lt;!-- Mostrar estudiantes asociados -->
-                &lt;div class="dashboard-card" style="margin-top: 2rem;">
-                    &lt;div class="card-header">
-                        &lt;h3>&lt;i class="fas fa-graduation-cap">&lt;/i> Estudiantes Asociados&lt;/h3>
-                    &lt;/div>
-                    &lt;div class="card-body">
-                        &lt;?php
+            <?php if ($es_edicion): ?>
+                <!-- Mostrar estudiantes asociados -->
+                <div class="dashboard-card" style="margin-top: 2rem;">
+                    <div class="card-header">
+                        <h3><i class="fas fa-graduation-cap"></i> Estudiantes Asociados</h3>
+                    </div>
+                    <div class="card-body">
+                        <?php
                         $stmt = $conn->prepare("SELECT * FROM estudiantes WHERE padre_id = ? ORDER BY nivel, grado, apellido");
                         $stmt->bind_param("i", $padre_id);
                         $stmt->execute();
                         $estudiantes = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                         ?>
 
-                        &lt;?php if (empty($estudiantes)): ?>
-                            &lt;p style="color: #6b7280; text-align: center; padding: 2rem;">
+                        <?php if (empty($estudiantes)): ?>
+                            <p style="color: #6b7280; text-align: center; padding: 2rem;">
                                 Este padre no tiene estudiantes asociados todavía
-                            &lt;/p>
-                        &lt;?php else: ?>
-                            &lt;table class="data-table">
-                                &lt;thead>
-                                    &lt;tr>
-                                        &lt;th>Código&lt;/th>
-                                        &lt;th>Apellidos y Nombres&lt;/th>
-                                        &lt;th>Nivel&lt;/th>
-                                        &lt;th>Grado&lt;/th>
-                                        &lt;th>Sección&lt;/th>
-                                        &lt;th>Acciones&lt;/th>
-                                    &lt;/tr>
-                                &lt;/thead>
-                                &lt;tbody>
-                                    &lt;?php foreach ($estudiantes as $est): ?>
-                                        &lt;tr>
-                                            &lt;td>&lt;strong>&lt;?php echo htmlspecialchars($est['codigo']); ?>&lt;/strong>&lt;/td>
-                                            &lt;td>&lt;?php echo htmlspecialchars($est['apellido'] . ', ' . $est['nombre']); ?>&lt;/td>
-                                            &lt;td>&lt;span class="badge badge-<?php echo $est['nivel'] === 'Inicial' ? 'info' : 'primary'; ?>">&lt;?php echo $est['nivel']; ?>&lt;/span>&lt;/td>
-                                            &lt;td>&lt;?php echo htmlspecialchars($est['grado']); ?>&lt;/td>
-                                            &lt;td>&lt;?php echo htmlspecialchars($est['seccion'] ?: '-'); ?>&lt;/td>
-                                            &lt;td>
-                                                &lt;a href="estudiante_form.php?id=&lt;?php echo $est['id']; ?>" class="btn-icon btn-edit">
-                                                    &lt;i class="fas fa-edit">&lt;/i>
-                                                &lt;/a>
-                                            &lt;/td>
-                                        &lt;/tr>
-                                    &lt;?php endforeach; ?>
-                                &lt;/tbody>
-                            &lt;/table>
-                        &lt;?php endif; ?>
-                    &lt;/div>
-                &lt;/div>
-            &lt;?php endif; ?>
-        &lt;/main>
-    &lt;/div>
-&lt;/body>
-&lt;/html>
+                            </p>
+                        <?php else: ?>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Apellidos y Nombres</th>
+                                        <th>Nivel</th>
+                                        <th>Grado</th>
+                                        <th>Sección</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($estudiantes as $est): ?>
+                                        <tr>
+                                            <td><strong><?php echo htmlspecialchars($est['codigo']); ?></strong></td>
+                                            <td><?php echo htmlspecialchars($est['apellido'] . ', ' . $est['nombre']); ?></td>
+                                            <td><span class="badge badge-<?php echo $est['nivel'] === 'Inicial' ? 'info' : 'primary'; ?>"><?php echo $est['nivel']; ?></span></td>
+                                            <td><?php echo htmlspecialchars($est['grado']); ?></td>
+                                            <td><?php echo htmlspecialchars($est['seccion'] ?: '-'); ?></td>
+                                            <td>
+                                                <a href="estudiante_form.php?id=<?php echo $est['id']; ?>" class="btn-icon btn-edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </main>
+    </div>
+</body>
+</html>

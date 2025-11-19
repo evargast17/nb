@@ -1,4 +1,4 @@
-&lt;?php
+<?php
 session_start();
 
 // Verificar autenticación de administrador
@@ -142,149 +142,149 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $anio_activo) {
 }
 ?>
 
-&lt;!DOCTYPE html>
-&lt;html lang="es">
-&lt;head>
-    &lt;meta charset="UTF-8">
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0">
-    &lt;title>&lt;?php echo $es_edicion ? 'Editar' : 'Nueva'; ?> Evaluación - Administración&lt;/title>
-    &lt;link rel="stylesheet" href="../css/style.css">
-    &lt;link rel="stylesheet" href="../css/admin.css">
-    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-&lt;/head>
-&lt;body>
-    &lt;?php include 'navbar_admin.php'; ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $es_edicion ? 'Editar' : 'Nueva'; ?> Evaluación - Administración</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <?php include 'navbar_admin.php'; ?>
 
-    &lt;div class="admin-layout">
-        &lt;?php include 'sidebar_admin.php'; ?>
+    <div class="admin-layout">
+        <?php include 'sidebar_admin.php'; ?>
 
-        &lt;main class="admin-content">
-            &lt;div class="admin-header">
-                &lt;h1>
-                    &lt;i class="fas fa-clipboard-<?php echo $es_edicion ? 'check' : 'list'; ?>">&lt;/i>
-                    &lt;?php echo $es_edicion ? 'Editar' : 'Nueva'; ?> Evaluación
-                &lt;/h1>
-                &lt;p>&lt;?php echo $es_edicion ? 'Modifica la evaluación' : 'Registra una nueva evaluación'; ?> - Año Lectivo &lt;?php echo $anio_activo['anio'] ?? 'No definido'; ?>&lt;/p>
-            &lt;/div>
+        <main class="admin-content">
+            <div class="admin-header">
+                <h1>
+                    <i class="fas fa-clipboard-<?php echo $es_edicion ? 'check' : 'list'; ?>"></i>
+                    <?php echo $es_edicion ? 'Editar' : 'Nueva'; ?> Evaluación
+                </h1>
+                <p><?php echo $es_edicion ? 'Modifica la evaluación' : 'Registra una nueva evaluación'; ?> - Año Lectivo <?php echo $anio_activo['anio'] ?? 'No definido'; ?></p>
+            </div>
 
-            &lt;?php if ($error): ?>
-                &lt;div class="alert alert-error">
-                    &lt;i class="fas fa-exclamation-circle">&lt;/i>
-                    &lt;?php echo htmlspecialchars($error); ?>
-                &lt;/div>
-            &lt;?php endif; ?>
+            <?php if ($error): ?>
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <?php echo htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
 
-            &lt;?php if ($anio_activo): ?>
-                &lt;div class="form-card">
-                    &lt;form method="POST" id="formEvaluacion">
-                        &lt;div class="form-grid">
-                            &lt;!-- Estudiante -->
-                            &lt;div class="form-group">
-                                &lt;label for="estudiante_id">
-                                    Estudiante &lt;span style="color: #dc2626;">*&lt;/span>
-                                &lt;/label>
-                                &lt;select id="estudiante_id"
+            <?php if ($anio_activo): ?>
+                <div class="form-card">
+                    <form method="POST" id="formEvaluacion">
+                        <div class="form-grid">
+                            <!-- Estudiante -->
+                            <div class="form-group">
+                                <label for="estudiante_id">
+                                    Estudiante <span style="color: #dc2626;">*</span>
+                                </label>
+                                <select id="estudiante_id"
                                         name="estudiante_id"
                                         class="form-control"
                                         required
                                         onchange="cargarCompetencias()">
-                                    &lt;option value="">Seleccionar estudiante...&lt;/option>
-                                    &lt;?php foreach ($estudiantes as $est): ?>
-                                        &lt;option value="&lt;?php echo $est['id']; ?>"
-                                                data-nivel="&lt;?php echo $est['nivel']; ?>"
-                                                &lt;?php echo $evaluacion['estudiante_id'] == $est['id'] ? 'selected' : ''; ?>>
-                                            &lt;?php echo htmlspecialchars($est['codigo'] . ' - ' . $est['nombre_completo']); ?>
-                                        &lt;/option>
-                                    &lt;?php endforeach; ?>
-                                &lt;/select>
-                            &lt;/div>
+                                    <option value="">Seleccionar estudiante...</option>
+                                    <?php foreach ($estudiantes as $est): ?>
+                                        <option value="<?php echo $est['id']; ?>"
+                                                data-nivel="<?php echo $est['nivel']; ?>"
+                                                <?php echo $evaluacion['estudiante_id'] == $est['id'] ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($est['codigo'] . ' - ' . $est['nombre_completo']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
 
-                            &lt;!-- Bimestre -->
-                            &lt;div class="form-group">
-                                &lt;label for="bimestre">
-                                    Bimestre &lt;span style="color: #dc2626;">*&lt;/span>
-                                &lt;/label>
-                                &lt;select id="bimestre" name="bimestre" class="form-control" required>
-                                    &lt;option value="">Seleccionar bimestre...&lt;/option>
-                                    &lt;option value="I" &lt;?php echo $evaluacion['bimestre'] === 'I' ? 'selected' : ''; ?>>Bimestre I&lt;/option>
-                                    &lt;option value="II" &lt;?php echo $evaluacion['bimestre'] === 'II' ? 'selected' : ''; ?>>Bimestre II&lt;/option>
-                                    &lt;option value="III" &lt;?php echo $evaluacion['bimestre'] === 'III' ? 'selected' : ''; ?>>Bimestre III&lt;/option>
-                                    &lt;option value="IV" &lt;?php echo $evaluacion['bimestre'] === 'IV' ? 'selected' : ''; ?>>Bimestre IV&lt;/option>
-                                &lt;/select>
-                            &lt;/div>
-                        &lt;/div>
+                            <!-- Bimestre -->
+                            <div class="form-group">
+                                <label for="bimestre">
+                                    Bimestre <span style="color: #dc2626;">*</span>
+                                </label>
+                                <select id="bimestre" name="bimestre" class="form-control" required>
+                                    <option value="">Seleccionar bimestre...</option>
+                                    <option value="I" <?php echo $evaluacion['bimestre'] === 'I' ? 'selected' : ''; ?>>Bimestre I</option>
+                                    <option value="II" <?php echo $evaluacion['bimestre'] === 'II' ? 'selected' : ''; ?>>Bimestre II</option>
+                                    <option value="III" <?php echo $evaluacion['bimestre'] === 'III' ? 'selected' : ''; ?>>Bimestre III</option>
+                                    <option value="IV" <?php echo $evaluacion['bimestre'] === 'IV' ? 'selected' : ''; ?>>Bimestre IV</option>
+                                </select>
+                            </div>
+                        </div>
 
-                        &lt;!-- Competencia (ancho completo) -->
-                        &lt;div class="form-group">
-                            &lt;label for="competencia_id">
-                                Competencia &lt;span style="color: #dc2626;">*&lt;/span>
-                            &lt;/label>
-                            &lt;select id="competencia_id" name="competencia_id" class="form-control" required &lt;?php echo empty($competencias) ? 'disabled' : ''; ?>>
-                                &lt;option value="">
-                                    &lt;?php echo empty($competencias) ? 'Seleccione primero un estudiante...' : 'Seleccionar competencia...'; ?>
-                                &lt;/option>
-                                &lt;?php
+                        <!-- Competencia (ancho completo) -->
+                        <div class="form-group">
+                            <label for="competencia_id">
+                                Competencia <span style="color: #dc2626;">*</span>
+                            </label>
+                            <select id="competencia_id" name="competencia_id" class="form-control" required <?php echo empty($competencias) ? 'disabled' : ''; ?>>
+                                <option value="">
+                                    <?php echo empty($competencias) ? 'Seleccione primero un estudiante...' : 'Seleccionar competencia...'; ?>
+                                </option>
+                                <?php
                                 $area_actual = '';
                                 foreach ($competencias as $comp):
                                     if ($comp['area_nombre'] !== $area_actual):
-                                        if ($area_actual !== '') echo '&lt;/optgroup>';
-                                        echo '&lt;optgroup label="' . htmlspecialchars($comp['area_nombre']) . '">';
+                                        if ($area_actual !== '') echo '</optgroup>';
+                                        echo '<optgroup label="' . htmlspecialchars($comp['area_nombre']) . '">';
                                         $area_actual = $comp['area_nombre'];
                                     endif;
                                 ?>
-                                    &lt;option value="&lt;?php echo $comp['id']; ?>"
-                                            &lt;?php echo $evaluacion['competencia_id'] == $comp['id'] ? 'selected' : ''; ?>>
-                                        &lt;?php echo htmlspecialchars($comp['codigo'] . ' - ' . $comp['descripcion']); ?>
-                                    &lt;/option>
-                                &lt;?php
+                                    <option value="<?php echo $comp['id']; ?>"
+                                            <?php echo $evaluacion['competencia_id'] == $comp['id'] ? 'selected' : ''; ?>>
+                                        <?php echo htmlspecialchars($comp['codigo'] . ' - ' . $comp['descripcion']); ?>
+                                    </option>
+                                <?php
                                 endforeach;
-                                if ($area_actual !== '') echo '&lt;/optgroup>';
+                                if ($area_actual !== '') echo '</optgroup>';
                                 ?>
-                            &lt;/select>
-                            &lt;small style="color: #6b7280;">Las competencias se cargarán según el nivel del estudiante seleccionado&lt;/small>
-                        &lt;/div>
+                            </select>
+                            <small style="color: #6b7280;">Las competencias se cargarán según el nivel del estudiante seleccionado</small>
+                        </div>
 
-                        &lt;!-- Nivel de Logro y Conclusión -->
-                        &lt;div class="form-grid">
-                            &lt;div class="form-group">
-                                &lt;label for="nivel_logro">Nivel de Logro&lt;/label>
-                                &lt;select id="nivel_logro" name="nivel_logro" class="form-control">
-                                    &lt;option value="">Sin calificar&lt;/option>
-                                    &lt;option value="AD" &lt;?php echo $evaluacion['nivel_logro'] === 'AD' ? 'selected' : ''; ?>>AD - Logro Destacado&lt;/option>
-                                    &lt;option value="A" &lt;?php echo $evaluacion['nivel_logro'] === 'A' ? 'selected' : ''; ?>>A - Logro Esperado&lt;/option>
-                                    &lt;option value="B" &lt;?php echo $evaluacion['nivel_logro'] === 'B' ? 'selected' : ''; ?>>B - En Proceso&lt;/option>
-                                    &lt;option value="C" &lt;?php echo $evaluacion['nivel_logro'] === 'C' ? 'selected' : ''; ?>>C - En Inicio&lt;/option>
-                                &lt;/select>
-                            &lt;/div>
-                        &lt;/div>
+                        <!-- Nivel de Logro y Conclusión -->
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="nivel_logro">Nivel de Logro</label>
+                                <select id="nivel_logro" name="nivel_logro" class="form-control">
+                                    <option value="">Sin calificar</option>
+                                    <option value="AD" <?php echo $evaluacion['nivel_logro'] === 'AD' ? 'selected' : ''; ?>>AD - Logro Destacado</option>
+                                    <option value="A" <?php echo $evaluacion['nivel_logro'] === 'A' ? 'selected' : ''; ?>>A - Logro Esperado</option>
+                                    <option value="B" <?php echo $evaluacion['nivel_logro'] === 'B' ? 'selected' : ''; ?>>B - En Proceso</option>
+                                    <option value="C" <?php echo $evaluacion['nivel_logro'] === 'C' ? 'selected' : ''; ?>>C - En Inicio</option>
+                                </select>
+                            </div>
+                        </div>
 
-                        &lt;!-- Conclusión Descriptiva -->
-                        &lt;div class="form-group">
-                            &lt;label for="conclusion_descriptiva">Conclusión Descriptiva&lt;/label>
-                            &lt;textarea id="conclusion_descriptiva"
+                        <!-- Conclusión Descriptiva -->
+                        <div class="form-group">
+                            <label for="conclusion_descriptiva">Conclusión Descriptiva</label>
+                            <textarea id="conclusion_descriptiva"
                                       name="conclusion_descriptiva"
                                       class="form-control"
                                       rows="4"
-                                      placeholder="Descripción detallada del logro de la competencia...">&lt;?php echo htmlspecialchars($evaluacion['conclusion_descriptiva']); ?>&lt;/textarea>
-                            &lt;small style="color: #6b7280;">Describa los avances, logros y aspectos a mejorar del estudiante en esta competencia&lt;/small>
-                        &lt;/div>
+                                      placeholder="Descripción detallada del logro de la competencia..."><?php echo htmlspecialchars($evaluacion['conclusion_descriptiva']); ?></textarea>
+                            <small style="color: #6b7280;">Describa los avances, logros y aspectos a mejorar del estudiante en esta competencia</small>
+                        </div>
 
-                        &lt;div class="form-actions">
-                            &lt;button type="submit" class="btn btn-primary">
-                                &lt;i class="fas fa-save">&lt;/i>
-                                &lt;?php echo $es_edicion ? 'Guardar Cambios' : 'Registrar Evaluación'; ?>
-                            &lt;/button>
-                            &lt;a href="evaluaciones.php" class="btn btn-outline">
-                                &lt;i class="fas fa-times">&lt;/i> Cancelar
-                            &lt;/a>
-                        &lt;/div>
-                    &lt;/form>
-                &lt;/div>
-            &lt;?php endif; ?>
-        &lt;/main>
-    &lt;/div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                <?php echo $es_edicion ? 'Guardar Cambios' : 'Registrar Evaluación'; ?>
+                            </button>
+                            <a href="evaluaciones.php" class="btn btn-outline">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            <?php endif; ?>
+        </main>
+    </div>
 
-    &lt;script>
+    <script>
     // Cargar competencias según el estudiante seleccionado
     function cargarCompetencias() {
         const estudianteSelect = document.getElementById('estudiante_id');
@@ -292,7 +292,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $anio_activo) {
         const estudianteId = estudianteSelect.value;
 
         if (!estudianteId) {
-            competenciaSelect.innerHTML = '&lt;option value="">Seleccione primero un estudiante...&lt;/option>';
+            competenciaSelect.innerHTML = '<option value="">Seleccione primero un estudiante...</option>';
             competenciaSelect.disabled = true;
             return;
         }
@@ -303,6 +303,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $anio_activo) {
         url.searchParams.set('estudiante_id', estudianteId);
         window.location.href = url.toString();
     }
-    &lt;/script>
-&lt;/body>
-&lt;/html>
+    </script>
+</body>
+</html>

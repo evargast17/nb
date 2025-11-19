@@ -1,4 +1,4 @@
-&lt;?php
+<?php
 session_start();
 
 // Verificar autenticación de administrador
@@ -47,16 +47,16 @@ $stats['areas_inicial'] = count($areas_inicial);
 $stats['areas_primaria'] = count($areas_primaria);
 ?>
 
-&lt;!DOCTYPE html>
-&lt;html lang="es">
-&lt;head>
-    &lt;meta charset="UTF-8">
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0">
-    &lt;title>Gestión de Competencias y Áreas - Administración&lt;/title>
-    &lt;link rel="stylesheet" href="../css/style.css">
-    &lt;link rel="stylesheet" href="../css/admin.css">
-    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    &lt;style>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Competencias y Áreas - Administración</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
         .competencia-item {
             padding: 0.75rem 1rem;
             border-left: 3px solid var(--color-naranja);
@@ -89,152 +89,152 @@ $stats['areas_primaria'] = count($areas_primaria);
             border-top: none;
             border-radius: 0 0 8px 8px;
         }
-    &lt;/style>
-&lt;/head>
-&lt;body>
-    &lt;?php include 'navbar_admin.php'; ?>
+    </style>
+</head>
+<body>
+    <?php include 'navbar_admin.php'; ?>
 
-    &lt;div class="admin-layout">
-        &lt;?php include 'sidebar_admin.php'; ?>
+    <div class="admin-layout">
+        <?php include 'sidebar_admin.php'; ?>
 
-        &lt;main class="admin-content">
-            &lt;div class="admin-header">
-                &lt;h1>&lt;i class="fas fa-tasks">&lt;/i> Gestión de Competencias y Áreas&lt;/h1>
-                &lt;p>Administra las áreas curriculares y competencias del sistema MINEDU&lt;/p>
-            &lt;/div>
+        <main class="admin-content">
+            <div class="admin-header">
+                <h1><i class="fas fa-tasks"></i> Gestión de Competencias y Áreas</h1>
+                <p>Administra las áreas curriculares y competencias del sistema MINEDU</p>
+            </div>
 
-            &lt;!-- Estadísticas -->
-            &lt;div class="stats-grid">
-                &lt;div class="stat-card stat-primary">
-                    &lt;div class="stat-icon">&lt;i class="fas fa-book">&lt;/i>&lt;/div>
-                    &lt;div class="stat-info">
-                        &lt;div class="stat-value">&lt;?php echo $stats['total_areas']; ?>&lt;/div>
-                        &lt;div class="stat-label">Total Áreas&lt;/div>
-                    &lt;/div>
-                &lt;/div>
+            <!-- Estadísticas -->
+            <div class="stats-grid">
+                <div class="stat-card stat-primary">
+                    <div class="stat-icon"><i class="fas fa-book"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value"><?php echo $stats['total_areas']; ?></div>
+                        <div class="stat-label">Total Áreas</div>
+                    </div>
+                </div>
 
-                &lt;div class="stat-card stat-info">
-                    &lt;div class="stat-icon">&lt;i class="fas fa-baby">&lt;/i>&lt;/div>
-                    &lt;div class="stat-info">
-                        &lt;div class="stat-value">&lt;?php echo $stats['areas_inicial']; ?>&lt;/div>
-                        &lt;div class="stat-label">Áreas Inicial&lt;/div>
-                    &lt;/div>
-                &lt;/div>
+                <div class="stat-card stat-info">
+                    <div class="stat-icon"><i class="fas fa-baby"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value"><?php echo $stats['areas_inicial']; ?></div>
+                        <div class="stat-label">Áreas Inicial</div>
+                    </div>
+                </div>
 
-                &lt;div class="stat-card stat-success">
-                    &lt;div class="stat-icon">&lt;i class="fas fa-graduation-cap">&lt;/i>&lt;/div>
-                    &lt;div class="stat-info">
-                        &lt;div class="stat-value">&lt;?php echo $stats['areas_primaria']; ?>&lt;/div>
-                        &lt;div class="stat-label">Áreas Primaria&lt;/div>
-                    &lt;/div>
-                &lt;/div>
+                <div class="stat-card stat-success">
+                    <div class="stat-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value"><?php echo $stats['areas_primaria']; ?></div>
+                        <div class="stat-label">Áreas Primaria</div>
+                    </div>
+                </div>
 
-                &lt;div class="stat-card stat-warning">
-                    &lt;div class="stat-icon">&lt;i class="fas fa-list-check">&lt;/i>&lt;/div>
-                    &lt;div class="stat-info">
-                        &lt;div class="stat-value">&lt;?php echo $stats['total_competencias']; ?>&lt;/div>
-                        &lt;div class="stat-label">Total Competencias&lt;/div>
-                    &lt;/div>
-                &lt;/div>
-            &lt;/div>
+                <div class="stat-card stat-warning">
+                    <div class="stat-icon"><i class="fas fa-list-check"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value"><?php echo $stats['total_competencias']; ?></div>
+                        <div class="stat-label">Total Competencias</div>
+                    </div>
+                </div>
+            </div>
 
-            &lt;!-- NIVEL INICIAL -->
-            &lt;div class="dashboard-card" style="margin-bottom: 2rem;">
-                &lt;div class="card-header">
-                    &lt;h3>&lt;i class="fas fa-baby">&lt;/i> NIVEL INICIAL - Áreas y Competencias&lt;/h3>
-                &lt;/div>
-                &lt;div class="card-body">
-                    &lt;?php foreach ($areas_inicial as $area): ?>
-                        &lt;div class="area-section">
-                            &lt;div class="area-header-custom">
-                                &lt;div>
-                                    &lt;strong>&lt;?php echo htmlspecialchars($area['nombre']); ?>&lt;/strong>
-                                    &lt;span style="margin-left: 1rem; opacity: 0.9; font-size: 0.9rem;">
-                                        (&lt;?php echo htmlspecialchars($area['codigo']); ?>) - &lt;?php echo $area['total_competencias']; ?> competencia(s)
-                                    &lt;/span>
-                                &lt;/div>
-                                &lt;div>
-                                    &lt;span class="badge" style="background: white; color: var(--color-verde);">
-                                        Orden: &lt;?php echo $area['orden']; ?>
-                                    &lt;/span>
-                                &lt;/div>
-                            &lt;/div>
+            <!-- NIVEL INICIAL -->
+            <div class="dashboard-card" style="margin-bottom: 2rem;">
+                <div class="card-header">
+                    <h3><i class="fas fa-baby"></i> NIVEL INICIAL - Áreas y Competencias</h3>
+                </div>
+                <div class="card-body">
+                    <?php foreach ($areas_inicial as $area): ?>
+                        <div class="area-section">
+                            <div class="area-header-custom">
+                                <div>
+                                    <strong><?php echo htmlspecialchars($area['nombre']); ?></strong>
+                                    <span style="margin-left: 1rem; opacity: 0.9; font-size: 0.9rem;">
+                                        (<?php echo htmlspecialchars($area['codigo']); ?>) - <?php echo $area['total_competencias']; ?> competencia(s)
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="badge" style="background: white; color: var(--color-verde);">
+                                        Orden: <?php echo $area['orden']; ?>
+                                    </span>
+                                </div>
+                            </div>
 
-                            &lt;div class="competencias-list">
-                                &lt;?php
+                            <div class="competencias-list">
+                                <?php
                                 $competencias = obtenerCompetencias($conn, $area['id']);
                                 if (empty($competencias)):
                                 ?>
-                                    &lt;p style="color: #6b7280; text-align: center; padding: 1rem;">
+                                    <p style="color: #6b7280; text-align: center; padding: 1rem;">
                                         No hay competencias registradas para esta área
-                                    &lt;/p>
-                                &lt;?php else: ?>
-                                    &lt;?php foreach ($competencias as $comp): ?>
-                                        &lt;div class="competencia-item">
-                                            &lt;span class="competencia-codigo">&lt;?php echo htmlspecialchars($comp['codigo']); ?>&lt;/span>
-                                            &lt;span>&lt;?php echo htmlspecialchars($comp['descripcion']); ?>&lt;/span>
-                                        &lt;/div>
-                                    &lt;?php endforeach; ?>
-                                &lt;?php endif; ?>
-                            &lt;/div>
-                        &lt;/div>
-                    &lt;?php endforeach; ?>
-                &lt;/div>
-            &lt;/div>
+                                    </p>
+                                <?php else: ?>
+                                    <?php foreach ($competencias as $comp): ?>
+                                        <div class="competencia-item">
+                                            <span class="competencia-codigo"><?php echo htmlspecialchars($comp['codigo']); ?></span>
+                                            <span><?php echo htmlspecialchars($comp['descripcion']); ?></span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
 
-            &lt;!-- NIVEL PRIMARIA -->
-            &lt;div class="dashboard-card">
-                &lt;div class="card-header">
-                    &lt;h3>&lt;i class="fas fa-graduation-cap">&lt;/i> NIVEL PRIMARIA - Áreas y Competencias&lt;/h3>
-                &lt;/div>
-                &lt;div class="card-body">
-                    &lt;?php foreach ($areas_primaria as $area): ?>
-                        &lt;div class="area-section">
-                            &lt;div class="area-header-custom">
-                                &lt;div>
-                                    &lt;strong>&lt;?php echo htmlspecialchars($area['nombre']); ?>&lt;/strong>
-                                    &lt;span style="margin-left: 1rem; opacity: 0.9; font-size: 0.9rem;">
-                                        (&lt;?php echo htmlspecialchars($area['codigo']); ?>) - &lt;?php echo $area['total_competencias']; ?> competencia(s)
-                                    &lt;/span>
-                                &lt;/div>
-                                &lt;div>
-                                    &lt;span class="badge" style="background: white; color: var(--color-verde);">
-                                        Orden: &lt;?php echo $area['orden']; ?>
-                                    &lt;/span>
-                                &lt;/div>
-                            &lt;/div>
+            <!-- NIVEL PRIMARIA -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-graduation-cap"></i> NIVEL PRIMARIA - Áreas y Competencias</h3>
+                </div>
+                <div class="card-body">
+                    <?php foreach ($areas_primaria as $area): ?>
+                        <div class="area-section">
+                            <div class="area-header-custom">
+                                <div>
+                                    <strong><?php echo htmlspecialchars($area['nombre']); ?></strong>
+                                    <span style="margin-left: 1rem; opacity: 0.9; font-size: 0.9rem;">
+                                        (<?php echo htmlspecialchars($area['codigo']); ?>) - <?php echo $area['total_competencias']; ?> competencia(s)
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="badge" style="background: white; color: var(--color-verde);">
+                                        Orden: <?php echo $area['orden']; ?>
+                                    </span>
+                                </div>
+                            </div>
 
-                            &lt;div class="competencias-list">
-                                &lt;?php
+                            <div class="competencias-list">
+                                <?php
                                 $competencias = obtenerCompetencias($conn, $area['id']);
                                 if (empty($competencias)):
                                 ?>
-                                    &lt;p style="color: #6b7280; text-align: center; padding: 1rem;">
+                                    <p style="color: #6b7280; text-align: center; padding: 1rem;">
                                         No hay competencias registradas para esta área
-                                    &lt;/p>
-                                &lt;?php else: ?>
-                                    &lt;?php foreach ($competencias as $comp): ?>
-                                        &lt;div class="competencia-item">
-                                            &lt;span class="competencia-codigo">&lt;?php echo htmlspecialchars($comp['codigo']); ?>&lt;/span>
-                                            &lt;span>&lt;?php echo htmlspecialchars($comp['descripcion']); ?>&lt;/span>
-                                        &lt;/div>
-                                    &lt;?php endforeach; ?>
-                                &lt;?php endif; ?>
-                            &lt;/div>
-                        &lt;/div>
-                    &lt;?php endforeach; ?>
-                &lt;/div>
-            &lt;/div>
+                                    </p>
+                                <?php else: ?>
+                                    <?php foreach ($competencias as $comp): ?>
+                                        <div class="competencia-item">
+                                            <span class="competencia-codigo"><?php echo htmlspecialchars($comp['codigo']); ?></span>
+                                            <span><?php echo htmlspecialchars($comp['descripcion']); ?></span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
 
-            &lt;!-- Información -->
-            &lt;div class="alert alert-info" style="margin-top: 2rem;">
-                &lt;i class="fas fa-info-circle">&lt;/i>
-                &lt;div>
-                    &lt;strong>Información:&lt;/strong> Las áreas y competencias están basadas en el Currículo Nacional de Educación Básica (CNEB) del MINEDU.
+            <!-- Información -->
+            <div class="alert alert-info" style="margin-top: 2rem;">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <strong>Información:</strong> Las áreas y competencias están basadas en el Currículo Nacional de Educación Básica (CNEB) del MINEDU.
                     Para modificar estas competencias, edite los archivos SQL en la carpeta database/ y vuelva a ejecutarlos.
-                &lt;/div>
-            &lt;/div>
-        &lt;/main>
-    &lt;/div>
-&lt;/body>
-&lt;/html>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

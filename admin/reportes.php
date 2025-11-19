@@ -1,4 +1,4 @@
-&lt;?php
+<?php
 session_start();
 
 // Verificar autenticación de administrador
@@ -121,200 +121,200 @@ if ($anio_activo) {
 }
 ?>
 
-&lt;!DOCTYPE html>
-&lt;html lang="es">
-&lt;head>
-    &lt;meta charset="UTF-8">
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0">
-    &lt;title>Reportes y Estadísticas - Administración&lt;/title>
-    &lt;link rel="stylesheet" href="../css/style.css">
-    &lt;link rel="stylesheet" href="../css/admin.css">
-    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-&lt;/head>
-&lt;body>
-    &lt;?php include 'navbar_admin.php'; ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes y Estadísticas - Administración</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <?php include 'navbar_admin.php'; ?>
 
-    &lt;div class="admin-layout">
-        &lt;?php include 'sidebar_admin.php'; ?>
+    <div class="admin-layout">
+        <?php include 'sidebar_admin.php'; ?>
 
-        &lt;main class="admin-content">
-            &lt;div class="admin-header">
-                &lt;h1>&lt;i class="fas fa-chart-bar">&lt;/i> Reportes y Estadísticas&lt;/h1>
-                &lt;p>Análisis del rendimiento académico - Año Lectivo &lt;?php echo $anio_activo['anio'] ?? 'No definido'; ?>&lt;/p>
-            &lt;/div>
+        <main class="admin-content">
+            <div class="admin-header">
+                <h1><i class="fas fa-chart-bar"></i> Reportes y Estadísticas</h1>
+                <p>Análisis del rendimiento académico - Año Lectivo <?php echo $anio_activo['anio'] ?? 'No definido'; ?></p>
+            </div>
 
-            &lt;!-- Estadísticas Generales -->
-            &lt;div class="stats-grid">
-                &lt;div class="stat-card stat-primary">
-                    &lt;div class="stat-icon">&lt;i class="fas fa-user-graduate">&lt;/i>&lt;/div>
-                    &lt;div class="stat-info">
-                        &lt;div class="stat-value">&lt;?php echo $stats['estudiantes_total'] ?? 0; ?>&lt;/div>
-                        &lt;div class="stat-label">Total Estudiantes&lt;/div>
-                    &lt;/div>
-                &lt;/div>
+            <!-- Estadísticas Generales -->
+            <div class="stats-grid">
+                <div class="stat-card stat-primary">
+                    <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value"><?php echo $stats['estudiantes_total'] ?? 0; ?></div>
+                        <div class="stat-label">Total Estudiantes</div>
+                    </div>
+                </div>
 
-                &lt;div class="stat-card stat-info">
-                    &lt;div class="stat-icon">&lt;i class="fas fa-baby">&lt;/i>&lt;/div>
-                    &lt;div class="stat-info">
-                        &lt;div class="stat-value">&lt;?php echo $stats['estudiantes_inicial'] ?? 0; ?>&lt;/div>
-                        &lt;div class="stat-label">Inicial&lt;/div>
-                    &lt;/div>
-                &lt;/div>
+                <div class="stat-card stat-info">
+                    <div class="stat-icon"><i class="fas fa-baby"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value"><?php echo $stats['estudiantes_inicial'] ?? 0; ?></div>
+                        <div class="stat-label">Inicial</div>
+                    </div>
+                </div>
 
-                &lt;div class="stat-card stat-success">
-                    &lt;div class="stat-icon">&lt;i class="fas fa-graduation-cap">&lt;/i>&lt;/div>
-                    &lt;div class="stat-info">
-                        &lt;div class="stat-value">&lt;?php echo $stats['estudiantes_primaria'] ?? 0; ?>&lt;/div>
-                        &lt;div class="stat-label">Primaria&lt;/div>
-                    &lt;/div>
-                &lt;/div>
+                <div class="stat-card stat-success">
+                    <div class="stat-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value"><?php echo $stats['estudiantes_primaria'] ?? 0; ?></div>
+                        <div class="stat-label">Primaria</div>
+                    </div>
+                </div>
 
-                &lt;div class="stat-card stat-warning">
-                    &lt;div class="stat-icon">&lt;i class="fas fa-clipboard-list">&lt;/i>&lt;/div>
-                    &lt;div class="stat-info">
-                        &lt;div class="stat-value">&lt;?php echo $stats['evaluaciones_total'] ?? 0; ?>&lt;/div>
-                        &lt;div class="stat-label">Evaluaciones&lt;/div>
-                    &lt;/div>
-                &lt;/div>
-            &lt;/div>
+                <div class="stat-card stat-warning">
+                    <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value"><?php echo $stats['evaluaciones_total'] ?? 0; ?></div>
+                        <div class="stat-label">Evaluaciones</div>
+                    </div>
+                </div>
+            </div>
 
-            &lt;!-- Niveles de Logro -->
-            &lt;div class="dashboard-card" style="margin-bottom: 2rem;">
-                &lt;div class="card-header">
-                    &lt;h3>&lt;i class="fas fa-trophy">&lt;/i> Distribución de Niveles de Logro&lt;/h3>
-                &lt;/div>
-                &lt;div class="card-body">
-                    &lt;div class="stats-grid">
-                        &lt;div class="stat-card" style="border-left-color: #1e40af;">
-                            &lt;div class="stat-icon" style="color: #1e40af;">&lt;i class="fas fa-star">&lt;/i>&lt;/div>
-                            &lt;div class="stat-info">
-                                &lt;div class="stat-value">&lt;?php echo $stats['nl_AD'] ?? 0; ?>&lt;/div>
-                                &lt;div class="stat-label">Logro Destacado (AD)&lt;/div>
-                            &lt;/div>
-                        &lt;/div>
+            <!-- Niveles de Logro -->
+            <div class="dashboard-card" style="margin-bottom: 2rem;">
+                <div class="card-header">
+                    <h3><i class="fas fa-trophy"></i> Distribución de Niveles de Logro</h3>
+                </div>
+                <div class="card-body">
+                    <div class="stats-grid">
+                        <div class="stat-card" style="border-left-color: #1e40af;">
+                            <div class="stat-icon" style="color: #1e40af;"><i class="fas fa-star"></i></div>
+                            <div class="stat-info">
+                                <div class="stat-value"><?php echo $stats['nl_AD'] ?? 0; ?></div>
+                                <div class="stat-label">Logro Destacado (AD)</div>
+                            </div>
+                        </div>
 
-                        &lt;div class="stat-card stat-success">
-                            &lt;div class="stat-icon">&lt;i class="fas fa-check-circle">&lt;/i>&lt;/div>
-                            &lt;div class="stat-info">
-                                &lt;div class="stat-value">&lt;?php echo $stats['nl_A'] ?? 0; ?>&lt;/div>
-                                &lt;div class="stat-label">Logro Esperado (A)&lt;/div>
-                            &lt;/div>
-                        &lt;/div>
+                        <div class="stat-card stat-success">
+                            <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                            <div class="stat-info">
+                                <div class="stat-value"><?php echo $stats['nl_A'] ?? 0; ?></div>
+                                <div class="stat-label">Logro Esperado (A)</div>
+                            </div>
+                        </div>
 
-                        &lt;div class="stat-card stat-warning">
-                            &lt;div class="stat-icon">&lt;i class="fas fa-hourglass-half">&lt;/i>&lt;/div>
-                            &lt;div class="stat-info">
-                                &lt;div class="stat-value">&lt;?php echo $stats['nl_B'] ?? 0; ?>&lt;/div>
-                                &lt;div class="stat-label">En Proceso (B)&lt;/div>
-                            &lt;/div>
-                        &lt;/div>
+                        <div class="stat-card stat-warning">
+                            <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
+                            <div class="stat-info">
+                                <div class="stat-value"><?php echo $stats['nl_B'] ?? 0; ?></div>
+                                <div class="stat-label">En Proceso (B)</div>
+                            </div>
+                        </div>
 
-                        &lt;div class="stat-card" style="border-left-color: #dc2626;">
-                            &lt;div class="stat-icon" style="color: #dc2626;">&lt;i class="fas fa-exclamation-triangle">&lt;/i>&lt;/div>
-                            &lt;div class="stat-info">
-                                &lt;div class="stat-value">&lt;?php echo $stats['nl_C'] ?? 0; ?>&lt;/div>
-                                &lt;div class="stat-label">En Inicio (C)&lt;/div>
-                            &lt;/div>
-                        &lt;/div>
-                    &lt;/div>
-                &lt;/div>
-            &lt;/div>
+                        <div class="stat-card" style="border-left-color: #dc2626;">
+                            <div class="stat-icon" style="color: #dc2626;"><i class="fas fa-exclamation-triangle"></i></div>
+                            <div class="stat-info">
+                                <div class="stat-value"><?php echo $stats['nl_C'] ?? 0; ?></div>
+                                <div class="stat-label">En Inicio (C)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            &lt;div class="dashboard-grid">
-                &lt;!-- Distribución por Bimestre -->
-                &lt;div class="dashboard-card">
-                    &lt;div class="card-header">
-                        &lt;h3>&lt;i class="fas fa-calendar-alt">&lt;/i> Evaluaciones por Bimestre&lt;/h3>
-                    &lt;/div>
-                    &lt;div class="card-body">
-                        &lt;table class="data-table">
-                            &lt;thead>
-                                &lt;tr>
-                                    &lt;th>Bimestre&lt;/th>
-                                    &lt;th>Total Evaluaciones&lt;/th>
-                                &lt;/tr>
-                            &lt;/thead>
-                            &lt;tbody>
-                                &lt;?php foreach ($distribucion_bimestre as $bim): ?>
-                                    &lt;tr>
-                                        &lt;td>&lt;strong>Bimestre &lt;?php echo htmlspecialchars($bim['bimestre']); ?>&lt;/strong>&lt;/td>
-                                        &lt;td>&lt;span class="badge badge-primary">&lt;?php echo $bim['total']; ?>&lt;/span>&lt;/td>
-                                    &lt;/tr>
-                                &lt;?php endforeach; ?>
-                            &lt;/tbody>
-                        &lt;/table>
-                    &lt;/div>
-                &lt;/div>
+            <div class="dashboard-grid">
+                <!-- Distribución por Bimestre -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-calendar-alt"></i> Evaluaciones por Bimestre</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Bimestre</th>
+                                    <th>Total Evaluaciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($distribucion_bimestre as $bim): ?>
+                                    <tr>
+                                        <td><strong>Bimestre <?php echo htmlspecialchars($bim['bimestre']); ?></strong></td>
+                                        <td><span class="badge badge-primary"><?php echo $bim['total']; ?></span></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-                &lt;!-- Distribución por Grado -->
-                &lt;div class="dashboard-card">
-                    &lt;div class="card-header">
-                        &lt;h3>&lt;i class="fas fa-layer-group">&lt;/i> Estudiantes por Grado&lt;/h3>
-                    &lt;/div>
-                    &lt;div class="card-body">
-                        &lt;table class="data-table">
-                            &lt;thead>
-                                &lt;tr>
-                                    &lt;th>Nivel&lt;/th>
-                                    &lt;th>Grado&lt;/th>
-                                    &lt;th>Total&lt;/th>
-                                &lt;/tr>
-                            &lt;/thead>
-                            &lt;tbody>
-                                &lt;?php foreach ($distribucion_grado as $grado): ?>
-                                    &lt;tr>
-                                        &lt;td>&lt;span class="badge badge-&lt;?php echo $grado['nivel'] === 'Inicial' ? 'info' : 'primary'; ?>">&lt;?php echo htmlspecialchars($grado['nivel']); ?>&lt;/span>&lt;/td>
-                                        &lt;td>&lt;?php echo htmlspecialchars($grado['grado']); ?>&lt;/td>
-                                        &lt;td>&lt;strong>&lt;?php echo $grado['total']; ?>&lt;/strong>&lt;/td>
-                                    &lt;/tr>
-                                &lt;?php endforeach; ?>
-                            &lt;/tbody>
-                        &lt;/table>
-                    &lt;/div>
-                &lt;/div>
-            &lt;/div>
+                <!-- Distribución por Grado -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-layer-group"></i> Estudiantes por Grado</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Nivel</th>
+                                    <th>Grado</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($distribucion_grado as $grado): ?>
+                                    <tr>
+                                        <td><span class="badge badge-<?php echo $grado['nivel'] === 'Inicial' ? 'info' : 'primary'; ?>"><?php echo htmlspecialchars($grado['nivel']); ?></span></td>
+                                        <td><?php echo htmlspecialchars($grado['grado']); ?></td>
+                                        <td><strong><?php echo $grado['total']; ?></strong></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-            &lt;!-- Top Estudiantes -->
-            &lt;?php if (!empty($top_estudiantes)): ?>
-                &lt;div class="dashboard-card" style="margin-top: 2rem;">
-                    &lt;div class="card-header">
-                        &lt;h3>&lt;i class="fas fa-medal">&lt;/i> Top 10 Estudiantes con Mejor Rendimiento&lt;/h3>
-                    &lt;/div>
-                    &lt;div class="card-body">
-                        &lt;table class="data-table">
-                            &lt;thead>
-                                &lt;tr>
-                                    &lt;th>#&lt;/th>
-                                    &lt;th>Código&lt;/th>
-                                    &lt;th>Estudiante&lt;/th>
-                                    &lt;th>Nivel&lt;/th>
-                                    &lt;th>Grado&lt;/th>
-                                    &lt;th>AD&lt;/th>
-                                    &lt;th>A&lt;/th>
-                                    &lt;th>Total Eval.&lt;/th>
-                                    &lt;th>% Aprobación&lt;/th>
-                                &lt;/tr>
-                            &lt;/thead>
-                            &lt;tbody>
-                                &lt;?php foreach ($top_estudiantes as $index => $est): ?>
-                                    &lt;tr>
-                                        &lt;td>&lt;strong>&lt;?php echo $index + 1; ?>&lt;/strong>&lt;/td>
-                                        &lt;td>&lt;?php echo htmlspecialchars($est['codigo']); ?>&lt;/td>
-                                        &lt;td>&lt;?php echo htmlspecialchars($est['nombre']); ?>&lt;/td>
-                                        &lt;td>&lt;span class="badge badge-&lt;?php echo $est['nivel'] === 'Inicial' ? 'info' : 'primary'; ?>">&lt;?php echo $est['nivel']; ?>&lt;/span>&lt;/td>
-                                        &lt;td>&lt;?php echo htmlspecialchars($est['grado']); ?>&lt;/td>
-                                        &lt;td>&lt;span class="badge" style="background: #dbeafe; color: #1e40af;">&lt;?php echo $est['total_ad']; ?>&lt;/span>&lt;/td>
-                                        &lt;td>&lt;span class="badge badge-success">&lt;?php echo $est['total_a']; ?>&lt;/span>&lt;/td>
-                                        &lt;td>&lt;?php echo $est['total_evaluaciones']; ?>&lt;/td>
-                                        &lt;td>&lt;strong>&lt;?php echo $est['porcentaje_aprobacion']; ?>%&lt;/strong>&lt;/td>
-                                    &lt;/tr>
-                                &lt;?php endforeach; ?>
-                            &lt;/tbody>
-                        &lt;/table>
-                    &lt;/div>
-                &lt;/div>
-            &lt;?php endif; ?>
-        &lt;/main>
-    &lt;/div>
-&lt;/body>
-&lt;/html>
+            <!-- Top Estudiantes -->
+            <?php if (!empty($top_estudiantes)): ?>
+                <div class="dashboard-card" style="margin-top: 2rem;">
+                    <div class="card-header">
+                        <h3><i class="fas fa-medal"></i> Top 10 Estudiantes con Mejor Rendimiento</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Código</th>
+                                    <th>Estudiante</th>
+                                    <th>Nivel</th>
+                                    <th>Grado</th>
+                                    <th>AD</th>
+                                    <th>A</th>
+                                    <th>Total Eval.</th>
+                                    <th>% Aprobación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($top_estudiantes as $index => $est): ?>
+                                    <tr>
+                                        <td><strong><?php echo $index + 1; ?></strong></td>
+                                        <td><?php echo htmlspecialchars($est['codigo']); ?></td>
+                                        <td><?php echo htmlspecialchars($est['nombre']); ?></td>
+                                        <td><span class="badge badge-<?php echo $est['nivel'] === 'Inicial' ? 'info' : 'primary'; ?>"><?php echo $est['nivel']; ?></span></td>
+                                        <td><?php echo htmlspecialchars($est['grado']); ?></td>
+                                        <td><span class="badge" style="background: #dbeafe; color: #1e40af;"><?php echo $est['total_ad']; ?></span></td>
+                                        <td><span class="badge badge-success"><?php echo $est['total_a']; ?></span></td>
+                                        <td><?php echo $est['total_evaluaciones']; ?></td>
+                                        <td><strong><?php echo $est['porcentaje_aprobacion']; ?>%</strong></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </main>
+    </div>
+</body>
+</html>

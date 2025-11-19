@@ -1,21 +1,21 @@
-&lt;?php
+<?php
 // Obtener nombre del administrador desde la sesión
 $admin_nombre = $_SESSION['admin_nombre'] ?? 'Administrador';
 ?>
 
-&lt;nav class="navbar">
-    &lt;div class="container">
-        &lt;div class="navbar-brand">
-            &lt;h2>&lt;i class="fas fa-graduation-cap">&lt;/i> Sistema de Notas MINEDU 2025&lt;/h2>
-        &lt;/div>
-        &lt;div class="navbar-menu">
-            &lt;span class="user-name">
-                &lt;i class="fas fa-user-shield">&lt;/i>
-                &lt;?php echo htmlspecialchars($admin_nombre); ?>
-            &lt;/span>
-            &lt;a href="../admin_logout.php" class="btn btn-outline btn-sm">
-                &lt;i class="fas fa-sign-out-alt">&lt;/i> Cerrar Sesión
-            &lt;/a>
-        &lt;/div>
-    &lt;/div>
-&lt;/nav>
+<nav class="navbar">
+    <div class="container">
+        <div class="navbar-brand">
+            <h2><i class="fas fa-graduation-cap"></i> Sistema de Notas MINEDU 2025</h2>
+        </div>
+        <div class="navbar-menu">
+            <span class="user-name">
+                <i class="fas fa-user-shield"></i>
+                <?php echo htmlspecialchars($admin_nombre); ?>
+            </span>
+            <a href="../admin_logout.php" class="btn btn-outline btn-sm">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </a>
+        </div>
+    </div>
+</nav>

@@ -1,4 +1,4 @@
-&lt;?php
+<?php
 session_start();
 
 // Verificar autenticación de administrador
@@ -110,167 +110,167 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-&lt;!DOCTYPE html>
-&lt;html lang="es">
-&lt;head>
-    &lt;meta charset="UTF-8">
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0">
-    &lt;title>&lt;?php echo $es_edicion ? 'Editar' : 'Nuevo'; ?> Estudiante - Administración&lt;/title>
-    &lt;link rel="stylesheet" href="../css/style.css">
-    &lt;link rel="stylesheet" href="../css/admin.css">
-    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-&lt;/head>
-&lt;body>
-    &lt;?php include 'navbar_admin.php'; ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $es_edicion ? 'Editar' : 'Nuevo'; ?> Estudiante - Administración</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <?php include 'navbar_admin.php'; ?>
 
-    &lt;div class="admin-layout">
-        &lt;?php include 'sidebar_admin.php'; ?>
+    <div class="admin-layout">
+        <?php include 'sidebar_admin.php'; ?>
 
-        &lt;main class="admin-content">
-            &lt;div class="admin-header">
-                &lt;h1>
-                    &lt;i class="fas fa-user-graduate-&lt;?php echo $es_edicion ? 'edit' : 'plus'; ?>">&lt;/i>
-                    &lt;?php echo $es_edicion ? 'Editar' : 'Nuevo'; ?> Estudiante
-                &lt;/h1>
-                &lt;p>&lt;?php echo $es_edicion ? 'Modifica los datos del estudiante' : 'Registra un nuevo estudiante en el sistema'; ?>&lt;/p>
-            &lt;/div>
+        <main class="admin-content">
+            <div class="admin-header">
+                <h1>
+                    <i class="fas fa-user-graduate-<?php echo $es_edicion ? 'edit' : 'plus'; ?>"></i>
+                    <?php echo $es_edicion ? 'Editar' : 'Nuevo'; ?> Estudiante
+                </h1>
+                <p><?php echo $es_edicion ? 'Modifica los datos del estudiante' : 'Registra un nuevo estudiante en el sistema'; ?></p>
+            </div>
 
-            &lt;?php if ($error): ?>
-                &lt;div class="alert alert-error">
-                    &lt;i class="fas fa-exclamation-circle">&lt;/i>
-                    &lt;?php echo htmlspecialchars($error); ?>
-                &lt;/div>
-            &lt;?php endif; ?>
+            <?php if ($error): ?>
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <?php echo htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
 
-            &lt;div class="form-card">
-                &lt;form method="POST" id="formEstudiante">
-                    &lt;div class="form-grid">
-                        &lt;!-- Código -->
-                        &lt;div class="form-group">
-                            &lt;label for="codigo">
-                                Código del Estudiante &lt;span style="color: #dc2626;">*&lt;/span>
-                            &lt;/label>
-                            &lt;input type="text"
+            <div class="form-card">
+                <form method="POST" id="formEstudiante">
+                    <div class="form-grid">
+                        <!-- Código -->
+                        <div class="form-group">
+                            <label for="codigo">
+                                Código del Estudiante <span style="color: #dc2626;">*</span>
+                            </label>
+                            <input type="text"
                                    id="codigo"
                                    name="codigo"
                                    class="form-control"
-                                   value="&lt;?php echo htmlspecialchars($estudiante['codigo']); ?>"
+                                   value="<?php echo htmlspecialchars($estudiante['codigo']); ?>"
                                    required
                                    maxlength="20"
                                    pattern="[A-Z0-9-]+"
                                    placeholder="EST-2025-001"
                                    style="text-transform: uppercase;">
-                            &lt;small style="color: #6b7280;">Solo letras mayúsculas, números y guiones&lt;/small>
-                        &lt;/div>
+                            <small style="color: #6b7280;">Solo letras mayúsculas, números y guiones</small>
+                        </div>
 
-                        &lt;!-- Padre/Tutor -->
-                        &lt;div class="form-group">
-                            &lt;label for="padre_id">
-                                Padre/Tutor &lt;span style="color: #dc2626;">*&lt;/span>
-                            &lt;/label>
-                            &lt;select id="padre_id" name="padre_id" class="form-control" required>
-                                &lt;option value="">Seleccionar padre...&lt;/option>
-                                &lt;?php foreach ($padres as $p): ?>
-                                    &lt;option value="&lt;?php echo $p['id']; ?>"
-                                            &lt;?php echo $estudiante['padre_id'] == $p['id'] ? 'selected' : ''; ?>>
-                                        &lt;?php echo htmlspecialchars($p['nombre_completo']); ?>
-                                    &lt;/option>
-                                &lt;?php endforeach; ?>
-                            &lt;/select>
-                        &lt;/div>
+                        <!-- Padre/Tutor -->
+                        <div class="form-group">
+                            <label for="padre_id">
+                                Padre/Tutor <span style="color: #dc2626;">*</span>
+                            </label>
+                            <select id="padre_id" name="padre_id" class="form-control" required>
+                                <option value="">Seleccionar padre...</option>
+                                <?php foreach ($padres as $p): ?>
+                                    <option value="<?php echo $p['id']; ?>"
+                                            <?php echo $estudiante['padre_id'] == $p['id'] ? 'selected' : ''; ?>>
+                                        <?php echo htmlspecialchars($p['nombre_completo']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
-                        &lt;!-- Nombres -->
-                        &lt;div class="form-group">
-                            &lt;label for="nombre">
-                                Nombre(s) &lt;span style="color: #dc2626;">*&lt;/span>
-                            &lt;/label>
-                            &lt;input type="text"
+                        <!-- Nombres -->
+                        <div class="form-group">
+                            <label for="nombre">
+                                Nombre(s) <span style="color: #dc2626;">*</span>
+                            </label>
+                            <input type="text"
                                    id="nombre"
                                    name="nombre"
                                    class="form-control"
-                                   value="&lt;?php echo htmlspecialchars($estudiante['nombre']); ?>"
+                                   value="<?php echo htmlspecialchars($estudiante['nombre']); ?>"
                                    required
                                    maxlength="100"
                                    placeholder="María Elena">
-                        &lt;/div>
+                        </div>
 
-                        &lt;!-- Apellidos -->
-                        &lt;div class="form-group">
-                            &lt;label for="apellido">
-                                Apellidos &lt;span style="color: #dc2626;">*&lt;/span>
-                            &lt;/label>
-                            &lt;input type="text"
+                        <!-- Apellidos -->
+                        <div class="form-group">
+                            <label for="apellido">
+                                Apellidos <span style="color: #dc2626;">*</span>
+                            </label>
+                            <input type="text"
                                    id="apellido"
                                    name="apellido"
                                    class="form-control"
-                                   value="&lt;?php echo htmlspecialchars($estudiante['apellido']); ?>"
+                                   value="<?php echo htmlspecialchars($estudiante['apellido']); ?>"
                                    required
                                    maxlength="100"
                                    placeholder="González Ruiz">
-                        &lt;/div>
+                        </div>
 
-                        &lt;!-- Fecha de Nacimiento -->
-                        &lt;div class="form-group">
-                            &lt;label for="fecha_nacimiento">Fecha de Nacimiento&lt;/label>
-                            &lt;input type="date"
+                        <!-- Fecha de Nacimiento -->
+                        <div class="form-group">
+                            <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                            <input type="date"
                                    id="fecha_nacimiento"
                                    name="fecha_nacimiento"
                                    class="form-control"
-                                   value="&lt;?php echo htmlspecialchars($estudiante['fecha_nacimiento']); ?>"
-                                   max="&lt;?php echo date('Y-m-d'); ?>">
-                        &lt;/div>
+                                   value="<?php echo htmlspecialchars($estudiante['fecha_nacimiento']); ?>"
+                                   max="<?php echo date('Y-m-d'); ?>">
+                        </div>
 
-                        &lt;!-- Nivel -->
-                        &lt;div class="form-group">
-                            &lt;label for="nivel">
-                                Nivel &lt;span style="color: #dc2626;">*&lt;/span>
-                            &lt;/label>
-                            &lt;select id="nivel" name="nivel" class="form-control" required>
-                                &lt;option value="">Seleccionar nivel...&lt;/option>
-                                &lt;option value="Inicial" &lt;?php echo $estudiante['nivel'] === 'Inicial' ? 'selected' : ''; ?>>Inicial&lt;/option>
-                                &lt;option value="Primaria" &lt;?php echo $estudiante['nivel'] === 'Primaria' ? 'selected' : ''; ?>>Primaria&lt;/option>
-                            &lt;/select>
-                        &lt;/div>
+                        <!-- Nivel -->
+                        <div class="form-group">
+                            <label for="nivel">
+                                Nivel <span style="color: #dc2626;">*</span>
+                            </label>
+                            <select id="nivel" name="nivel" class="form-control" required>
+                                <option value="">Seleccionar nivel...</option>
+                                <option value="Inicial" <?php echo $estudiante['nivel'] === 'Inicial' ? 'selected' : ''; ?>>Inicial</option>
+                                <option value="Primaria" <?php echo $estudiante['nivel'] === 'Primaria' ? 'selected' : ''; ?>>Primaria</option>
+                            </select>
+                        </div>
 
-                        &lt;!-- Grado -->
-                        &lt;div class="form-group">
-                            &lt;label for="grado">
-                                Grado &lt;span style="color: #dc2626;">*&lt;/span>
-                            &lt;/label>
-                            &lt;select id="grado" name="grado" class="form-control" required disabled>
-                                &lt;option value="">Seleccionar primero el nivel...&lt;/option>
-                            &lt;/select>
-                        &lt;/div>
+                        <!-- Grado -->
+                        <div class="form-group">
+                            <label for="grado">
+                                Grado <span style="color: #dc2626;">*</span>
+                            </label>
+                            <select id="grado" name="grado" class="form-control" required disabled>
+                                <option value="">Seleccionar primero el nivel...</option>
+                            </select>
+                        </div>
 
-                        &lt;!-- Sección -->
-                        &lt;div class="form-group">
-                            &lt;label for="seccion">Sección&lt;/label>
-                            &lt;input type="text"
+                        <!-- Sección -->
+                        <div class="form-group">
+                            <label for="seccion">Sección</label>
+                            <input type="text"
                                    id="seccion"
                                    name="seccion"
                                    class="form-control"
-                                   value="&lt;?php echo htmlspecialchars($estudiante['seccion']); ?>"
+                                   value="<?php echo htmlspecialchars($estudiante['seccion']); ?>"
                                    maxlength="10"
                                    placeholder="A"
                                    style="text-transform: uppercase;">
-                        &lt;/div>
-                    &lt;/div>
+                        </div>
+                    </div>
 
-                    &lt;div class="form-actions">
-                        &lt;button type="submit" class="btn btn-primary">
-                            &lt;i class="fas fa-save">&lt;/i>
-                            &lt;?php echo $es_edicion ? 'Guardar Cambios' : 'Crear Estudiante'; ?>
-                        &lt;/button>
-                        &lt;a href="estudiantes.php" class="btn btn-outline">
-                            &lt;i class="fas fa-times">&lt;/i> Cancelar
-                        &lt;/a>
-                    &lt;/div>
-                &lt;/form>
-            &lt;/div>
-        &lt;/main>
-    &lt;/div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            <?php echo $es_edicion ? 'Guardar Cambios' : 'Crear Estudiante'; ?>
+                        </button>
+                        <a href="estudiantes.php" class="btn btn-outline">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
 
-    &lt;script>
+    <script>
     // Manejo dinámico de grados según nivel
     const nivelSelect = document.getElementById('nivel');
     const gradoSelect = document.getElementById('grado');
@@ -292,7 +292,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     nivelSelect.addEventListener('change', function() {
         const nivel = this.value;
-        gradoSelect.innerHTML = '&lt;option value="">Seleccionar grado...&lt;/option>';
+        gradoSelect.innerHTML = '<option value="">Seleccionar grado...</option>';
 
         if (nivel === 'Inicial') {
             gradosInicial.forEach(g => {
@@ -317,7 +317,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Si ya hay un nivel seleccionado, cargar los grados
     if (nivelSelect.value) {
-        const gradoActual = '&lt;?php echo htmlspecialchars($estudiante['grado']); ?>';
+        const gradoActual = '<?php echo htmlspecialchars($estudiante['grado']); ?>';
         nivelSelect.dispatchEvent(new Event('change'));
 
         // Seleccionar el grado actual después de cargar
@@ -337,6 +337,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     document.getElementById('seccion').addEventListener('input', function() {
         this.value = this.value.toUpperCase();
     });
-    &lt;/script>
-&lt;/body>
-&lt;/html>
+    </script>
+</body>
+</html>

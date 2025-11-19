@@ -1,4 +1,4 @@
-&lt;?php
+<?php
 session_start();
 
 // Verificar autenticación de administrador
@@ -46,206 +46,206 @@ foreach ($estudiantes as $est) {
 }
 ?>
 
-&lt;!DOCTYPE html>
-&lt;html lang="es">
-&lt;head>
-    &lt;meta charset="UTF-8">
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0">
-    &lt;title>Detalles del Padre - Administración&lt;/title>
-    &lt;link rel="stylesheet" href="../css/style.css">
-    &lt;link rel="stylesheet" href="../css/admin.css">
-    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-&lt;/head>
-&lt;body>
-    &lt;?php include 'navbar_admin.php'; ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Padre - Administración</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <?php include 'navbar_admin.php'; ?>
 
-    &lt;div class="admin-layout">
-        &lt;?php include 'sidebar_admin.php'; ?>
+    <div class="admin-layout">
+        <?php include 'sidebar_admin.php'; ?>
 
-        &lt;main class="admin-content">
-            &lt;div class="admin-header">
-                &lt;h1>&lt;i class="fas fa-user">&lt;/i> Detalles del Padre&lt;/h1>
-                &lt;p>Información completa del padre/tutor&lt;/p>
-            &lt;/div>
+        <main class="admin-content">
+            <div class="admin-header">
+                <h1><i class="fas fa-user"></i> Detalles del Padre</h1>
+                <p>Información completa del padre/tutor</p>
+            </div>
 
-            &lt;!-- Botones de acción -->
-            &lt;div style="margin-bottom: 1.5rem; display: flex; gap: 1rem;">
-                &lt;a href="padres.php" class="btn btn-outline">
-                    &lt;i class="fas fa-arrow-left">&lt;/i> Volver a la lista
-                &lt;/a>
-                &lt;a href="padre_form.php?id=&lt;?php echo $padre_id; ?>" class="btn btn-primary">
-                    &lt;i class="fas fa-edit">&lt;/i> Editar Padre
-                &lt;/a>
-                &lt;a href="estudiante_form.php?padre_id=&lt;?php echo $padre_id; ?>" class="btn btn-success">
-                    &lt;i class="fas fa-plus">&lt;/i> Agregar Hijo
-                &lt;/a>
-            &lt;/div>
+            <!-- Botones de acción -->
+            <div style="margin-bottom: 1.5rem; display: flex; gap: 1rem;">
+                <a href="padres.php" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Volver a la lista
+                </a>
+                <a href="padre_form.php?id=<?php echo $padre_id; ?>" class="btn btn-primary">
+                    <i class="fas fa-edit"></i> Editar Padre
+                </a>
+                <a href="estudiante_form.php?padre_id=<?php echo $padre_id; ?>" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Agregar Hijo
+                </a>
+            </div>
 
-            &lt;!-- Tarjetas de estadísticas -->
-            &lt;div class="stats-grid">
-                &lt;div class="stat-card stat-primary">
-                    &lt;div class="stat-icon">&lt;i class="fas fa-child">&lt;/i>&lt;/div>
-                    &lt;div class="stat-info">
-                        &lt;div class="stat-value">&lt;?php echo $total_hijos; ?>&lt;/div>
-                        &lt;div class="stat-label">Total Hijos&lt;/div>
-                    &lt;/div>
-                &lt;/div>
+            <!-- Tarjetas de estadísticas -->
+            <div class="stats-grid">
+                <div class="stat-card stat-primary">
+                    <div class="stat-icon"><i class="fas fa-child"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value"><?php echo $total_hijos; ?></div>
+                        <div class="stat-label">Total Hijos</div>
+                    </div>
+                </div>
 
-                &lt;div class="stat-card stat-info">
-                    &lt;div class="stat-icon">&lt;i class="fas fa-baby">&lt;/i>&lt;/div>
-                    &lt;div class="stat-info">
-                        &lt;div class="stat-value">&lt;?php echo $hijos_inicial; ?>&lt;/div>
-                        &lt;div class="stat-label">Inicial&lt;/div>
-                    &lt;/div>
-                &lt;/div>
+                <div class="stat-card stat-info">
+                    <div class="stat-icon"><i class="fas fa-baby"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value"><?php echo $hijos_inicial; ?></div>
+                        <div class="stat-label">Inicial</div>
+                    </div>
+                </div>
 
-                &lt;div class="stat-card stat-success">
-                    &lt;div class="stat-icon">&lt;i class="fas fa-graduation-cap">&lt;/i>&lt;/div>
-                    &lt;div class="stat-info">
-                        &lt;div class="stat-value">&lt;?php echo $hijos_primaria; ?>&lt;/div>
-                        &lt;div class="stat-label">Primaria&lt;/div>
-                    &lt;/div>
-                &lt;/div>
+                <div class="stat-card stat-success">
+                    <div class="stat-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value"><?php echo $hijos_primaria; ?></div>
+                        <div class="stat-label">Primaria</div>
+                    </div>
+                </div>
 
-                &lt;div class="stat-card stat-warning">
-                    &lt;div class="stat-icon">&lt;i class="fas fa-calendar">&lt;/i>&lt;/div>
-                    &lt;div class="stat-info">
-                        &lt;div class="stat-value">&lt;?php echo date('d/m/Y', strtotime($padre['created_at'])); ?>&lt;/div>
-                        &lt;div class="stat-label">Fecha Registro&lt;/div>
-                    &lt;/div>
-                &lt;/div>
-            &lt;/div>
+                <div class="stat-card stat-warning">
+                    <div class="stat-icon"><i class="fas fa-calendar"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-value"><?php echo date('d/m/Y', strtotime($padre['created_at'])); ?></div>
+                        <div class="stat-label">Fecha Registro</div>
+                    </div>
+                </div>
+            </div>
 
-            &lt;div class="dashboard-grid">
-                &lt;!-- Información Personal -->
-                &lt;div class="dashboard-card">
-                    &lt;div class="card-header">
-                        &lt;h3>&lt;i class="fas fa-id-card">&lt;/i> Información Personal&lt;/h3>
-                    &lt;/div>
-                    &lt;div class="card-body">
-                        &lt;table style="width: 100%; border-collapse: collapse;">
-                            &lt;tr style="border-bottom: 1px solid var(--color-gris-medio);">
-                                &lt;td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde); width: 40%;">
-                                    &lt;i class="fas fa-id-badge">&lt;/i> DNI:
-                                &lt;/td>
-                                &lt;td style="padding: 0.875rem;">
-                                    &lt;strong>&lt;?php echo htmlspecialchars($padre['dni']); ?>&lt;/strong>
-                                &lt;/td>
-                            &lt;/tr>
-                            &lt;tr style="border-bottom: 1px solid var(--color-gris-medio);">
-                                &lt;td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde);">
-                                    &lt;i class="fas fa-user">&lt;/i> Nombres:
-                                &lt;/td>
-                                &lt;td style="padding: 0.875rem;">
-                                    &lt;?php echo htmlspecialchars($padre['nombre']); ?>
-                                &lt;/td>
-                            &lt;/tr>
-                            &lt;tr style="border-bottom: 1px solid var(--color-gris-medio);">
-                                &lt;td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde);">
-                                    &lt;i class="fas fa-signature">&lt;/i> Apellidos:
-                                &lt;/td>
-                                &lt;td style="padding: 0.875rem;">
-                                    &lt;?php echo htmlspecialchars($padre['apellido']); ?>
-                                &lt;/td>
-                            &lt;/tr>
-                            &lt;tr style="border-bottom: 1px solid var(--color-gris-medio);">
-                                &lt;td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde);">
-                                    &lt;i class="fas fa-user-circle">&lt;/i> Nombre Completo:
-                                &lt;/td>
-                                &lt;td style="padding: 0.875rem;">
-                                    &lt;strong>&lt;?php echo htmlspecialchars($padre['apellido'] . ', ' . $padre['nombre']); ?>&lt;/strong>
-                                &lt;/td>
-                            &lt;/tr>
-                        &lt;/table>
-                    &lt;/div>
-                &lt;/div>
+            <div class="dashboard-grid">
+                <!-- Información Personal -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-id-card"></i> Información Personal</h3>
+                    </div>
+                    <div class="card-body">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr style="border-bottom: 1px solid var(--color-gris-medio);">
+                                <td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde); width: 40%;">
+                                    <i class="fas fa-id-badge"></i> DNI:
+                                </td>
+                                <td style="padding: 0.875rem;">
+                                    <strong><?php echo htmlspecialchars($padre['dni']); ?></strong>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--color-gris-medio);">
+                                <td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde);">
+                                    <i class="fas fa-user"></i> Nombres:
+                                </td>
+                                <td style="padding: 0.875rem;">
+                                    <?php echo htmlspecialchars($padre['nombre']); ?>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--color-gris-medio);">
+                                <td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde);">
+                                    <i class="fas fa-signature"></i> Apellidos:
+                                </td>
+                                <td style="padding: 0.875rem;">
+                                    <?php echo htmlspecialchars($padre['apellido']); ?>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--color-gris-medio);">
+                                <td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde);">
+                                    <i class="fas fa-user-circle"></i> Nombre Completo:
+                                </td>
+                                <td style="padding: 0.875rem;">
+                                    <strong><?php echo htmlspecialchars($padre['apellido'] . ', ' . $padre['nombre']); ?></strong>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
 
-                &lt;!-- Información de Contacto -->
-                &lt;div class="dashboard-card">
-                    &lt;div class="card-header">
-                        &lt;h3>&lt;i class="fas fa-address-book">&lt;/i> Contacto&lt;/h3>
-                    &lt;/div>
-                    &lt;div class="card-body">
-                        &lt;table style="width: 100%; border-collapse: collapse;">
-                            &lt;tr style="border-bottom: 1px solid var(--color-gris-medio);">
-                                &lt;td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde); width: 40%;">
-                                    &lt;i class="fas fa-envelope">&lt;/i> Email:
-                                &lt;/td>
-                                &lt;td style="padding: 0.875rem;">
-                                    &lt;?php if ($padre['email']): ?>
-                                        &lt;a href="mailto:&lt;?php echo htmlspecialchars($padre['email']); ?>" style="color: #3b82f6;">
-                                            &lt;?php echo htmlspecialchars($padre['email']); ?>
-                                        &lt;/a>
-                                    &lt;?php else: ?>
-                                        &lt;span style="color: #9ca3af;">No registrado&lt;/span>
-                                    &lt;?php endif; ?>
-                                &lt;/td>
-                            &lt;/tr>
-                            &lt;tr style="border-bottom: 1px solid var(--color-gris-medio);">
-                                &lt;td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde);">
-                                    &lt;i class="fas fa-phone">&lt;/i> Teléfono:
-                                &lt;/td>
-                                &lt;td style="padding: 0.875rem;">
-                                    &lt;?php if ($padre['telefono']): ?>
-                                        &lt;strong>&lt;?php echo htmlspecialchars($padre['telefono']); ?>&lt;/strong>
-                                    &lt;?php else: ?>
-                                        &lt;span style="color: #9ca3af;">No registrado&lt;/span>
-                                    &lt;?php endif; ?>
-                                &lt;/td>
-                            &lt;/tr>
-                            &lt;tr>
-                                &lt;td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde); vertical-align: top;">
-                                    &lt;i class="fas fa-map-marker-alt">&lt;/i> Dirección:
-                                &lt;/td>
-                                &lt;td style="padding: 0.875rem;">
-                                    &lt;?php if ($padre['direccion']): ?>
-                                        &lt;?php echo nl2br(htmlspecialchars($padre['direccion'])); ?>
-                                    &lt;?php else: ?>
-                                        &lt;span style="color: #9ca3af;">No registrada&lt;/span>
-                                    &lt;?php endif; ?>
-                                &lt;/td>
-                            &lt;/tr>
-                        &lt;/table>
-                    &lt;/div>
-                &lt;/div>
-            &lt;/div>
+                <!-- Información de Contacto -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-address-book"></i> Contacto</h3>
+                    </div>
+                    <div class="card-body">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr style="border-bottom: 1px solid var(--color-gris-medio);">
+                                <td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde); width: 40%;">
+                                    <i class="fas fa-envelope"></i> Email:
+                                </td>
+                                <td style="padding: 0.875rem;">
+                                    <?php if ($padre['email']): ?>
+                                        <a href="mailto:<?php echo htmlspecialchars($padre['email']); ?>" style="color: #3b82f6;">
+                                            <?php echo htmlspecialchars($padre['email']); ?>
+                                        </a>
+                                    <?php else: ?>
+                                        <span style="color: #9ca3af;">No registrado</span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--color-gris-medio);">
+                                <td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde);">
+                                    <i class="fas fa-phone"></i> Teléfono:
+                                </td>
+                                <td style="padding: 0.875rem;">
+                                    <?php if ($padre['telefono']): ?>
+                                        <strong><?php echo htmlspecialchars($padre['telefono']); ?></strong>
+                                    <?php else: ?>
+                                        <span style="color: #9ca3af;">No registrado</span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.875rem; font-weight: 600; color: var(--color-verde); vertical-align: top;">
+                                    <i class="fas fa-map-marker-alt"></i> Dirección:
+                                </td>
+                                <td style="padding: 0.875rem;">
+                                    <?php if ($padre['direccion']): ?>
+                                        <?php echo nl2br(htmlspecialchars($padre['direccion'])); ?>
+                                    <?php else: ?>
+                                        <span style="color: #9ca3af;">No registrada</span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-            &lt;!-- Estudiantes Asociados -->
-            &lt;div class="dashboard-card" style="margin-top: 2rem;">
-                &lt;div class="card-header">
-                    &lt;div style="display: flex; justify-content: space-between; align-items: center;">
-                        &lt;h3>&lt;i class="fas fa-graduation-cap">&lt;/i> Estudiantes Asociados (&lt;?php echo $total_hijos; ?>)&lt;/h3>
-                        &lt;a href="estudiante_form.php?padre_id=&lt;?php echo $padre_id; ?>" class="btn btn-sm" style="background: white; color: var(--color-verde);">
-                            &lt;i class="fas fa-plus">&lt;/i> Agregar Hijo
-                        &lt;/a>
-                    &lt;/div>
-                &lt;/div>
-                &lt;div class="card-body">
-                    &lt;?php if (empty($estudiantes)): ?>
-                        &lt;div style="text-align: center; padding: 3rem; color: #6b7280;">
-                            &lt;i class="fas fa-user-graduate" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;">&lt;/i>
-                            &lt;p>Este padre no tiene estudiantes asociados&lt;/p>
-                            &lt;a href="estudiante_form.php?padre_id=&lt;?php echo $padre_id; ?>" class="btn btn-primary" style="margin-top: 1rem;">
-                                &lt;i class="fas fa-plus">&lt;/i> Registrar Primer Hijo
-                            &lt;/a>
-                        &lt;/div>
-                    &lt;?php else: ?>
-                        &lt;table class="data-table">
-                            &lt;thead>
-                                &lt;tr>
-                                    &lt;th>Código&lt;/th>
-                                    &lt;th>Apellidos y Nombres&lt;/th>
-                                    &lt;th>Fecha Nac.&lt;/th>
-                                    &lt;th>Edad&lt;/th>
-                                    &lt;th>Nivel&lt;/th>
-                                    &lt;th>Grado&lt;/th>
-                                    &lt;th>Sección&lt;/th>
-                                    &lt;th style="text-align: center;">Acciones&lt;/th>
-                                &lt;/tr>
-                            &lt;/thead>
-                            &lt;tbody>
-                                &lt;?php foreach ($estudiantes as $est): ?>
-                                    &lt;?php
+            <!-- Estudiantes Asociados -->
+            <div class="dashboard-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3><i class="fas fa-graduation-cap"></i> Estudiantes Asociados (<?php echo $total_hijos; ?>)</h3>
+                        <a href="estudiante_form.php?padre_id=<?php echo $padre_id; ?>" class="btn btn-sm" style="background: white; color: var(--color-verde);">
+                            <i class="fas fa-plus"></i> Agregar Hijo
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <?php if (empty($estudiantes)): ?>
+                        <div style="text-align: center; padding: 3rem; color: #6b7280;">
+                            <i class="fas fa-user-graduate" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                            <p>Este padre no tiene estudiantes asociados</p>
+                            <a href="estudiante_form.php?padre_id=<?php echo $padre_id; ?>" class="btn btn-primary" style="margin-top: 1rem;">
+                                <i class="fas fa-plus"></i> Registrar Primer Hijo
+                            </a>
+                        </div>
+                    <?php else: ?>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Apellidos y Nombres</th>
+                                    <th>Fecha Nac.</th>
+                                    <th>Edad</th>
+                                    <th>Nivel</th>
+                                    <th>Grado</th>
+                                    <th>Sección</th>
+                                    <th style="text-align: center;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($estudiantes as $est): ?>
+                                    <?php
                                     $edad = '';
                                     if ($est['fecha_nacimiento']) {
                                         $fecha_nac = new DateTime($est['fecha_nacimiento']);
@@ -253,40 +253,40 @@ foreach ($estudiantes as $est) {
                                         $edad = $hoy->diff($fecha_nac)->y;
                                     }
                                     ?>
-                                    &lt;tr>
-                                        &lt;td>&lt;strong>&lt;?php echo htmlspecialchars($est['codigo']); ?>&lt;/strong>&lt;/td>
-                                        &lt;td>&lt;?php echo htmlspecialchars($est['apellido'] . ', ' . $est['nombre']); ?>&lt;/td>
-                                        &lt;td>&lt;?php echo $est['fecha_nacimiento'] ? date('d/m/Y', strtotime($est['fecha_nacimiento'])) : '-'; ?>&lt;/td>
-                                        &lt;td>&lt;?php echo $edad ? $edad . ' años' : '-'; ?>&lt;/td>
-                                        &lt;td>
-                                            &lt;span class="badge badge-&lt;?php echo $est['nivel'] === 'Inicial' ? 'info' : 'primary'; ?>">
-                                                &lt;?php echo htmlspecialchars($est['nivel']); ?>
-                                            &lt;/span>
-                                        &lt;/td>
-                                        &lt;td>&lt;?php echo htmlspecialchars($est['grado']); ?>&lt;/td>
-                                        &lt;td>&lt;?php echo htmlspecialchars($est['seccion'] ?: '-'); ?>&lt;/td>
-                                        &lt;td>
-                                            &lt;div class="table-actions" style="justify-content: center;">
-                                                &lt;a href="estudiante_ver.php?id=&lt;?php echo $est['id']; ?>"
+                                    <tr>
+                                        <td><strong><?php echo htmlspecialchars($est['codigo']); ?></strong></td>
+                                        <td><?php echo htmlspecialchars($est['apellido'] . ', ' . $est['nombre']); ?></td>
+                                        <td><?php echo $est['fecha_nacimiento'] ? date('d/m/Y', strtotime($est['fecha_nacimiento'])) : '-'; ?></td>
+                                        <td><?php echo $edad ? $edad . ' años' : '-'; ?></td>
+                                        <td>
+                                            <span class="badge badge-<?php echo $est['nivel'] === 'Inicial' ? 'info' : 'primary'; ?>">
+                                                <?php echo htmlspecialchars($est['nivel']); ?>
+                                            </span>
+                                        </td>
+                                        <td><?php echo htmlspecialchars($est['grado']); ?></td>
+                                        <td><?php echo htmlspecialchars($est['seccion'] ?: '-'); ?></td>
+                                        <td>
+                                            <div class="table-actions" style="justify-content: center;">
+                                                <a href="estudiante_ver.php?id=<?php echo $est['id']; ?>"
                                                    class="btn-icon btn-view"
                                                    title="Ver detalles">
-                                                    &lt;i class="fas fa-eye">&lt;/i>
-                                                &lt;/a>
-                                                &lt;a href="estudiante_form.php?id=&lt;?php echo $est['id']; ?>"
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="estudiante_form.php?id=<?php echo $est['id']; ?>"
                                                    class="btn-icon btn-edit"
                                                    title="Editar">
-                                                    &lt;i class="fas fa-edit">&lt;/i>
-                                                &lt;/a>
-                                            &lt;/div>
-                                        &lt;/td>
-                                    &lt;/tr>
-                                &lt;?php endforeach; ?>
-                            &lt;/tbody>
-                        &lt;/table>
-                    &lt;?php endif; ?>
-                &lt;/div>
-            &lt;/div>
-        &lt;/main>
-    &lt;/div>
-&lt;/body>
-&lt;/html>
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
