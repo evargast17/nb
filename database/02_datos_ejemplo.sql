@@ -10,7 +10,8 @@ USE sistema_notas;
 -- =====================================================
 
 INSERT INTO administradores (usuario, password, nombre, email) VALUES
-('admin', '$2y$12$8c8heh16VHp53mGrrJgareH1AkimyzQT5T3PF6kmdW2K2m.5KgJxy', 'Administrador Principal', 'admin@colegio.com');
+('admin', '$2y$12$h9.EN1jFMgV7qRX30Wup6O2w/tkKbA7f0Sa9o.ySP0PbLIxwZbcXi', 'Administrador Principal', 'admin@colegio.com');
+-- Credenciales: usuario = admin, password = admin123
 
 -- =====================================================
 -- 2. AÑO LECTIVO
@@ -25,11 +26,11 @@ INSERT INTO anios_lectivos (anio, activo, fecha_inicio, fecha_fin) VALUES
 -- =====================================================
 
 INSERT INTO padres (dni, password, nombre, apellido, email, telefono, direccion) VALUES
-('12345678', '$2y$12$esaYJtzh4omKrdluX4rim.qb2quG96QoFk.JQxd.Lre.T1sCu4Eza', 'Juan Carlos', 'Pérez García', 'jperez@email.com', '987654321', 'Av. Los Pinos 123, Piura'),
-('23456789', '$2y$12$hx3zRpB4gFvW8uYnQ2sK4eJLMxNpVrTyUwZaXbCdEfGhIjKlMnOp', 'María Elena', 'González Ruiz', 'mgonzalez@email.com', '987654322', 'Jr. Las Flores 456, Piura'),
-('34567890', '$2y$12$kL5mN8oP9qR2sT3uV4wX6yZaBcDeFgHiJkLmNoPqRsTuVwXyZ1234', 'Roberto', 'Martínez López', 'rmartinez@email.com', '987654323', 'Calle Los Álamos 789, Piura'),
-('45678901', '$2y$12$pQ6rS9tU0vW3xY4zA5bC7dEfGhIjKlMnOpQrStUvWxYz12345678', 'Carmen Rosa', 'Díaz Torres', 'cdiaz@email.com', '987654324', 'Av. Grau 234, Piura'),
-('56789012', '$2y$12$uV7wX0yZ1aB2cD3eF4gH5iJkLmNoPqRsTuVwXyZ123456789012', 'Luis Miguel', 'Sánchez Rojas', 'lsanchez@email.com', '987654325', 'Jr. Tacna 567, Piura');
+('12345678', '$2y$12$BZ1y/c3lwtL9rWcoGPx9iuCILCmzqp/L3Jh5DVTlEatTBeW/Thczu', 'Juan Carlos', 'Pérez García', 'jperez@email.com', '987654321', 'Av. Los Pinos 123, Piura'),
+('23456789', '$2y$12$mxdpEJv0cFItwAblJbc1Pe19P3Lmho/OPsBvKMW/GMYZZPvkBT/ci', 'María Elena', 'González Ruiz', 'mgonzalez@email.com', '987654322', 'Jr. Las Flores 456, Piura'),
+('34567890', '$2y$12$mUMtzfybD0Jwc54bdE883.nQ55oiP.hbkgWoWxHanLWV3wKjArWka', 'Roberto', 'Martínez López', 'rmartinez@email.com', '987654323', 'Calle Los Álamos 789, Piura'),
+('45678901', '$2y$12$7sMSWijhrRJSyT.QTIva3ecsupivSX4B2jloHa4qyogBZZuEioEPK', 'Carmen Rosa', 'Díaz Torres', 'cdiaz@email.com', '987654324', 'Av. Grau 234, Piura'),
+('56789012', '$2y$12$2lGasJuBVMrxGxxKyX1z8.EqQL3xSQMrWKsUV3K.SBG9OPjx4qjuK', 'Luis Miguel', 'Sánchez Rojas', 'lsanchez@email.com', '987654325', 'Jr. Tacna 567, Piura');
 
 -- =====================================================
 -- 4. ESTUDIANTES - NIVEL INICIAL

@@ -142,8 +142,20 @@ SHOW PROCEDURE STATUS WHERE Db = 'sistema_notas';
 ## 🔐 Credenciales de Acceso
 
 ### Administrador
-- **Usuario:** admin
-- **Password:** admin123
+- **Usuario:** `admin`
+- **Password:** `admin123`
+
+### 🔧 Si las contraseñas no funcionan:
+Ejecuta el script de actualización de passwords:
+```bash
+mysql -u root -p sistema_notas < 03_actualizar_passwords.sql
+```
+
+O desde phpMyAdmin:
+1. Selecciona la base de datos `sistema_notas`
+2. Ve a la pestaña SQL
+3. Copia y pega el contenido de `03_actualizar_passwords.sql`
+4. Ejecuta
 
 ### Padres de Familia
 | DNI | Password | Nombre | Hijos |
