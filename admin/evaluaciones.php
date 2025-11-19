@@ -102,6 +102,7 @@ if (!empty($params)) {
 $stmt->execute();
 $total_registros = $stmt->get_result()->fetch_assoc()['total'];
 $total_paginas = ceil($total_registros / $por_pagina);
+$stmt->close();
 
 // Obtener evaluaciones
 $sql = "SELECT ev.*,

@@ -21,7 +21,8 @@ if (isset($_GET['eliminar']) && is_numeric($_GET['eliminar'])) {
     $stmt = $conn->prepare("SELECT COUNT(*) as total FROM estudiantes WHERE padre_id = ?");
     $stmt->bind_param("i", $padre_id);
     $stmt->execute();
-    $result = $stmt->fetch();
+    $result = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
 
     if ($result['total'] > 0) {
         $error = "No se puede eliminar este padre porque tiene {$result['total']} estudiante(s) asociado(s). Elimine primero los estudiantes.";
@@ -33,6 +34,7 @@ if (isset($_GET['eliminar']) && is_numeric($_GET['eliminar'])) {
         } else {
             $error = "Error al eliminar el padre";
         }
+        $stmt->close();
     }
 }
 
@@ -73,6 +75,7 @@ if (!empty($params)) {
 $stmt->execute();
 $total_registros = $stmt->get_result()->fetch_assoc()['total'];
 $total_paginas = ceil($total_registros / $por_pagina);
+$stmt->close();
 
 // Obtener padres
 $sql = "SELECT p.*,

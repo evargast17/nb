@@ -31,6 +31,7 @@ if ($anio_activo) {
     $stmt->bind_param("i", $anio_activo['id']);
     $stmt->execute();
     $stats['evaluaciones_total'] = $stmt->get_result()->fetch_assoc()['total'];
+    $stmt->close();
 
     // Evaluaciones por nivel de logro
     $stmt = $conn->prepare("SELECT nivel_logro, COUNT(*) as total
@@ -43,6 +44,7 @@ if ($anio_activo) {
     while ($row = $result->fetch_assoc()) {
         $stats['nl_' . $row['nivel_logro']] = $row['total'];
     }
+    $stmt->close();
 
     // Distribución por bimestre
     $stmt = $conn->prepare("SELECT bimestre, COUNT(*) as total
@@ -53,6 +55,7 @@ if ($anio_activo) {
     $stmt->bind_param("i", $anio_activo['id']);
     $stmt->execute();
     $distribucion_bimestre = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
 
     // Rendimiento por área (Inicial)
     $stmt = $conn->prepare("
@@ -68,6 +71,7 @@ if ($anio_activo) {
     $stmt->bind_param("i", $anio_activo['id']);
     $stmt->execute();
     $rendimiento_inicial = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
 
     // Rendimiento por área (Primaria)
     $stmt = $conn->prepare("
@@ -83,6 +87,7 @@ if ($anio_activo) {
     $stmt->bind_param("i", $anio_activo['id']);
     $stmt->execute();
     $rendimiento_primaria = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
 }
 
 // Estudiantes por grado

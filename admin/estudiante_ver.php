@@ -59,6 +59,7 @@ if ($anio_activo) {
     $stmt->bind_param("ii", $estudiante_id, $anio_activo['id']);
     $stmt->execute();
     $stats['total_evaluaciones'] = $stmt->get_result()->fetch_assoc()['total'];
+    $stmt->close();
 
     // Evaluaciones por nivel de logro
     $stmt = $conn->prepare("
@@ -73,6 +74,7 @@ if ($anio_activo) {
     while ($row = $result->fetch_assoc()) {
         $stats[$row['nivel_logro']] = $row['total'];
     }
+    $stmt->close();
 }
 
 // Obtener evaluaciones recientes
