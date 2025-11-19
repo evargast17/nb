@@ -1,8 +1,13 @@
 <?php
-require_once 'config/session.php';
+// Iniciar sesión si no está iniciada
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Limpiar sesión de administrador
-session_unset();
+// Limpiar todas las variables de sesión
+$_SESSION = array();
+
+// Destruir la sesión
 session_destroy();
 
 // Redirigir al login de admin

@@ -1,8 +1,10 @@
 <?php
-// Este archivo redirige a la configuración principal
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/session.php';
+// Configuración para el panel de administración
+// Las páginas de admin manejan session_start() por sí mismas
 
-// Crear alias para mantener compatibilidad
+// Incluir solo la configuración de base de datos
+require_once __DIR__ . '/../config/database.php';
+
+// Crear conexión automáticamente
 $conn = getConnection();
 ?>
