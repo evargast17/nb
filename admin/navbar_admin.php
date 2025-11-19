@@ -1,15 +1,6 @@
 &lt;?php
-// Obtener datos del administrador
-$admin_nombre = 'Administrador';
-if (isset($_SESSION['admin_id'])) {
-    $stmt = $conn->prepare("SELECT nombre FROM administradores WHERE id = ?");
-    $stmt->bind_param("i", $_SESSION['admin_id']);
-    $stmt->execute();
-    $result = $stmt->get_result()->fetch_assoc();
-    if ($result) {
-        $admin_nombre = $result['nombre'];
-    }
-}
+// Obtener nombre del administrador desde la sesión
+$admin_nombre = $_SESSION['admin_nombre'] ?? 'Administrador';
 ?>
 
 &lt;nav class="navbar">

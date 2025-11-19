@@ -1,12 +1,13 @@
 <?php
-require_once '../config/database.php';
-require_once '../config/session.php';
+session_start();
 
-// Verificar que esté logueado como admin
-if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'admin') {
-    header('Location: ../index.php');
+// Verificar autenticación de administrador
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: ../admin_login.php");
     exit();
 }
+
+require_once '../config/database.php';
 
 $conn = getConnection();
 
